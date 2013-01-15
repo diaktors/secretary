@@ -1,0 +1,31 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+.sec-color {
+    color: #0b1d53;
+}
+
+div.container a.brand {
+    background: url("../images/key/key_32.png") no-repeat scroll 0 4px transparent;
+    margin-left: 0;
+    padding: 8px 20px 12px 40px;
+}
+div.container .hero-unit {
+    padding-left: 200px;
+    position: relative;
+}
+div.container .hero-unit .pic {
+    background: url("../images/key/key_128.png") no-repeat scroll 0 4px transparent;
+    position: absolute;
+    height: 128px;
+    left: 40px;
+    top: 50px;
+    width: 128px;
+}
+
+div.container footer {
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+    padding: 5px 0 0 5px;
+}
