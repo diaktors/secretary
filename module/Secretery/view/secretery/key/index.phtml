@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="span12">
+        <h1><?php echo $this->translate('Key Management') ?></h1>
+        <?php if (empty($this->keyRecord)): ?>
+            <div class="alert alert-block alert-error">
+                <h4><?php echo $this->translate('Warning') ?></h4>
+                <br />
+                <ul>
+                    <li><?php echo $this->translate('Private Key can only be generated once') ?></li>
+                    <li><?php echo $this->translate('Please choose a secure passphrase for your key') ?></li>
+                    <li><?php echo $this->translate('Backup your key carefully (different places are a good idea)') ?></li>
+                </ul>
+            </div>
+
+            <?php if (!empty($this->msg) && $this->msg[0] == 'error') {
+                echo $this->ztbAlert($this->translate($this->msg[1]), false, 'alert-error');
+            } ?>
+
+            <fieldset>
+                <legend><?php echo $this->translate('Add Key') ?></legend>
+            <?php
+
+                echo $this->ztbForm($this->keyForm);
+            ?>
+            </fieldset>
+        <?php else: ?>
+            <?php echo $this->ztbAlert($this->translate('You already created a private key'), false, 'success') ?>
+            <pre><?php echo $this->escapeHtml($this->keyRecord->getPubKey()) ?></pre>
+        <?php endif; ?>
+    </div>
+</div>
