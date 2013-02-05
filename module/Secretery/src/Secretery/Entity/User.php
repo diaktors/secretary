@@ -24,6 +24,7 @@ namespace Secretery\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use ZfcUser\Entity\UserInterface;
 //use Doctrine\Common\Persistence\PersistentObject;
 
@@ -96,6 +97,12 @@ class User implements UserInterface
      * @ORM\Column(name="date_updated", type="datetime")
      */
     protected $dateUpdated;
+
+    /**
+     * @ORM\OneToMany(targetEntity="User2Note", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="id", referencedColumnName="user_id")
+     */
+    protected $user2note;
 
     /**
      * Get id.
@@ -230,6 +237,47 @@ class User implements UserInterface
     }
 
     /**
+     * Add user 2 note relation
+     *
+     * @param  User2Note $user2note
+     * @return $this
+     */
+    public function addUser2Note(User2Note $user2note)
+    {
+        $this->getUser2Note()->add($user2note);
+        return $this;
+    }
+
+    /**
+     * Get User2Note collection
+     *
+     * @return ArrayCollection
+     */
+    public function getUser2Note()
+    {
+        return $this->user2note;
+    }
+
+    /**
+     * Get Key Relation
+     *
+     * @return Key
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+
+    /**
+     * return void
+     */
+    public function __construct()
+    {
+        $this->user2note = new ArrayCollection();
+    }
+
+    /**
      * Convert the object to an array.
      *
      * @return array
@@ -240,6 +288,7 @@ class User implements UserInterface
         $array['dateCreated'] = $array['dateCreated']->format('Y-m-d H:i:s');
         $array['dateUpdated'] = $array['dateUpdated']->format('Y-m-d H:i:s');
         unset($array['key']);
+        unset($array['user2note']);
         return $array;
     }
 }
