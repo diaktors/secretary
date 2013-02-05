@@ -41,7 +41,7 @@ use Zend\InputFilter\InputFilterInterface;
  * @version  Release: @package_version@
  * @link     http://www.wesrc.com
  *
- * @ORM\Table(name="`key")
+ * @ORM\Table(name="`key`")
  * @ORM\Entity()
  */
 class Key extends PersistentObject implements InputFilterAwareInterface
