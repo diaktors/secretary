@@ -1,6 +1,6 @@
 <div class="row">
     <div class="span12">
-        <h1><?php echo $this->translate('Key Management') ?></h1>
+        <h1><?php echo $this->translate('Manage Key') ?></h1>
         <?php if (empty($this->keyRecord)): ?>
             <div class="alert alert-block alert-error">
                 <h4><?php echo $this->translate('Warning') ?></h4>
@@ -17,11 +17,8 @@
             } ?>
 
             <fieldset>
-                <legend><?php echo $this->translate('Add Key') ?></legend>
-            <?php
-
-                echo $this->ztbForm($this->keyForm);
-            ?>
+                <legend><?php echo $this->translate('Create Key') ?></legend>
+                <?php echo $this->ztbForm($this->keyForm); ?>
             </fieldset>
         <?php else: ?>
             <?php echo $this->ztbAlert($this->translate('You already created a private key'), false, 'success') ?>

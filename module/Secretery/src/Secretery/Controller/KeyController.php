@@ -173,24 +173,24 @@ class KeyController extends ActionController
                 }
 
                 // Save Data
-                $newKeyRecord->setPubKey($keys['pub']);
-                $newKeyRecord->setUserId($this->identity->getId());
-                $newKeyRecord->setUser($this->identity);
-                $this->keyMapper->saveKey($newKeyRecord);
+                $this->keyMapper->saveKey(
+                    $newKeyRecord,
+                    $this->identity,
+                    $keys['pub']
+                );
 
                 // Success
-                $viewVars['msg']     = array('success', 'Your key was created successfully');
+                $viewVars['msg'] = array(
+                    'success',
+                    $this->translator->translate('Your key was created successfully')
+                );
                 $viewVars['privKey'] = $keys['priv'];
                 $viewModel->setVariables($viewVars);
                 $viewModel->setTemplate('secretery/key/success');
                 return $viewModel;
             }
         }
-        $viewModel = new ViewModel(array(
-            'keyRecord' => $keyRecord,
-            'keyForm'   => $form,
-            'msg'       => $msg
-        ));
+
         $viewModel->setVariables($viewVars);
         $viewModel->setTemplate('secretery/key/index');
         return $viewModel;

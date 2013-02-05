@@ -47,7 +47,7 @@ class Key
     public function createPrivateKey($passphrase)
     {
         if (empty($passphrase)) {
-            throw new \InvalidArgumentException('Passphrase canot be empty');
+            throw new \InvalidArgumentException('Passphrase cannot be empty');
         }
         $keyConfig = array('private_key_bits' => 2048);
         $keyRes    = openssl_pkey_new($keyConfig);

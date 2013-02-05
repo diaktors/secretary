@@ -22,8 +22,8 @@
 
 namespace Secretery\Mapper;
 
-use Doctrine\ORM\EntityManager;
 use Secretery\Entity\Key as KeyEntity;
+use Secretery\Entity\User as UserEntity;
 
 /**
  * Key Mapper
@@ -35,35 +35,18 @@ use Secretery\Entity\Key as KeyEntity;
  * @version  Release: @package_version@
  * @link     http://www.wesrc.com
  */
-class Key
+class Key extends BaseMapper
 {
     /**
-     * @var EntityManager
-     */
-    protected $em;
-
-    /**
-     * @param EntityManager $em
-     */
-    public function setEntityManager(EntityManager $em)
-    {
-        $this->em = $em;
-    }
-
-    /**
-     * @return $em
-     */
-    public function getEntityManager()
-    {
-        return $this->em;
-    }
-
-    /**
-     * @param  \Secretery\Entity\Key $key
+     * @param  \Secretery\Entity\Key  $key
+     * @param  \Secretery\Entity\User $user
      * @return \Secretery\Entity\Key
      */
-    public function saveKey(KeyEntity $key)
+    public function saveKey(KeyEntity $key, UserEntity $user, $pubKey)
     {
+        $key->setPubKey($pubKey);
+        $key->setUserId($user->getId());
+        $key->setUser($user);
         $this->em->persist($key);
         $this->em->flush();
         return $key;
