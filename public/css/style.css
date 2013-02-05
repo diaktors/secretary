@@ -29,3 +29,20 @@ div.container footer {
     margin-top: 20px;
     padding: 5px 0 0 5px;
 }
+
+/**
+ * Notes
+ */
+div.container div.notes a.addNote {
+    float: right;
+    nargin-top: 10px;
+}
+div.container div.notes table tr .title {
+    width: 500px;
+}
+div.container div.notes table tr .date {
+    width: 160px;
+}
+div.container div.notes table tr .smallInfo {
+    width: 90px;
+}
