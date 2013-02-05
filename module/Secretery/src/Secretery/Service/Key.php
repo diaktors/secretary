@@ -60,5 +60,34 @@ class Key
         );
     }
 
-
+    /**
+     * Encrypt string with public key
+     *
+     * @param  string $passphrase
+     * @param  string $passphrase
+     * @return array
+     * @throws \InvalidArgumentException If key is empty
+     * @throws \LogicException           If key is not readable as key
+     * @throws \LogicException           If encryption errors
+     */
+    public function encryptForSingleKey($content, $key)
+    {
+        if (empty($key)) {
+            throw new \InvalidArgumentException('Key canot be empty');
+        }
+        $pk = openssl_pkey_get_public($key);
+        if (false === $pk) {
+            throw new \LogicException('Key is not readable');
+        }
+        $pubKey    = openssl_pkey_get_details($pk);
+        $sealCheck = openssl_seal(serialize($content), $sealedContent, $eKeys, array($pubKey['key']));
+        openssl_free_key($pk);
+        if (false === $sealCheck) {
+            throw new \LogicException('An error occurred while encrypting');
+        }
+        return array(
+            'ekey'    => base64_encode($eKeys[0]),
+            'content' => base64_encode($sealedContent)
+        );
+    }
 }
