@@ -77,7 +77,7 @@
         <div class="container">
             <?php if (!$this->zfcUserIdentity()): ?>
                 <?php if (!empty($this->routeMatch)): ?>
-                    <?php echo $this->zfcUserLoginWidget(array('redirect' => 'home')); ?>
+                    <?php echo $this->zfcUserLoginWidget(array('redirect' => '/')); ?>
                 <?php else: ?>
                     <?php echo $this->content; ?>
                 <?php endif; ?>
