@@ -176,7 +176,7 @@ class User implements UserInterface
     /**
      * Set displayName.
      *
-     * @param string $displayName
+     * @param  string $displayName
      * @return UserInterface
      */
     public function setDisplayName($displayName)
@@ -220,7 +220,7 @@ class User implements UserInterface
     /**
      * Set state.
      *
-     * @param int $state
+     * @param  int $state
      * @return UserInterface
      */
     public function setState($state)
