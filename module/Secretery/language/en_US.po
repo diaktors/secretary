@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 22:17-0700\n"
-"PO-Revision-Date: 2013-01-14 22:41+0100\n"
+"PO-Revision-Date: 2013-02-04 19:19+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contibutors <zf-devteam@zend.com>\n"
 "Language: en_US\n"
@@ -29,6 +29,10 @@ msgstr ""
 
 #: ../view/layout/layout.phtml:31
 msgid "Manage Key"
+msgstr ""
+
+#: ../view/layout/layout.phtml:31
+msgid "Manage Notes"
 msgstr ""
 
 #: ../view/layout/layout.phtml:36
@@ -66,6 +70,74 @@ msgstr ""
 
 #: ../view/secretery/index/index.phtml:3
 msgid "A secure place for shared infos"
+msgstr ""
+
+#: ../view/secretery/key/index.phtml:6
+msgid "Warning"
+msgstr ""
+
+#: ../view/secretery/key/index.phtml:9
+msgid "Private Key can only be generated once"
+msgstr ""
+
+#: ../view/secretery/key/index.phtml:10
+msgid "Please choose a secure passphrase for your key"
+msgstr ""
+
+#: ../view/secretery/key/index.phtml:11
+msgid "Backup your key carefully (different places are a good idea)"
+msgstr ""
+
+#: ../view/secretery/key/index.phtml:20 ../src/Secretery/Form/Key.php:56s
+msgid "Create Key"
+msgstr ""
+
+#: ../view/secretery/key/index.phtml:24
+msgid "You already created a private key"
+msgstr ""
+
+#: ../src/Secretery/Form/Key.php:49
+msgid "Passphrase"
+msgstr ""
+
+#: ../src/Secretery/Controller/KeyController.php:184
+msgid "Your key was created successfully"
+msgstr ""
+
+#: ../view/secretery/key/success.phtml:10
+msgid "The passphrase will be needed again to use the key - so save it!"
+msgstr ""
+
+#: ../view/secretery/key/success.phtml:14
+msgid "Copy the key to file and name it \"something.pem\""
+msgstr ""
+
+#: ../view/secretery/note/index.phtml:10
+msgid "Add Note"
+msgstr ""
+
+#: ../view/secretery/note/index.phtml:17 ../src/Secretery/Form/Note.php:51
+msgid "Note title"
+msgstr "Title"
+
+#: ../src/Secretery/Form/Note.php:60
+msgid "Note text"
+msgstr "Text"
+
+#: ../src/Secretery/Form/Note.php:64
+msgid "Note private"
+msgstr "Private"
+
+#: ../view/secretery/note/index.phtml:18
+msgid "Note date"
+msgstr "Date"
+
+#: ../view/secretery/note/index.phtml:19
+msgid "Note permissions"
+msgstr "Permissions"
+
+#: ../view/secretery/note/add.phtml:9
+msgid "Create Note"
 msgstr ""
 
 #: ../view/error/index.phtml:1

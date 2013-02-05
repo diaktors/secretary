@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-01-14 22:41+0100\n"
+"PO-Revision-Date: 2013-02-04 19:19+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
 "Language: de_DE\n"
@@ -30,6 +30,10 @@ msgstr "Übersicht"
 #: ../view/layout/layout.phtml:31
 msgid "Manage Key"
 msgstr "Schlüsselverwaltung"
+
+#: ../view/layout/layout.phtml:31
+msgid "Manage Notes"
+msgstr "Notizen"
 
 #: ../view/layout/layout.phtml:36
 msgid "Login"
@@ -67,6 +71,77 @@ msgstr "Willkommen zu Ihrem %sSecretery%s"
 #: ../view/secretery/index/index.phtml:3
 msgid "A secure place for shared infos"
 msgstr "Ein sicherer Ort für geteilte Informationen"
+
+#: ../view/secretery/key/index.phtml:6
+msgid "Warning"
+msgstr "Warnung"
+
+#: ../view/secretery/key/index.phtml:9
+msgid "Private Key can only be generated once"
+msgstr "Der private Schlüssel kann nur einmalig erzeugt werden."
+
+#: ../view/secretery/key/index.phtml:10
+msgid "Please choose a secure passphrase for your key"
+msgstr "Wähle bitte eine sicheres Passwort für den Schlüssel!"
+
+#: ../view/secretery/key/index.phtml:11
+msgid "Backup your key carefully (different places are a good idea)"
+msgstr "Und backupe den Schlüssel auf einem anderen/mehreren Backupmedien."
+
+#: ../view/secretery/key/index.phtml:20 ../src/Secretery/Form/Key.php:56
+msgid "Create Key"
+msgstr "Schlüssel erzeugen"
+
+#: ../view/secretery/key/index.phtml:24
+msgid "You already created a private key"
+msgstr "Du hast bereits einen Schlüssel erzeugt!"
+
+#: ../src/Secretery/Form/Key.php:49
+msgid "Passphrase"
+msgstr "Passwort"
+
+#: ../src/Secretery/Controller/KeyController.php:184
+msgid "Your key was created successfully"
+msgstr "Dein Schlüssel wurde erfolgreich erzeugt."
+
+#: ../view/secretery/key/success.phtml:10
+msgid "The passphrase will be needed again to use the key - so save it!"
+msgstr ""
+"Du wirst das Schlüssel Passwort immer wieder benötigen - speicher/merke es "
+"dir gut!"
+
+#: ../view/secretery/key/success.phtml:14
+msgid "Copy the key to file and name it \"something.pem\""
+msgstr ""
+"Kopiere den Schlüssel(text) in eine Textdatei und nenne sie \"xyz.pem\""
+
+#: ../view/secretery/note/index.phtml:10
+msgid "Add Note"
+msgstr "Notiz hinzufügen"
+
+#: ../view/secretery/note/index.phtml:17 ../src/Secretery/Form/Note.php:51
+msgid "Note title"
+msgstr "Titel"
+
+#: ../src/Secretery/Form/Note.php:60
+msgid "Note text"
+msgstr "Text"
+
+#: ../src/Secretery/Form/Note.php:64
+msgid "Note private"
+msgstr "Privat"
+
+#: ../view/secretery/note/index.phtml:18
+msgid "Note date"
+msgstr "Datum"
+
+#: ../view/secretery/note/index.phtml:19
+msgid "Note permissions"
+msgstr "Rechte"
+
+#: ../view/secretery/note/add.phtml:9
+msgid "Create Note"
+msgstr "Notiz erstellen"
 
 #: ../view/error/index.phtml:1
 msgid "An error occurred"
