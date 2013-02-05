@@ -10,7 +10,9 @@
 namespace Secretery;
 
 use Secretery\Controller\KeyController;
+use Secretery\Controller\NoteController;
 use Secretery\Mapper\Key as KeyMapper;
+use Secretery\Service\note as NoteService;
 
 return array(
 
@@ -54,6 +56,14 @@ return array(
                 'action' => 'index',
                 'resource' => 'route/secretery/key'
             ),
+            'notes' => array(
+                'label' => 'Manage Notes',
+                'route' => 'secretery/default',
+                'module' => 'wesrc',
+                'controller' => 'note',
+                'action' => 'index',
+                'resource' => 'route/secretery/note'
+            ),
         ),
     ),
 
@@ -94,6 +104,20 @@ return array(
                             ),
                         ),
                     ),
+                    'note' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/note[/:action[/:id]]',
+                            'constraints' => array(
+                                'action'  => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'      => '[0-9]*',
+                            ),
+                            'defaults' => array(
+                                'controller'    => 'Note',
+                                'action'        => 'index',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
@@ -105,9 +129,16 @@ return array(
             'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
             'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
             'key-mapper' => function($sm) {
-                $service = new KeyMapper();
+                $mapper = new KeyMapper();
+                $em = $sm->get('doctrine.entitymanager.orm_default');
+                $mapper->setEntityManager($em);
+                return $mapper;
+            },
+            'note-service' => function($sm) {
+                $service = new NoteService();
                 $em = $sm->get('doctrine.entitymanager.orm_default');
                 $service->setEntityManager($em);
+                $service->setKeyService($sm->get('key-service'));
                 return $service;
             },
         ),
@@ -134,12 +165,18 @@ return array(
             'Secretery\Controller\Index' => 'Secretery\Controller\IndexController',
         ),
         'factories' => array(
-            'Secretery\Controller\Key'   => function($sm) {
+            'Secretery\Controller\Key' => function($sm) {
                 $controller = new KeyController();
                 $keyService = $sm->getServiceLocator()->get('key-service');
                 $keyMapper  = $sm->getServiceLocator()->get('key-mapper');
                 $controller->setKeyMapper($keyMapper)
                     ->setKeyService($keyService);
+                return $controller;
+            },
+            'Secretery\Controller\Note' => function($sm) {
+                $controller = new NoteController();
+                $noteService = $sm->getServiceLocator()->get('note-service');
+                $controller->setNoteService($noteService);
                 return $controller;
             },
         )
