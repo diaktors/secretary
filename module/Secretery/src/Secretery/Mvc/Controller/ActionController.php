@@ -48,6 +48,11 @@ class ActionController extends \Zend\Mvc\Controller\AbstractActionController
     protected $identity;
 
     /**
+     * @var \Zend\i18n\Translator\Translator
+     */
+    protected $translator;
+
+    /**
      * @var ViewModel
      */
     protected $view;
@@ -87,6 +92,9 @@ class ActionController extends \Zend\Mvc\Controller\AbstractActionController
             throw new InvalidArgumentException('No locale has been specified.');
         }
         $this->locale = $locale;
+
+        // Translator
+        $this->translator = $this->getServiceLocator()->get('translator');
 
         // View Model
         if (null === $this->view) {
