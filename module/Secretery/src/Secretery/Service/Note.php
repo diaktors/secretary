@@ -28,6 +28,7 @@ use Secretery\Entity\Note as NoteEntity;
 use Secretery\Entity\User as UserEntity;
 use Secretery\Entity\User2Note as User2NoteEntity;
 use Secretery\Form\Note as NoteForm;
+use Secretery\Form\KeyRequest as KeyRequestForm;
 use Secretery\Mapper\BaseMapper;
 
 /**
@@ -51,6 +52,12 @@ class Note extends BaseMapper
      * @var NoteForm
      */
     protected $noteForm;
+
+
+    /**
+     * @var KeyRequestForm
+     */
+    protected $keyRequestForm;
 
     /**
      * @param Key $keyService
@@ -79,6 +86,15 @@ class Note extends BaseMapper
     }
 
     /**
+     * @param KeyRequestForm $keyRequestForm
+     */
+    public function setKeyRequestForm(KeyRequestForm $keyRequestForm)
+    {
+        $this->keyRequestForm = $keyRequestForm;
+        return $this;
+    }
+
+    /**
      * @param  \Secretery\Entity\Note $noteRecord
      * @param  string                 $url
      * @return \Zend\Form\Form
@@ -96,6 +112,92 @@ class Note extends BaseMapper
             $this->noteForm->bind($note);
         }
         return $this->noteForm;
+    }
+
+    /**
+     * @param  string $url
+     * @return KeyRequestForm
+     */
+    public function getKeyRequestForm($url = '')
+    {
+        if (is_null($this->keyRequestForm)) {
+            $this->keyRequestForm = new KeyRequestForm($url);
+        }
+        return $this->keyRequestForm;
+    }
+
+    /**
+     * @param  int $userId
+     * @param  int $noteId
+     * @return bool
+     */
+    public function checkNoteViewPermission($userId, $noteId)
+    {
+        /* @var $user2noteRecord User2NoteEntity */
+        $user2noteRecord = $this->em->getRepository('Secretery\Entity\User2Note')
+            ->fetchUserNote($userId, $noteId);
+        if (empty($user2noteRecord)) {
+            return false;
+        }
+        if (true === $user2noteRecord->getOwner() ||
+            true === $user2noteRecord->getReadPermission())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param  string $contentCrypted
+     * @param  string $eKey
+     * @param  string $keyCert
+     * @param  string $passphrase
+     * @return false/string
+     */
+    public function decryptNote($contentCrypted, $eKey, $keyCert, $passphrase)
+    {
+        try {
+            return $this->getKeyService()->decrypt(
+                $contentCrypted,
+                $eKey,
+                $keyCert,
+                $passphrase
+            );
+        } catch(\Exception $e) {
+            //@todo logging?
+        }
+        return false;
+    }
+
+    /**
+     * @param  int $id
+     * @return \Secretery\Entity\Note
+     */
+    public function fetchNote($id)
+    {
+        return $this->em->getRepository('Secretery\Entity\Note')
+            ->fetchNote($id);
+    }
+
+    /**
+     * @param  int $noteId
+     * @param  int $userId
+     * @return \Secretery\Entity\Note
+     */
+    public function fetchNoteWithUserData($noteId, $userId)
+    {
+        return $this->em->getRepository('Secretery\Entity\Note')
+            ->fetchNoteWithUserData($noteId, $userId);
+    }
+
+    /**
+     * @param  int $userId
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function fetchUserNotes($userId)
+    {
+        return $this->em->getRepository('Secretery\Entity\Note')
+            ->fetchUserNotes($userId);
     }
 
     /**
@@ -134,22 +236,19 @@ class Note extends BaseMapper
     }
 
     /**
-     * @param  int $id
-     * @return \Secretery\Entity\Note
+     * @param  string $keyCert
+     * @param  string $passphrase
+     * @return bool
      */
-    public function fetchNote($id)
+    public function validateKey($keyCert, $passphrase)
     {
-        return $this->em->getRepository('Secretery\Entity\Note')
-            ->fetchNote($id);
+        try {
+            $this->getKeyService()->validateKey($keyCert, $passphrase);
+            return true;
+        } catch(\Exception $e) {
+            //@todo logging?
+        }
+        return false;
     }
 
-    /**
-     * @param  int $userId
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function fetchUserNotes($userId)
-    {
-        return $this->em->getRepository('Secretery\Entity\Note')
-            ->fetchUserNotes($userId);
-    }
 }

@@ -143,14 +143,65 @@ class NoteController extends ActionController
     public function viewAction()
     {
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        if (empty($id)) {
+        if (empty($id) || !is_numeric($id)) {
             return $this->redirect()->toRoute('secretery/note');
         }
-        \Zend\Debug\Debug::dump($id);
-        exit();
-        return new ViewModel(array(
-            //'noteForm' => $form,
-            'msg'      => array('error', 'An error occurred')
+        // Permission Check
+        $permissionCheck = $this->getNoteService()->checkNoteViewPermission(
+            $this->identity->getId(),
+            $id
+        );
+        if (false === $permissionCheck) {
+            // @todo log stuff here?
+            return $this->redirect()->toRoute('secretery/note');
+        }
+
+        $viewModelVars             = array();
+        $viewModelVars['showForm'] = true;
+
+        // Key Request Form
+        $formUrl = $this->url()->fromRoute('secretery/note', array(
+            'action' => 'view',
+            'id'     => $id
         ));
+        $keyRequestForm = $this->getNoteService()->getKeyRequestForm($formUrl);
+        $viewModelVars['keyRequestForm'] = $keyRequestForm;
+
+        // Key Request Form Validation
+        if ($this->getRequest()->isPost()) {
+            $keyRequestForm->setData($this->getRequest()->getPost());
+            if ($keyRequestForm->isValid()) {
+                $values          = $keyRequestForm->getData();
+                $validationCheck = $this->getNoteService()->validateKey(
+                    $values['key'], $values['passphrase']
+                );
+                // Show key read error
+                if (false === $validationCheck) {
+                    $viewModelVars['msg'] = array('error', 'Your key is not readable');
+                    return new ViewModel($viewModelVars);
+                }
+                // Fetch Note
+                $noteRecord = $this->getNoteService()->fetchNoteWithUserData(
+                    $id, $this->identity->getId()
+                );
+                $noteDecrypted = $this->getNoteService()->decryptNote(
+                    $noteRecord['content'],
+                    $noteRecord['eKey'],
+                    $values['key'],
+                    $values['passphrase']
+                );
+                // Show key read error
+                if (false === $noteDecrypted) {
+                    $viewModelVars['msg'] = array('error', 'Note could not be decrypted');
+                    return new ViewModel($viewModelVars);
+                }
+                // Success
+                $viewModelVars['showForm']    = false;
+                $viewModelVars['noteContent'] = $noteDecrypted;
+                $viewModelVars['note']        = $noteRecord;
+            }
+        }
+
+        return new ViewModel($viewModelVars);
     }
 }
