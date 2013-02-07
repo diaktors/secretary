@@ -1,0 +1,32 @@
+<div class="row notes">
+    <div class="span12">
+        <h1><?php echo $this->translate('View Note') ?></h1>
+        <?php
+            if (!empty($this->msg)) {
+                echo $this->ztbAlert(
+                    $this->translate($this->msg[1]),
+                    false,
+                    'alert-' . $this->msg[0]
+                );
+            }
+        ?>
+        <?php if (true === $this->showForm): ?>
+        <fieldset>
+            <legend><?php echo $this->translate('Decryption Request') ?></legend>
+            <?php echo $this->ztbForm($this->keyRequestForm); ?>
+        </fieldset>
+        <?php else: ?>
+            <div class="well note">
+                <h2><?php echo $this->escapeHtml($this->note['title']) ?></h2>
+                <div class="noteContent">
+                    <?php echo $this->escapeHtml($this->noteContent) ?>
+                </div>
+            </div>
+            <p>
+                <a class="btn btn-small btn-primary" href="<?php echo $this->url('secretery/note'); ?>">
+                    Back to overview
+                </a>
+            </p>
+        <?php endif; ?>
+    </div>
+</div>
