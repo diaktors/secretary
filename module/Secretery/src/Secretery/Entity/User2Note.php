@@ -37,7 +37,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @link     http://www.wesrc.com
  *
  * @ORM\Table(name="user2note")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Secretery\Entity\Repository\User2Note")
  */
 class User2Note //extends PersistentObject //implements InputFilterAwareInterface
 {
