@@ -63,8 +63,8 @@ class Key
     /**
      * Encrypt string with public key
      *
-     * @param  string $passphrase
-     * @param  string $passphrase
+     * @param  string $content
+     * @param  string $key
      * @return array
      * @throws \InvalidArgumentException If key is empty
      * @throws \LogicException           If key is not readable as key
@@ -82,6 +82,7 @@ class Key
         $pubKey    = openssl_pkey_get_details($pk);
         $sealCheck = openssl_seal(serialize($content), $sealedContent, $eKeys, array($pubKey['key']));
         openssl_free_key($pk);
+        unset($pubKey);
         if (false === $sealCheck) {
             throw new \LogicException('An error occurred while encrypting');
         }
@@ -89,5 +90,69 @@ class Key
             'ekey'    => base64_encode($eKeys[0]),
             'content' => base64_encode($sealedContent)
         );
+    }
+
+    /**
+     * Encrypt string with public key
+     *
+     * @param  string $content
+     * @param  string $eKey
+     * @param  string $key
+     * @param  string $passphrase
+     * @return string
+     * @throws \InvalidArgumentException If content, ekey, key or passphrase is empty
+     * @throws \LogicException           If key is not readable as key
+     * @throws \LogicException           If encryption errors
+     */
+    public function decrypt($content, $eKey, $key, $passphrase)
+    {
+        if (empty($content)) {
+            throw new \InvalidArgumentException('Content canot be empty');
+        }
+        if (empty($eKey)) {
+            throw new \InvalidArgumentException('eKey canot be empty');
+        }
+        if (empty($key)) {
+            throw new \InvalidArgumentException('Key canot be empty');
+        }
+        if (empty($passphrase)) {
+            throw new \InvalidArgumentException('Passphrase canot be empty');
+        }
+        $pk = openssl_pkey_get_private($key, $passphrase);
+        if (false === $pk) {
+            throw new \LogicException('Key is not readable');
+        }
+        $content = base64_decode($content);
+        $eKey    = base64_decode($eKey);
+        $check   = openssl_open($content, $contentDecrypted, $eKey, $pk);
+        openssl_free_key($pk);
+        if (false === $check) {
+            \Zend\Debug\Debug::dump($check);
+            exit();
+            throw new \LogicException('An error occurred while decrypting');
+        }
+        return unserialize($contentDecrypted);
+    }
+
+    /**
+     * Validate (private) key
+     *
+     * @param  string $key
+     * @param  string $passphrase
+     * @return void
+     * @throws \InvalidArgumentException If key is empty
+     * @throws \LogicException           If key is not readable as key
+     */
+    public function validateKey($key, $passphrase)
+    {
+        if (empty($key)) {
+            throw new \InvalidArgumentException('Key canot be empty');
+        }
+        $pk = openssl_pkey_get_private($key, $passphrase);
+        if (false === $pk) {
+            throw new \LogicException('Key is not readable');
+        }
+        openssl_free_key($pk);
+        return;
     }
 }
