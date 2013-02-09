@@ -19,12 +19,12 @@
             <div class="well note">
                 <h2><?php echo $this->escapeHtml($this->note['title']) ?></h2>
                 <div class="noteContent">
-                    <?php echo $this->escapeHtml($this->noteContent) ?>
+                    <?php echo $this->escapeHtml($this->decrypted) ?>
                 </div>
             </div>
             <p>
                 <a class="btn btn-small btn-primary" href="<?php echo $this->url('secretery/note'); ?>">
-                    Back to overview
+                    <?php echo $this->translate('Back to overview') ?>
                 </a>
             </p>
         <?php endif; ?>

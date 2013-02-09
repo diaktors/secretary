@@ -29,7 +29,6 @@ use Secretery\Entity\User as UserEntity;
 use Secretery\Entity\User2Note as User2NoteEntity;
 use Secretery\Form\Note as NoteForm;
 use Secretery\Form\KeyRequest as KeyRequestForm;
-use Secretery\Mapper\BaseMapper;
 
 /**
  * Note Mapper
@@ -41,12 +40,12 @@ use Secretery\Mapper\BaseMapper;
  * @version  Release: @package_version@
  * @link     http://www.wesrc.com
  */
-class Note extends BaseMapper
+class Note extends Base
 {
     /**
-     * @var Key
+     * @var Encryption
      */
-    protected $keyService;
+    protected $encryptionService;
 
     /**
      * @var NoteForm
@@ -60,20 +59,20 @@ class Note extends BaseMapper
     protected $keyRequestForm;
 
     /**
-     * @param Key $keyService
+     * @param Encryption $encryptionService
      */
-    public function setKeyService(Key $keyService)
+    public function setEncryptionService(Encryption $encryptionService)
     {
-        $this->keyService = $keyService;
+        $this->encryptionService = $encryptionService;
         return $this;
     }
 
     /**
-     * @return Key
+     * @return Encryption
      */
-    public function getKeyService()
+    public function getEncryptionService()
     {
-        return $this->keyService;
+        return $this->encryptionService;
     }
 
     /**
@@ -131,6 +130,27 @@ class Note extends BaseMapper
      * @param  int $noteId
      * @return bool
      */
+    public function checkNoteEditPermission($userId, $noteId)
+    {
+        /* @var $user2noteRecord User2NoteEntity */
+        $user2noteRecord = $this->em->getRepository('Secretery\Entity\User2Note')
+            ->fetchUserNote($userId, $noteId);
+        if (empty($user2noteRecord)) {
+            return false;
+        }
+        if (true === $user2noteRecord->getOwner() ||
+            true === $user2noteRecord->getWritePermission())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param  int $userId
+     * @param  int $noteId
+     * @return bool
+     */
     public function checkNoteViewPermission($userId, $noteId)
     {
         /* @var $user2noteRecord User2NoteEntity */
@@ -154,10 +174,10 @@ class Note extends BaseMapper
      * @param  string $passphrase
      * @return false/string
      */
-    public function decryptNote($contentCrypted, $eKey, $keyCert, $passphrase)
+    protected function decryptNote($contentCrypted, $eKey, $keyCert, $passphrase)
     {
         try {
-            return $this->getKeyService()->decrypt(
+            return $this->getEncryptionService()->decrypt(
                 $contentCrypted,
                 $eKey,
                 $keyCert,
@@ -167,6 +187,40 @@ class Note extends BaseMapper
             //@todo logging?
         }
         return false;
+    }
+
+    /**
+     * @param  int    $noteId
+     * @param  int    $userId
+     * @param  string $keyCert
+     * @param  string $passphrase
+     * @return array  With 'note' and 'decrypted' keys
+     * @throws \LogicException If key is not readable
+     * @throws \LogicException If note could note be decrypted
+     */
+    public function doNoteEncryption($noteId, $userId, $keyCert, $passphrase)
+    {
+        $validationCheck = $this->validateKey($keyCert, $passphrase);
+        // Show key read error
+        if (false === $validationCheck) {
+            throw new \LogicException('Your key is not readable');
+        }
+        // Fetch Note
+        $note      = $this->fetchNoteWithUserData($noteId, $userId);
+        $decrypted = $this->decryptNote(
+            $note['content'],
+            $note['eKey'],
+            $keyCert,
+            $passphrase
+        );
+        // Show key read error
+        if (false === $decrypted) {
+            throw new \LogicException('Note could not be decrypted');
+        }
+        return array(
+            'note'      => $note,
+            'decrypted' => $decrypted
+         );
     }
 
     /**
@@ -209,7 +263,7 @@ class Note extends BaseMapper
      */
     public function saveUserNote(UserEntity $user, NoteEntity $note)
     {
-        $encryptData = $this->keyService->encryptForSingleKey(
+        $encryptData = $this->getEncryptionService()->encryptForSingleKey(
             $note->getContent(),
             $user->getKey()->getPubKey()
         );
@@ -236,14 +290,25 @@ class Note extends BaseMapper
     }
 
     /**
+     * @param  \Secretery\Entity\Note $note
+     * @return void
+     */
+    public function updateUserNote(NoteEntity $note)
+    {
+        $this->em->persist($note);
+        $this->em->flush();
+        return;
+    }
+
+    /**
      * @param  string $keyCert
      * @param  string $passphrase
      * @return bool
      */
-    public function validateKey($keyCert, $passphrase)
+    protected function validateKey($keyCert, $passphrase)
     {
         try {
-            $this->getKeyService()->validateKey($keyCert, $passphrase);
+            $this->getEncryptionService()->validateKey($keyCert, $passphrase);
             return true;
         } catch(\Exception $e) {
             //@todo logging?

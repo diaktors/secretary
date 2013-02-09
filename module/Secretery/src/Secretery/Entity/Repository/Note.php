@@ -79,6 +79,7 @@ class Note extends EntityRepository
             ->where('u2n.userId = :userId')
             ->andWhere('u.id = :userId')
             ->andWhere('n.private = :private')
+            ->addOrderBy('n.title', 'ASC')
             ->setParameter('userId', $userId)
             ->setParameter('private', 1);
 

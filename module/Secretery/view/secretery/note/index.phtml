@@ -25,7 +25,11 @@
             <?php if (!empty($this->noteCollection)): ?>
             <?php foreach ($this->noteCollection as $note): ?>
                 <tr>
-                    <td class="title"><?php echo $this->escapeHtml($note['title']); ?></td>
+                    <td class="title">
+                        <a href="<?php echo $this->url('secretery/note', array('action' => 'view', 'id' => $note['id'])) ?>">
+                            <?php echo $this->escapeHtml($note['title']); ?>
+                        </a>
+                    </td>
                     <td class="date"><?php echo $this->escapeHtml($note['dateCreated']->format('Y-m-d H:i:s')); ?></td>
                     <td class="smallInfo"><?php
                         if (true === $note['owner']) {
@@ -42,15 +46,15 @@
                             echo "W";
                         }
                     ?></td>
-                    <td>
+                    <td class="funcs">
                         <a href="<?php echo $this->url('secretery/note', array('action' => 'view', 'id' => $note['id'])) ?>">
-                            View
+                            <i class="icon-lock" title="<?php echo $this->translate('view') ?>"></i>
                         </a>
                         <a href="<?php echo $this->url('secretery/note', array('action' => 'edit', 'id' => $note['id'])) ?>">
-                            Edit
+                            <i class="icon-pencil" title="<?php echo $this->translate('edit') ?>"></i>
                         </a>
-                        <a href="<?php echo $this->url('secretery/note', array('action' => 'edit', 'id' => $note['id'])) ?>">
-                            Delete
+                        <a href="<?php echo $this->url('secretery/note', array('action' => 'delete', 'id' => $note['id'])) ?>">
+                            <i class="icon-trash" title="<?php echo $this->translate('delete') ?>"></i>
                         </a>
                     </td>
                 </tr>

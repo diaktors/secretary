@@ -1,5 +1,5 @@
 {
-    "hash": "71ba9b78e6a6da111a19b8e8f8912b11",
+    "hash": "96158fbb7f6b79b1d1963acdf344ee72",
     "packages": [
         {
             "name": "ZfcTwitterBootstrap",
@@ -545,12 +545,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "b7299a90214255a0b0029b7e5fe6e62a929f3e69"
+                "reference": "d94ce3ae790c6e07d1f366924de2a59205055557"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/b7299a90214255a0b0029b7e5fe6e62a929f3e69",
-                "reference": "b7299a90214255a0b0029b7e5fe6e62a929f3e69",
+                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/d94ce3ae790c6e07d1f366924de2a59205055557",
+                "reference": "d94ce3ae790c6e07d1f366924de2a59205055557",
                 "shasum": ""
             },
             "require": {
@@ -570,7 +570,7 @@
                 "doctrine/mongodb": ">=1.0.0",
                 "doctrine/mongodb-odm": ">=1.0.0-BETA7"
             },
-            "time": "2013-01-31 12:40:49",
+            "time": "2013-02-04 20:27:16",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -707,16 +707,16 @@
         },
         {
             "name": "zendframework/zendframework",
-            "version": "dev-develop",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "git://github.com/zendframework/zf2.git",
-                "reference": "5a80ea56a2628e74507911c8e62676ff9b3b0721"
+                "reference": "5477f50a7140cd947bbcf0162a82a28b02208190"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zf2/zipball/5a80ea56a2628e74507911c8e62676ff9b3b0721",
-                "reference": "5a80ea56a2628e74507911c8e62676ff9b3b0721",
+                "url": "https://api.github.com/repos/zendframework/zf2/zipball/5477f50a7140cd947bbcf0162a82a28b02208190",
+                "reference": "5477f50a7140cd947bbcf0162a82a28b02208190",
                 "shasum": ""
             },
             "require": {
@@ -734,14 +734,12 @@
                 "zendframework/zend-db": "self.version",
                 "zendframework/zend-di": "self.version",
                 "zendframework/zend-dom": "self.version",
-                "zendframework/zend-escaper": "self.version",
                 "zendframework/zend-eventmanager": "self.version",
                 "zendframework/zend-feed": "self.version",
                 "zendframework/zend-file": "self.version",
                 "zendframework/zend-filter": "self.version",
                 "zendframework/zend-form": "self.version",
                 "zendframework/zend-http": "self.version",
-                "zendframework/zend-i18n": "self.version",
                 "zendframework/zend-inputfilter": "self.version",
                 "zendframework/zend-json": "self.version",
                 "zendframework/zend-ldap": "self.version",
@@ -768,6 +766,8 @@
                 "zendframework/zend-validator": "self.version",
                 "zendframework/zend-view": "self.version",
                 "zendframework/zend-xmlrpc": "self.version",
+                "zendframework/zend-escaper": "self.version",
+                "zendframework/zend-i18n": "self.version",
                 "zendframework/zend-debug": "self.version",
                 "zendframework/zend-permissions-acl": "self.version",
                 "zendframework/zend-version": "self.version",
@@ -781,11 +781,11 @@
             "suggest": {
                 "doctrine/common": "Doctrine\\Common >=2.1 for annotation features",
                 "ext-intl": "ext/intl for i18n features",
-                "pecl-weakref": "Implementation of weak references for Zend\\Stdlib\\CallbackHandler",
+                "zendframework/zendservice-recaptcha": "ZendService\\ReCaptcha for rendering ReCaptchas in Zend\\Captcha and/or Zend\\Form",
                 "zendframework/zendpdf": "ZendPdf for creating PDF representations of barcodes",
-                "zendframework/zendservice-recaptcha": "ZendService\\ReCaptcha for rendering ReCaptchas in Zend\\Captcha and/or Zend\\Form"
+                "pecl-weakref": "Implementation of weak references for Zend\\Stdlib\\CallbackHandler"
             },
-            "time": "2013-02-01 22:11:37",
+            "time": "2013-02-04 18:00:54",
             "bin": [
                 "bin/classmap_generator.php"
             ],

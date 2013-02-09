@@ -20,44 +20,40 @@
  * @link     http://www.wesrc.com
  */
 
-namespace Secretery\Mapper;
+namespace Secretery\Service;
 
-use Secretery\Entity\Key as KeyEntity;
-use Secretery\Entity\User as UserEntity;
+use Doctrine\ORM\EntityManager;
 
 /**
- * Key Mapper
+ * Base for Service classes
  *
- * @category Mapper
+ * @category Service
  * @package  Secretery
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.wesrc.com/company/terms Terms of Service
  * @version  Release: @package_version@
  * @link     http://www.wesrc.com
  */
-class Key extends BaseMapper
+class Base
 {
     /**
-     * @param  \Secretery\Entity\Key  $key
-     * @param  \Secretery\Entity\User $user
-     * @return \Secretery\Entity\Key
+     * @var EntityManager
      */
-    public function saveKey(KeyEntity $key, UserEntity $user, $pubKey)
+    protected $em;
+
+    /**
+     * @param EntityManager $em
+     */
+    public function setEntityManager(EntityManager $em)
     {
-        $key->setPubKey($pubKey);
-        $key->setUserId($user->getId());
-        $key->setUser($user);
-        $this->em->persist($key);
-        $this->em->flush();
-        return $key;
+        $this->em = $em;
     }
 
     /**
-     * @param $id
-     * @return \Secretery\Entity\Key
+     * @return $em
      */
-    public function fetchKey($id)
+    public function getEntityManager()
     {
-        return $this->em->getRepository('Secretery\Entity\Key')->find($id);
+        return $this->em;
     }
 }

@@ -11,8 +11,12 @@ namespace Secretery;
 
 use Secretery\Controller\KeyController;
 use Secretery\Controller\NoteController;
-use Secretery\Mapper\Key as KeyMapper;
-use Secretery\Service\note as NoteService;
+use Secretery\Service\Key as KeyService;
+use Secretery\Service\Note as NoteService;
+use Secretery\Service\Encryption as EncryptionService;
+use Zend\Mvc\Controller\ControllerManager;
+use Zend\ServiceManager\ServiceManager;
+use Doctrine\ORM\EntityManager;
 
 return array(
 
@@ -128,22 +132,26 @@ return array(
         'factories' => array(
             'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
             'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
-            'key-mapper' => function($sm) {
-                $mapper = new KeyMapper();
-                $em = $sm->get('doctrine.entitymanager.orm_default');
-                $mapper->setEntityManager($em);
-                return $mapper;
-            },
-            'note-service' => function($sm) {
-                $service = new NoteService();
+            'key-service' => function(ServiceManager $sm) {
+                $service = new KeyService();
+                /* @var $em EntityManager */
                 $em = $sm->get('doctrine.entitymanager.orm_default');
                 $service->setEntityManager($em);
-                $service->setKeyService($sm->get('key-service'));
+                return $service;
+            },
+            'note-service' => function(ServiceManager $sm) {
+                $service = new NoteService();
+                /* @var $em EntityManager */
+                $em         = $sm->get('doctrine.entitymanager.orm_default');
+                /* @var $encService EncryptionService */
+                $encService = $sm->get('encryption-service');
+                $service->setEntityManager($em);
+                $service->setEncryptionService($encService);
                 return $service;
             },
         ),
         'invokables' => array(
-            'key-service' => 'Secretery\Service\Key',
+            'encryption-service' => 'Secretery\Service\Encryption',
         ),
     ),
 
@@ -165,29 +173,26 @@ return array(
             'Secretery\Controller\Index' => 'Secretery\Controller\IndexController',
         ),
         'factories' => array(
-            'Secretery\Controller\Key' => function($sm) {
+            'Secretery\Controller\Key' => function(ControllerManager $cm) {
                 $controller = new KeyController();
-                $keyService = $sm->getServiceLocator()->get('key-service');
-                $keyMapper  = $sm->getServiceLocator()->get('key-mapper');
-                $controller->setKeyMapper($keyMapper)
-                    ->setKeyService($keyService);
+                $controller->setKeyService($cm->getServiceLocator()->get('key-service'))
+                    ->setEncryptionService($cm->getServiceLocator()->get('encryption-service'));
                 return $controller;
             },
-            'Secretery\Controller\Note' => function($sm) {
+            'Secretery\Controller\Note' => function(ControllerManager $cm) {
                 $controller = new NoteController();
-                $noteService = $sm->getServiceLocator()->get('note-service');
-                $controller->setNoteService($noteService);
+                $controller->setNoteService($cm->getServiceLocator()->get('note-service'));
                 return $controller;
             },
         )
     ),
 
     // Controller PlugIns
-    'controller_plugins' => array(
+    /*'controller_plugins' => array(
         'invokables' => array(
             //'zfcuserauthentication' => 'ZfcUser\Controller\Plugin\ZfcUserAuthentication',
         ),
-    ),
+    ),*/
 
     // View
     'view_manager' => array(
@@ -201,6 +206,8 @@ return array(
             'secretery/index/index'   => __DIR__ . '/../view/secretery/index/index.phtml',
             'secretery/key/index'     => __DIR__ . '/../view/secretery/key/index.phtml',
             'secretery/key/success'   => __DIR__ . '/../view/secretery/key/success.phtml',
+            'secretery/note/index'    => __DIR__ . '/../view/secretery/note/index.phtml',
+            'secretery/note/add'      => __DIR__ . '/../view/secretery/note/add.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),

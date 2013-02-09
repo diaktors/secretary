@@ -99,7 +99,7 @@ class Note //extends PersistentObject
 
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
-     * @Annotation\Attributes({"value":"Create Note", "class": "btn btn-primary"})
+     * @Annotation\Attributes({"value":"Save Note", "class": "btn btn-primary"})
      */
     protected $submit;
 

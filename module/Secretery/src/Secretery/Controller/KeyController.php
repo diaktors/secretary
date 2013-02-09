@@ -24,8 +24,8 @@ namespace Secretery\Controller;
 
 use Secretery\Mvc\Controller\ActionController;
 use Zend\View\Model\ViewModel;
+use Secretery\Service\Encryption as EncryptionService;
 use Secretery\Service\Key as KeyService;
-use Secretery\Mapper\Key as KeyMapper;
 use Secretery\Form\Key as KeyForm;
 use Secretery\Entity\Key as KeyEntity;
 
@@ -47,17 +47,18 @@ class KeyController extends ActionController
     protected $keyForm;
 
     /**
-     * @var KeyMapper
-     */
-    protected $keyMapper;
-
-    /**
      * @var KeyService
      */
     protected $keyService;
 
     /**
-     * @param KeyForm $keyForm
+     * @var EncryptionService
+     */
+    protected $encryptionService;
+
+    /**
+     * @param  KeyForm $keyForm
+     * @return self
      */
     public function setKeyForm(KeyForm $keyForm)
     {
@@ -66,20 +67,22 @@ class KeyController extends ActionController
     }
 
     /**
-     * @param KeyMapper $keyService
-     */
-    public function setKeyMapper(KeyMapper $keyMapper)
-    {
-        $this->keyMapper = $keyMapper;
-        return $this;
-    }
-
-    /**
-     * @param KeyService $keyService
+     * @param  KeyService $keyService
+     * @return self
      */
     public function setKeyService(KeyService $keyService)
     {
         $this->keyService = $keyService;
+        return $this;
+    }
+
+    /**
+     * @param  EncryptionService $encryptionService
+     * @return self
+     */
+    public function setEncryptionService(EncryptionService $encryptionService)
+    {
+        $this->encryptionService = $encryptionService;
         return $this;
     }
 
@@ -99,19 +102,19 @@ class KeyController extends ActionController
     }
 
     /**
+     * @return EncryptionService
+     */
+    public function getEncryptionService()
+    {
+        return $this->encryptionService;
+    }
+
+    /**
      * @return KeyService
      */
     public function getKeyService()
     {
         return $this->keyService;
-    }
-
-    /**
-     * @return KeyMapper
-     */
-    public function getKeyMapper()
-    {
-        return $this->keyMapper;
     }
 
     /**
@@ -121,7 +124,7 @@ class KeyController extends ActionController
      */
     public function indexAction()
     {
-        $keyRecord = $this->keyMapper->fetchKey($this->identity->getId());
+        $keyRecord = $this->getKeyService()->fetchKey($this->identity->getId());
         $keyForm   = false;
         if (empty($keyRecord)) {
             $keyForm = $this->getKeyForm();
@@ -136,10 +139,11 @@ class KeyController extends ActionController
      * Process add form
      *
      * @return \Zend\View\Model\ViewModel
+     * @throws \LogicException If creation of key fails
      */
     public function addAction()
     {
-        $keyRecord = $this->keyMapper->fetchKey($this->identity->getId());
+        $keyRecord = $this->getKeyService()->fetchKey($this->identity->getId());
         if (!empty($keyRecord)) {
             return $this->redirect()->toRoute('secretery/default', array(
                 'controller' => 'key',
@@ -147,7 +151,6 @@ class KeyController extends ActionController
             ));
         }
         $form      = $this->getKeyForm();
-        $request   = $this->getRequest();
         $viewModel = new ViewModel();
         $msg       = array('error', 'An error occurred');
         $viewVars  = array(
@@ -156,10 +159,10 @@ class KeyController extends ActionController
             'msg'       => $msg
         );
 
-        if ($request->isPost()) {
+        if ($this->getRequest()->isPost()) {
             $newKeyRecord = new KeyEntity();
             $form->setInputFilter($newKeyRecord->getInputFilter());
-            $form->setData($request->getPost());
+            $form->setData($this->getRequest()->getPost());
 
             if ($form->isValid()) {
                 $values     = $form->getData();
@@ -167,13 +170,13 @@ class KeyController extends ActionController
 
                 // Generate Keys
                 try {
-                    $keys = $this->keyService->createPrivateKey($passphrase);
+                    $keys = $this->getEncryptionService()->createPrivateKey($passphrase);
                 } catch (\Exception $e) {
-                    throw new \LogicException($e->getMessage(), null, $e);
+                    throw new \LogicException($e->getMessage(), 0, $e);
                 }
 
                 // Save Data
-                $this->keyMapper->saveKey(
+                $this->getKeyService()->saveKey(
                     $newKeyRecord,
                     $this->identity,
                     $keys['pub']

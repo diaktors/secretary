@@ -65,7 +65,7 @@ class KeyRequest extends Form
                 'required' => true
             ),
             'options'    => array(
-                'label'  => 'Key passphrase',
+                'label'  => 'Your key passphrase',
             ),
         ));
         $this->add(array(

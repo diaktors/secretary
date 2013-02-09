@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-02-04 19:19+0100\n"
+"PO-Revision-Date: 2013-02-09 02:30+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
 "Language: de_DE\n"
@@ -14,6 +14,31 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: ..\n"
+
+#: general stuff
+msgid "yes"
+msgstr "ja"
+
+msgid "no"
+msgstr "nein"
+
+msgid "create"
+msgstr "Erstellen"
+
+msgid "edit"
+msgstr "Bearbeiten"
+
+msgid "delete"
+msgstr "Löschen"
+
+msgid "view"
+msgstr "Ansehen"
+
+msgid "add"
+msgstr "Hinzufügen"
+
+msgid "save"
+msgstr "Sichern"
 
 #: ../view/layout/layout.phtml:6 ../view/layout/layout.phtml:33
 msgid "Secretery"
@@ -115,9 +140,13 @@ msgid "Copy the key to file and name it \"something.pem\""
 msgstr ""
 "Kopiere den Schlüssel(text) in eine Textdatei und nenne sie \"xyz.pem\""
 
-#: ../view/secretery/note/index.phtml:10
+#: ../view/secretery/note/s.phtml:10
 msgid "Add Note"
 msgstr "Notiz hinzufügen"
+
+#: ../view/secretery/note/adds.phtml:5
+msgid "Edit Note"
+msgstr "Notiz bearbeiten"
 
 #: ../view/secretery/note/index.phtml:17 ../src/Secretery/Form/Note.php:51
 msgid "Note title"
@@ -131,17 +160,77 @@ msgstr "Text"
 msgid "Note private"
 msgstr "Privat"
 
+#: ../src/Secretery/Form/KeyRequest.php:58
+msgid "Your private key"
+msgstr "Privater Schlüssel"
+
+#: ../src/Secretery/Form/KeyRequest.php:68
+msgid "Your key passphrase"
+msgstr "Schlüssel Passwort"
+
+#: ../src/Secretery/Form/KeyRequest.php:75
+msgid "Send key"
+msgstr "Schlüssel abschicken"
+
+#: ../src/Secretery/Controller/NoteController.php:125
+msgid "Your note was created successfully"
+msgstr "Die Notiz wurde erfolgreich erstellt"
+
+#: ../src/Secretery/Controller/NoteController.php:180
+msgid "Your key is not readable"
+msgstr "Dein Schlüssel ist nicht lesbar"
+
+#: ../src/Secretery/Controller/NoteController.php:195
+msgid "Note could not be decrypted"
+msgstr "Notiz konnte nicht entschlüsselt werden"
+
+#: ../src/Secretery/Controller/NoteController.php:252
+msgid "Your note was updated successfully"
+msgstr "Die Notiz wurde erfolgreich aktualisiert"
+
+#: ../view/secretery/note/index.phtml:13
+msgid "Private Notes"
+msgstr "Private Notizen"
+
 #: ../view/secretery/note/index.phtml:18
 msgid "Note date"
 msgstr "Datum"
 
 #: ../view/secretery/note/index.phtml:19
+msgid "Note owner"
+msgstr "Eigentümer"
+
+#: ../view/secretery/note/index.phtml:20
 msgid "Note permissions"
 msgstr "Rechte"
 
-#: ../view/secretery/note/add.phtml:9
+#: ../view/secretery/note/index.phtml:61
+msgid "No notes found"
+msgstr "Keine Notizen vorhanden"
+
+#: ../view/secretery/note/add.phtml:20
 msgid "Create Note"
 msgstr "Notiz erstellen"
+
+#: ../view/secretery/note/add.phtml:18
+msgid "Modify Note"
+msgstr "Notiz ändern"
+
+#: ../view/secretery/note/view.phtml:3
+msgid "View Note"
+msgstr "Notiz einsehen"
+
+#: ../src/Secretery/Entity/Note:102
+msgid "Save Note"
+msgstr "Notiz speichern"
+
+#: ../view/secretery/note/view.phtml:15
+msgid "Decryption Request"
+msgstr "Entschlüsseln"
+
+#: ../view/secretery/note/view.phtml:27
+msgid "Back to overview"
+msgstr "Zurück zur Übersicht"
 
 #: ../view/error/index.phtml:1
 msgid "An error occurred"

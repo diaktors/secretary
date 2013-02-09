@@ -45,16 +45,22 @@ class NoteController extends ActionController
     protected $noteService;
 
     /**
-     * @param  \Secretery\Entity\Note $noteRecord
+     * @param  \Secretery\Entity\Note $note
+     * @param  string                 $action
+     * @param  int                    $id
      * @return \Zend\Form\Form
      */
-    public function getNoteForm(NoteEntity $note)
+    public function getNoteForm(NoteEntity $note, $action = 'add', $id = null)
     {
-        $url = $this->url()->fromRoute('secretery/default', array(
+        $urlValues = array(
             'controller' => 'note',
-            'action' => 'add'
-        ));
-        return $this->noteService->getNoteForm($note, $url);
+            'action'     => $action
+        );
+        if ($action == 'edit') {
+            $urlValues['id'] = $id;
+        }
+        $url = $this->url()->fromRoute('secretery/note', $urlValues);
+        return $this->getNoteService()->getNoteForm($note, $url);
     }
 
     /**
@@ -156,52 +162,101 @@ class NoteController extends ActionController
             return $this->redirect()->toRoute('secretery/note');
         }
 
-        $viewModelVars             = array();
-        $viewModelVars['showForm'] = true;
-
         // Key Request Form
         $formUrl = $this->url()->fromRoute('secretery/note', array(
             'action' => 'view',
             'id'     => $id
         ));
         $keyRequestForm = $this->getNoteService()->getKeyRequestForm($formUrl);
+
+        // View Vars
+        $viewModelVars             = array();
+        $viewModelVars['showForm'] = true;
         $viewModelVars['keyRequestForm'] = $keyRequestForm;
 
+        // Render Key Request form
+        if (!$this->getRequest()->isPost()) {
+            return new ViewModel($viewModelVars);
+        }
+
         // Key Request Form Validation
+        $keyRequestForm->setData($this->getRequest()->getPost());
+        if (!$keyRequestForm->isValid()) {
+            return new ViewModel($viewModelVars);
+        }
+
+        // Do Note Encryption
+        try {
+            $formValues    = $keyRequestForm->getData();
+            $noteDecrypted = $this->getNoteService()->doNoteEncryption(
+                $id,
+                $this->identity->getId(),
+                $formValues['key'],
+                $formValues['passphrase']
+            );
+        } catch(\LogicException $e) {
+            $viewModelVars['msg'] = array('error', $e->getMessage());
+            return new ViewModel($viewModelVars);
+        }
+
+        // Success
+        $viewModelVars['showForm']  = false;
+        $viewModelVars['decrypted'] = $noteDecrypted['decrypted'];
+        $viewModelVars['note']      = $noteDecrypted['note'];
+
+        return new ViewModel($viewModelVars);
+    }
+
+    /**
+     * Edit Note
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function editAction()
+    {
+        $viewModel = new ViewModel();
+        $viewModel->setTemplate('secretery/note/add');
+        $viewModel->setVariable('editMode', true);
+
+        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+        if (empty($id) || !is_numeric($id)) {
+            return $this->redirect()->toRoute('secretery/note');
+        }
+        // Permission Check
+        $permissionCheck = $this->getNoteService()->checkNoteEditPermission(
+            $this->identity->getId(),
+            $id
+        );
+        if (false === $permissionCheck) {
+            // @todo log stuff here?
+            return $this->redirect()->toRoute('secretery/note');
+        }
+
+        $noteRecord = $this->getNoteService()->fetchNote($id);
+        $form       = $this->getNoteForm($noteRecord, 'edit', $id);
+        $viewModel->setVariable('noteForm', $form);
+
+        if (!$this->getRequest()->isPost()) {
+            return $viewModel;
+        }
+
         if ($this->getRequest()->isPost()) {
-            $keyRequestForm->setData($this->getRequest()->getPost());
-            if ($keyRequestForm->isValid()) {
-                $values          = $keyRequestForm->getData();
-                $validationCheck = $this->getNoteService()->validateKey(
-                    $values['key'], $values['passphrase']
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                // Save data
+                $this->noteService->updateUserNote(
+                    $form->getData()
                 );
-                // Show key read error
-                if (false === $validationCheck) {
-                    $viewModelVars['msg'] = array('error', 'Your key is not readable');
-                    return new ViewModel($viewModelVars);
-                }
-                // Fetch Note
-                $noteRecord = $this->getNoteService()->fetchNoteWithUserData(
-                    $id, $this->identity->getId()
+                // Success msg
+                $this->flashMessenger()->addSuccessMessage(
+                    $this->translator->translate('Your note was updated successfully')
                 );
-                $noteDecrypted = $this->getNoteService()->decryptNote(
-                    $noteRecord['content'],
-                    $noteRecord['eKey'],
-                    $values['key'],
-                    $values['passphrase']
-                );
-                // Show key read error
-                if (false === $noteDecrypted) {
-                    $viewModelVars['msg'] = array('error', 'Note could not be decrypted');
-                    return new ViewModel($viewModelVars);
-                }
-                // Success
-                $viewModelVars['showForm']    = false;
-                $viewModelVars['noteContent'] = $noteDecrypted;
-                $viewModelVars['note']        = $noteRecord;
+                // Redirect
+                return $this->redirect()->toRoute('secretery/note');
             }
         }
 
-        return new ViewModel($viewModelVars);
+        $viewModel->setVariable('msg', 'An error occurred');
+        return $viewModel;
     }
 }
