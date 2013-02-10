@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 22:17-0700\n"
-"PO-Revision-Date: 2013-02-09 02:30+0100\n"
+"PO-Revision-Date: 2013-02-10 04:04+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contibutors <zf-devteam@zend.com>\n"
 "Language: en_US\n"
@@ -170,7 +170,7 @@ msgid "Send key"
 msgstr ""
 
 #: ../src/Secretery/Controller/NoteController.php:125
-msgid "Your note was created successfully"
+msgid "Note was created successfully"
 msgstr ""
 
 #: ../src/Secretery/Controller/NoteController.php:180
@@ -182,7 +182,11 @@ msgid "Note could not be decrypted"
 msgstr ""
 
 #: ../src/Secretery/Controller/NoteController.php:252
-msgid "Your note was updated successfully"
+msgid "Note was updated successfully"
+msgstr ""
+
+#: ../src/Secretery/Controller/NoteController.php:356
+msgid "Note was removed successfully"
 msgstr ""
 
 #: ../view/secretery/note/index.phtml:13
@@ -227,6 +231,10 @@ msgstr ""
 
 #: ../view/secretery/note/view.phtml:27
 msgid "Back to overview"
+msgstr ""
+
+#: ../view/secretery/note/delete.phtml:3
+msgid "Delete Note"
 msgstr ""
 
 #: ../view/error/index.phtml:1
