@@ -127,8 +127,6 @@ class Encryption
         $check   = openssl_open($content, $contentDecrypted, $eKey, $pk);
         openssl_free_key($pk);
         if (false === $check) {
-            \Zend\Debug\Debug::dump($check);
-            exit();
             throw new \LogicException('An error occurred while decrypting');
         }
         return unserialize($contentDecrypted);
