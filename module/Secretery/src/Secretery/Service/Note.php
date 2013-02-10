@@ -168,25 +168,20 @@ class Note extends Base
     }
 
     /**
-     * @param  string $contentCrypted
-     * @param  string $eKey
-     * @param  string $keyCert
-     * @param  string $passphrase
-     * @return false/string
+     * @param  \Secretery\Entity\User $user
+     * @param  \Secretery\Entity\Note $note
+     * @return void
      */
-    protected function decryptNote($contentCrypted, $eKey, $keyCert, $passphrase)
+    public function deleteUserNote($userId, $noteId)
     {
-        try {
-            return $this->getEncryptionService()->decrypt(
-                $contentCrypted,
-                $eKey,
-                $keyCert,
-                $passphrase
-            );
-        } catch(\Exception $e) {
-            //@todo logging?
-        }
-        return false;
+        $note = $this->fetchNote($noteId);
+        $user2Note = $this->em->getRepository('Secretery\Entity\User2Note')->findOneBy(
+            array('userId' => $userId, 'noteId' => $noteId)
+        );
+        $this->em->remove($user2Note);
+        $this->em->remove($note);
+        $this->em->flush();
+        return;
     }
 
     /**
@@ -290,14 +285,53 @@ class Note extends Base
     }
 
     /**
+     * @param  \Secretery\Entity\User $user
      * @param  \Secretery\Entity\Note $note
-     * @return void
+     * @return \Secretery\Entity\Note
      */
-    public function updateUserNote(NoteEntity $note)
+    public function updateUserNote(UserEntity $user, NoteEntity $note)
     {
+        $encryptData = $this->getEncryptionService()->encryptForSingleKey(
+            $note->getContent(),
+            $user->getKey()->getPubKey()
+        );
+        $note->setContent($encryptData['content']);
+
         $this->em->persist($note);
         $this->em->flush();
-        return;
+
+        $user2Note = $this->em->getRepository('Secretery\Entity\User2Note')->findOneBy(
+            array('userId' => $user->getId(), 'noteId' => $note->getId())
+        );
+        $user2Note->setEkey($encryptData['ekey']);
+        $note->addUser2Note($user2Note);
+
+        $this->em->persist($note);
+        $this->em->flush();
+        return $note;
+    }
+
+
+    /**
+     * @param  string $contentCrypted
+     * @param  string $eKey
+     * @param  string $keyCert
+     * @param  string $passphrase
+     * @return false/string
+     */
+    protected function decryptNote($contentCrypted, $eKey, $keyCert, $passphrase)
+    {
+        try {
+            return $this->getEncryptionService()->decrypt(
+                $contentCrypted,
+                $eKey,
+                $keyCert,
+                $passphrase
+            );
+        } catch(\Exception $e) {
+            //@todo logging?
+        }
+        return false;
     }
 
     /**
