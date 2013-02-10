@@ -76,6 +76,14 @@ class KeyRequest extends Form
                 'class'  => 'btn btn-danger'
             ),
         ));
+        $this->add(array(
+            'name' => 'key-request',
+            'attributes' => array(
+                'type'   => 'hidden',
+                'required' => true,
+                'value' => 1
+            ),
+        ));
 
         $this->setInputFilter($this->getInputFilter());
     }
