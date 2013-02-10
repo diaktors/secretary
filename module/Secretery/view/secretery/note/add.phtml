@@ -1,38 +1,12 @@
 <div class="row notes">
     <div class="span12">
-        <h1><?php
-            if (isset($this->editMode)) {
-                echo $this->translate('Edit Note');
-            } else {
-                echo $this->translate('Add Note');
+        <h1><?php echo $this->translate('Add Note') ?></h1>
+        <?php
+            if (!empty($this->msg) && $this->msg[0] == 'error') {
+                echo $this->ztbAlert($this->translate($this->msg[1]), false, 'alert-error');
             }
-        ?></h1>
-        <?php if (!empty($this->msg) && $this->msg[0] == 'error') {
-            echo $this->ztbAlert($this->translate($this->msg[1]), false, 'alert-error');
-        } ?>
+        ?>
 
-        <fieldset>
-            <legend>
-                <?php
-                if (isset($this->editMode)) {
-                    echo $this->translate('Modify Note');
-                } else {
-                    echo $this->translate('Create Note');
-                }
-            ?></legend>
-            <?php
-                echo $this->form()->openTag($this->noteForm);
-                echo $this->ztbFormElement($this->noteForm->get('title'));
-                echo $this->ztbFormElement($this->noteForm->get('content'));
-                echo '<label class="checkbox">';
-                echo $this->formElement($this->noteForm->get('private'), 'append');
-                echo $this->translate($this->noteForm->get('private')->getLabel());
-                echo '</label>';
-                echo '<div class="form-actions">';
-                echo $this->ztbFormElement($this->noteForm->get('submit'));
-                echo '</div>';
-                echo $this->form()->closeTag();
-            ?>
-        </fieldset>
+        <?php echo $this->render('secretery/note/_noteForm.phtml') ?>
     </div>
 </div>

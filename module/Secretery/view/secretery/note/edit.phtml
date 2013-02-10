@@ -1,0 +1,16 @@
+<div class="row notes">
+    <div class="span12">
+        <h1><?php echo $this->translate('Edit Note') ?></h1>
+        <?php
+            if (!empty($this->msg) && $this->msg[0] == 'error') {
+                echo $this->ztbAlert($this->translate($this->msg[1]), false, 'alert-error');
+            }
+
+            if (true === $this->showKeyRequestForm) {
+                echo $this->render('secretery/note/_decryptForm.phtml');
+            } else {
+                echo $this->render('secretery/note/_noteForm.phtml');
+            }
+        ?>
+    </div>
+</div>

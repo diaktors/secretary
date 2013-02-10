@@ -10,18 +10,10 @@
                 );
             }
         ?>
-        <?php if (true === $this->showForm): ?>
-        <fieldset>
-            <legend><?php echo $this->translate('Decryption Request') ?></legend>
-            <?php echo $this->ztbForm($this->keyRequestForm); ?>
-        </fieldset>
+        <?php if (true === $this->showKeyRequestForm): ?>
+            <?php echo $this->render('secretery/note/_decryptForm.phtml') ?>
         <?php else: ?>
-            <div class="well note">
-                <h2><?php echo $this->escapeHtml($this->note['title']) ?></h2>
-                <div class="noteContent">
-                    <?php echo $this->escapeHtml($this->decrypted) ?>
-                </div>
-            </div>
+            <?php echo $this->render('secretery/note/_noteView.phtml') ?>
             <p>
                 <a class="btn btn-small btn-primary" href="<?php echo $this->url('secretery/note'); ?>">
                     <?php echo $this->translate('Back to overview') ?>
