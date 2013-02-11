@@ -188,13 +188,6 @@ return array(
         )
     ),
 
-    // Controller PlugIns
-    /*'controller_plugins' => array(
-        'invokables' => array(
-            //'zfcuserauthentication' => 'ZfcUser\Controller\Plugin\ZfcUserAuthentication',
-        ),
-    ),*/
-
     // View
     'view_manager' => array(
         'display_not_found_reason' => true,
