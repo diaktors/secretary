@@ -9,23 +9,11 @@
 return array(
     'bjyauthorize' => array(
         'default_role'          => 'guest',
-        'identity_provider'     => 'BjyAuthorize\Provider\Identity\ZfcUserDoctrine',
+        'identity_provider'     => 'BjyAuthorize\Provider\Identity\AuthenticationDoctrineEntity',
         'unauthorized_strategy' => 'BjyAuthorize\View\UnauthorizedStrategy',
         'role_providers'        => array(
-            'BjyAuthorize\Provider\Role\Doctrine' => array(),
-        ),
-        'resource_providers' => array(
-            'BjyAuthorize\Provider\Resource\Config' => array(
-                'pants' => array(),
-            ),
-        ),
-        'rule_providers' => array(
-            'BjyAuthorize\Provider\Rule\Config' => array(
-                'allow' => array(
-                    array(array('guest', 'user'), 'dashboard', 'use'),
-                    array(array('guest', 'user'), 'key', 'use')
-                ),
-                'deny' => array(),
+            'BjyAuthorize\Provider\Role\DoctrineEntity' => array(
+                'role_entity_class' => 'Secretery\Entity\Role'
             ),
         ),
         'guards' => array(
@@ -41,19 +29,24 @@ return array(
                 array('route' => 'secretery/note', 'roles' => array('user')),
             ),
         ),
+        'resource_providers' => array(
+            'BjyAuthorize\Provider\Resource\Config' => array(
+                'dashboard' => array(),
+                'key' => array(),
+                'notes' => array(),
+            ),
+        ),
+        'rule_providers' => array(
+            'BjyAuthorize\Provider\Rule\Config' => array(
+                'allow' => array(
+                    array(array('user'), 'dashboard', 'use'),
+                    array(array('user'), 'key', 'use'),
+                    array(array('user'), 'notes', 'use')
+                ),
+                'deny' => array(),
+            ),
+        ),
         'template'  => 'error/403',
-    ),
-    'service_manager' => array(
-        'factories' => array(
-            'BjyAuthorize\Guard\Controller' => function (\Zend\ServiceManager\ServiceLocatorInterface $sl) {
-                $config = $sl->get('config');
-                return new \BjyAuthorize\Guard\Controller($config['bjyauthorize']['guards']['BjyAuthorize\Guard\Controller'], $sl);
-            },
-            'BjyAuthorize\Guard\Route' => function (\Zend\ServiceManager\ServiceLocatorInterface $sl) {
-                $config = $sl->get('config');
-                return new \BjyAuthorize\Guard\Route($config['bjyauthorize']['guards']['BjyAuthorize\Guard\Route'], $sl);
-            },
-        )
     ),
     'view_manager' => array(
         'template_map' => array(

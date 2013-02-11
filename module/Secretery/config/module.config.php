@@ -47,26 +47,27 @@ return array(
             'dashboard' => array(
                 'label' => 'Dashboard',
                 'route' => 'home',
-                'module' => 'wesrc',
+                'module' => 'secretery',
                 'controller' => 'Secretery\Controller\Index',
                 'action' => 'index',
-                'resource' => 'route/secretery/dashboard'
+                'resource' => 'dashboard',
+                'privilege' => 'use'
             ),
             'key' => array(
                 'label' => 'Manage Key',
                 'route' => 'secretery/default',
-                'module' => 'wesrc',
+                'module' => 'secretery',
                 'controller' => 'key',
                 'action' => 'index',
-                'resource' => 'route/secretery/key'
+                'resource' => 'key',
+                'privilege' => 'use'
             ),
             'notes' => array(
                 'label' => 'Manage Notes',
-                'route' => 'secretery/default',
-                'module' => 'wesrc',
-                'controller' => 'note',
-                'action' => 'index',
-                'resource' => 'route/secretery/note'
+                'route' => 'secretery/note',
+                'module' => 'secretery',
+                'resource' => 'notes',
+                'privilege' => 'use'
             ),
         ),
     ),
