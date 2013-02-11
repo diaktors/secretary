@@ -26,6 +26,7 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
         $this->setDoctrinePersistentObject($e);
+
         // Add translation for Validators
         /* @var $translator \Zend\I18n\Translator\Translator */
         $translator = $e->getApplication()->getServiceManager()->get('translator');
@@ -36,6 +37,12 @@ class Module
             $translator->getLocale()
         );
         \Zend\Validator\AbstractValidator::setDefaultTranslator($translator);
+
+        /* @var $zfcServiceEvents \Zend\EventManager\EventManager */
+        $zfcServiceEvents = $e->getApplication()->getServiceManager()
+            ->get('zfcuser_user_service')->getEventManager();
+        $userService = $e->getApplication()->getServiceManager()->get('user-service');
+        $zfcServiceEvents->attach('register.post', array($userService, 'saveUserRole'));
     }
 
     public function init(ModuleManager $moduleManager)
@@ -80,13 +87,11 @@ class Module
     {
         return array(
             'factories' => array(
-                'navigation' => function ($sm) {
-                    $locator = $sm->getServiceLocator();
+                'navigation' => function (\Zend\View\HelperPluginManager $sm) {
                     /* @var $navigation \Zend\View\Helper\Navigation */
-                    $navigation = $locator->get('Zend\View\Helper\Navigation');
+                    $navigation = $sm->get('Zend\View\Helper\Navigation');
 
-                    // Setup ACL:
-                    /*$acl = $sm->getServiceLocator()
+                    $acl = $sm->getServiceLocator()
                         ->get('BjyAuthorize\Service\Authorize')
                         ->getAcl();
 
@@ -97,10 +102,15 @@ class Module
 
                     if (is_array($role) && isset($role[0])) {
                         $role = $role[0];
+                    } else {
+                        $role = 'guest';
                     }
-                    // Store ACL and role in the proxy helper:
+
                     $navigation->setAcl($acl)
-                        ->setRole($role);*/
+                        ->setRole($role);
+
+                    //\Zend\View\Helper\Navigation::setDefaultAcl($acl);
+                    //\Zend\View\Helper\Navigation::setDefaultRole($role);
 
                     return $navigation;
                 }
