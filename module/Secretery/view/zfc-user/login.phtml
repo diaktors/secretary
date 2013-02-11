@@ -12,7 +12,7 @@ $form->get('identity')->setOptions(array('label' => 'Email'));
     <?php
         $messages = $form->get('identity')->getMessages();
         if (!empty($messages)) {
-            echo $this->ztbAlert($messages[0], false, 'alert-error');
+            echo $this->ztbAlert($this->translate($messages[0]), false, 'alert-error');
             $form->get('identity')->setMessages(array());
         }
 
