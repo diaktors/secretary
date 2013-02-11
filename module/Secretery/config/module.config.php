@@ -13,6 +13,7 @@ use Secretery\Controller\KeyController;
 use Secretery\Controller\NoteController;
 use Secretery\Service\Key as KeyService;
 use Secretery\Service\Note as NoteService;
+use Secretery\Service\User as UserService;
 use Secretery\Service\Encryption as EncryptionService;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\ServiceManager;
@@ -148,6 +149,12 @@ return array(
                 $encService = $sm->get('encryption-service');
                 $service->setEntityManager($em);
                 $service->setEncryptionService($encService);
+                return $service;
+            },
+            'user-service' => function(ServiceManager $sm) {
+                $service = new UserService();
+                $em      = $sm->get('doctrine.entitymanager.orm_default');
+                $service->setEntityManager($em);
                 return $service;
             },
         ),
