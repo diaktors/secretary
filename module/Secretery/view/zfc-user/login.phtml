@@ -1,0 +1,44 @@
+<?php
+$form = $this->loginForm;
+$form->prepare();
+$form->setAttribute('action', $this->url('zfcuser/login'));
+$form->setAttribute('method', 'post');
+$form->setAttribute('class', 'form-horizontal');
+$form->get('submit')->setAttribute('class', 'btn btn-primary');
+$form->get('identity')->setOptions(array('label' => 'Email'));
+?>
+<fieldset>
+    <legend><?php echo $this->translate('Sign In') ?></legend>
+    <?php
+        $messages = $form->get('identity')->getMessages();
+        if (!empty($messages)) {
+            echo $this->ztbAlert($messages[0], false, 'alert-error');
+            $form->get('identity')->setMessages(array());
+        }
+
+        echo $this->form()->openTag($form);
+        echo $this->ztbFormElement($form->get('identity'));
+        echo $this->ztbFormElement($form->get('credential'));
+        if ($this->redirect) {
+            echo '<input type="hidden" name="redirect" value="' . $this->redirect . '" />';
+        }
+        echo '<div class="form-actions">';
+        echo $this->formElement($form->get('submit'));
+        echo '</div>';
+        echo $this->form()->closeTag();
+    ?>
+</fieldset>
+
+<?php
+    if ($this->enableRegistration) {
+        echo $this->translate('Not registered?');
+        $redirect = '';
+        if (!empty($this->redirect)) {
+            $redirect = '?redirect=' . $this->redirect;
+        }
+        echo sprintf(
+            ' <a href="%s%s">%s</a>',
+            $this->url('zfcuser/register'), $redirect, $this->translate('Sign up!')
+        );
+    }
+?>

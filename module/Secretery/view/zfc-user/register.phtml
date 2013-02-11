@@ -1,0 +1,36 @@
+<?php
+    if (!$this->enableRegistration) {
+        echo $this->ztbAlert($this->translate('Registration is disabled'), false, 'alert-error');
+        return;
+    }
+    $form = $this->registerForm;
+    $form->prepare();
+    $form->setAttribute('action', $this->url('zfcuser/register'));
+    $form->setAttribute('method', 'post');
+    $form->setAttribute('class', 'form-horizontal');
+    $form->get('submit')->setAttribute('class', 'btn btn-primary');
+?>
+
+<fieldset>
+    <legend><?php echo $this->translate('Register') ?></legend>
+    <?php
+    $messages = $form->getMessages();
+    if (!empty($messages)) {
+        //echo $this->ztbAlert($messages[0], false, 'alert-error');
+    }
+
+    echo $this->form()->openTag($form);
+    foreach ($form as $element) {
+        if ('submit' != $element->getName()) {
+            echo $this->ztbFormElement($element);
+        }
+    }
+    echo '<div class="form-actions">';
+    echo $this->formElement($form->get('submit'));
+    echo '</div>';
+    if ($this->redirect) {
+        echo '<input type="hidden" name="redirect" value="' . $this->redirect .'" />';
+    }
+    echo $this->form()->closeTag();
+    ?>
+</fieldset>
