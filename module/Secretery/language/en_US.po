@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 22:17-0700\n"
-"PO-Revision-Date: 2013-02-10 04:04+0100\n"
+"PO-Revision-Date: 2013-02-10 22:12+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contibutors <zf-devteam@zend.com>\n"
 "Language: en_US\n"
@@ -96,6 +96,42 @@ msgstr ""
 #: ../view/secretery/index/index.phtml:3
 msgid "A secure place for shared infos"
 msgstr ""
+
+#: ../view/login/login.phtml:11
+msgid "Sign In"
+msgstr ""
+
+#: ../view/login/login.phtml:20 ../view/login/register.phtml:25
+msgid "Email"
+msgstr ""
+
+#: ../view/login/login.phtml:21 ../view/login/register.phtml:25
+msgid "Password"
+msgstr ""
+
+#: ../view/login/login.phtml:34
+msgid "Not registered?"
+msgstr ""
+
+#: ../view/login/login.phtml:41
+msgid "Sign up!"
+msgstr ""
+
+#: ../view/login/login.phtml:15
+msgid "Authentication failed. Please try again."
+msgstr ""
+
+#: ../view/login/register.phtml:15
+msgid "Register"
+msgstr "Registrierung"
+
+#: ../view/login/register.phtml:25
+msgid "Display Name"
+msgstr "Name"
+
+#: ../view/login/register.phtml:25
+msgid "Password Verify"
+msgstr "Passwort Verifzierung"
 
 #: ../view/secretery/key/index.phtml:6
 msgid "Warning"
@@ -235,6 +271,14 @@ msgstr ""
 
 #: ../view/secretery/note/delete.phtml:3
 msgid "Delete Note"
+msgstr ""
+
+#: ../view/secretery/note/delete.phtml:11
+msgid "Do you really want to delete this note?"
+msgstr ""
+
+#: ../view/secretery/note/delete.phtml:16
+msgid "Please confirm with key to delete note"
 msgstr ""
 
 #: ../view/error/index.phtml:1
