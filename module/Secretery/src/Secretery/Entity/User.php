@@ -26,6 +26,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use ZfcUser\Entity\UserInterface;
+use BjyAuthorize\Provider\Role\ProviderInterface;
 //use Doctrine\Common\Persistence\PersistentObject;
 
 /**
@@ -47,7 +48,7 @@ use ZfcUser\Entity\UserInterface;
  * )
  * @ORM\Entity()
  */
-class User implements UserInterface
+class User implements UserInterface, ProviderInterface
 {
     /**
      * @ORM\Column(name="user_id", type="integer")
@@ -99,6 +100,17 @@ class User implements UserInterface
     protected $dateUpdated;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\ManyToMany(targetEntity="Secretery\Entity\Role")
+     * @ORM\JoinTable(name="user2role",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+     * )
+     */
+    protected $roles;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
      * @ORM\OneToMany(targetEntity="User2Note", mappedBy="user", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="id", referencedColumnName="user_id")
      */
@@ -237,6 +249,27 @@ class User implements UserInterface
     }
 
     /**
+     * Get role.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * Add a role to the user.
+     *
+     * @param  Role $role
+     * @return void
+     */
+    public function addRole(Role $role)
+    {
+        $this->roles[] = $role;
+    }
+
+    /**
      * Add user 2 note relation
      *
      * @param  User2Note $user2note
@@ -274,6 +307,7 @@ class User implements UserInterface
      */
     public function __construct()
     {
+        $this->roles     = new ArrayCollection();
         $this->user2note = new ArrayCollection();
     }
 
