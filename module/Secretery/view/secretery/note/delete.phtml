@@ -14,18 +14,7 @@
 
             <div class="well well-small"><fieldset>
                <legend><?php echo $this->translate('Please confirm with key to delete note') ?></legend>
-                <?php
-                    $url = $this->url('secretery/note', array(
-                        'action' => 'delete', 'id' => $this->note['id'])
-                    );
-                    /* @var $keyRequestForm \Zend\Form\Form */
-                    $keyRequestForm = $this->keyRequestForm;
-                    $keyRequestForm->setAttribute('action', $url);
-                    $keyRequestForm->get('key-request')->setName('confirm');
-                    $keyRequestForm->get('submit')->setValue('Delete note');
-                    $keyRequestForm->get('passphrase')->setValue('');
-                    echo $this->ztbForm($keyRequestForm);
-                ?>
+                <?php echo $this->ztbForm($keyRequestForm) ?>
            </fieldset></div>
             <p>
                 <a class="btn btn-small" href="<?php echo $this->url('secretery/note'); ?>">

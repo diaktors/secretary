@@ -321,7 +321,7 @@ class NoteController extends ActionController
         $viewModel->setVariable('keyRequestForm', $keyRequestForm);
 
         // Render Key Request form
-        if (!$this->getRequest()->isPost() && !$this->getRequest()->getQuery('confirm')) {
+        if (!$this->getRequest()->isPost()) {
             return $viewModel;
         }
 
@@ -355,7 +355,13 @@ class NoteController extends ActionController
             return $this->redirect()->toRoute('secretery/note');
         }
 
-        // Success
+
+        // Change settings of key request form
+        $keyRequestForm->get('key-request')->setName('confirm');
+        $keyRequestForm->get('submit')->setValue('Delete note');
+        $keyRequestForm->get('passphrase')->setValue('');
+
+        // Show delete verification form
         $viewModel->setVariable('note', $noteDecrypted['note']);
         $viewModel->setVariable('decrypted', $noteDecrypted['decrypted']);
         $viewModel->setVariable('showKeyRequestForm', false);
