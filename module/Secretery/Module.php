@@ -22,11 +22,20 @@ class Module
      */
     public function onBootstrap(MvcEvent $e)
     {
-        $e->getApplication()->getServiceManager()->get('translator');
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
         $this->setDoctrinePersistentObject($e);
+        // Add translation for Validators
+        /* @var $translator \Zend\I18n\Translator\Translator */
+        $translator = $e->getApplication()->getServiceManager()->get('translator');
+        $translator->addTranslationFile(
+            'phpArray',
+            __DIR__ . '/../../vendor/zendframework/zendframework/resources/languages/de/Zend_Validate.php',
+            'default',
+            $translator->getLocale()
+        );
+        \Zend\Validator\AbstractValidator::setDefaultTranslator($translator);
     }
 
     public function init(ModuleManager $moduleManager)
