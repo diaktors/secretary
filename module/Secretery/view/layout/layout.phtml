@@ -75,15 +75,7 @@
             </div>
         </div>
         <div class="container">
-            <?php if (!$this->zfcUserIdentity()): ?>
-                <?php if (!empty($this->routeMatch)): ?>
-                    <?php echo $this->zfcUserLoginWidget(array('redirect' => '/')); ?>
-                <?php else: ?>
-                    <?php echo $this->content; ?>
-                <?php endif; ?>
-            <?php else: ?>
-                <?php echo $this->content; ?>
-            <?php endif ?>
+            <?php echo $this->content ?>
             <footer>
                 <p>&copy; 2013 by Wesrc. <?php echo $this->translate('All rights reserved.') ?></p>
             </footer>
