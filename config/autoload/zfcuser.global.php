@@ -49,7 +49,7 @@ $settings = array(
      *
      * Accepted values: boolean true or false
      */
-    'enable_username' => true,
+    //'enable_username' => true,
 
     /**
      * Enable Display Name
@@ -100,7 +100,7 @@ $settings = array(
      *
      * Accepted values: boolean true or false
      */
-    //'login_after_registration' => true,
+    'login_after_registration' => false,
 
     /**
      * Registration Form Captcha
@@ -133,7 +133,7 @@ $settings = array(
      *
      * Accepted values: boolean true or false
      */
-    //'use_redirect_parameter_if_present' => true,
+    'use_redirect_parameter_if_present' => true,
 
     /**
      * Sets the view template for the user login widget
@@ -141,7 +141,7 @@ $settings = array(
      * Default value: 'zfc-user/user/login.phtml'
      * Accepted values: string path to a view script
      */
-    //'user_login_widget_view_template' => 'zfc-user/user/login.phtml',
+    'user_login_widget_view_template' => 'zfc-user/login',
 
     /**
      * Login Redirect Route
@@ -192,7 +192,7 @@ $settings = array(
      * 
      * Should user's state be used in the registration/login process?
      */
-    //'enable_user_state' => true,
+    'enable_user_state' => true,
     
     /**
      * Default user state upon registration
@@ -200,7 +200,7 @@ $settings = array(
      * What state user should have upon registration?
      * Allowed value type: integer
      */
-    //'default_user_state' => 1,
+    'default_user_state' => 0,
     
     /**
      * States which are allowing user to login
@@ -209,7 +209,7 @@ $settings = array(
      * Include null if you want user's with no state to login as well.
      * Allowed value types: null and integer
      */
-    //'allowed_login_states' => array( null, 1 ),
+    'allowed_login_states' => array( null, 0, 1 ),
     
     /**
      * End of ZfcUser configuration
