@@ -202,6 +202,8 @@ return array(
             'secretery/key/success'   => __DIR__ . '/../view/secretery/key/success.phtml',
             'secretery/note/index'    => __DIR__ . '/../view/secretery/note/index.phtml',
             'secretery/note/add'      => __DIR__ . '/../view/secretery/note/add.phtml',
+            'zfc-user/user/login'     => __DIR__ . '/../view/zfc-user/login.phtml',
+            'zfc-user/user/register'  => __DIR__ . '/../view/zfc-user/register.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),
