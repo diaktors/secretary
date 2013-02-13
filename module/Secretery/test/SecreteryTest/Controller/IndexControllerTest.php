@@ -2,47 +2,30 @@
 
 namespace SecreteryTest\Controller;
 
-use SecreteryTest\Bootstrap;
-use Zend\Mvc\Router\Http\TreeRouteStack as HttpRouter;
-use Secretery\Controller\IndexController;
-use Zend\Http\Request;
-use Zend\Http\Response;
-use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch;
-use PHPUnit_Framework_TestCase;
-
-class IndexControllerTest extends PHPUnit_Framework_TestCase
+class IndexControllerTest extends AuthController
 {
-    protected $controller;
-    protected $request;
-    protected $response;
-    protected $routeMatch;
-    protected $event;
-
-    protected function setUp()
+    public function setUp()
     {
-        $serviceManager = Bootstrap::getServiceManager();
-        $this->controller = new IndexController();
-        $this->request    = new Request();
-        $this->routeMatch = new RouteMatch(array('controller' => 'index'));
-        $this->event      = new MvcEvent();
-        $config = $serviceManager->get('Config');
-        $routerConfig = isset($config['router']) ? $config['router'] : array();
-        $router = HttpRouter::factory($routerConfig);
-
-        $this->event->setRouter($router);
-        $this->event->setRouteMatch($this->routeMatch);
-        $this->controller->setEvent($this->event);
-        $this->controller->setServiceLocator($serviceManager);
+        $this->setApplicationConfig(
+            include dirname(__DIR__) . '/../../../../config/test/application.config.php'
+        );
+        parent::setUp();
     }
 
     public function testIndexActionCanBeAccessed()
     {
-        $this->routeMatch->setParam('action', 'index');
-
-        $result   = $this->controller->dispatch($this->request);
-        $response = $this->controller->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->dispatch('/');
+        $this->assertResponseStatusCode(200);
+        $this->assertModuleName('Secretery');
+        $this->assertControllerName('secretery\controller\index');
+        $this->assertControllerClass('IndexController');
+        $this->assertMatchedRouteName('home');
+        $this->assertActionName('index');
+        $this->assertQuery("*/div[@class='hero-unit']");
+        $this->assertQuery("*/a[@class='brand']");
+        $this->assertQueryContentContains("*/a[@class='brand']", 'Secretery');
+        $this->assertQuery("*/form[@action='/user/login']");
+        $this->assertQuery("*/input[@name='identity']");
+        $this->assertQuery("*/input[@name='credential']");
     }
 }
