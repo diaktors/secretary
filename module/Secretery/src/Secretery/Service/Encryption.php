@@ -137,7 +137,7 @@ class Encryption
      *
      * @param  string $key
      * @param  string $passphrase
-     * @return void
+     * @return true
      * @throws \InvalidArgumentException If key is empty
      * @throws \LogicException           If key is not readable as key
      */
@@ -151,6 +151,6 @@ class Encryption
             throw new \LogicException('Key is not readable');
         }
         openssl_free_key($pk);
-        return;
+        return true;
     }
 }
