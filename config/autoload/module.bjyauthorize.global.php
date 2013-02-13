@@ -50,7 +50,7 @@ return array(
     ),
     'view_manager' => array(
         'template_map' => array(
-            'error/403' => __DIR__ . '/../../vendor/bjyoungblood/bjy-authorize/view/error/403.phtml',
+            'error/403' => __DIR__ . '/../../module/Secretery/view/error/403.phtml',
         ),
     ),
 );

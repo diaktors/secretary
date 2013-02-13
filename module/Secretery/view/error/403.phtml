@@ -1,0 +1,15 @@
+<h1><?php echo $this->translate('403 Forbidden') ?></h1>
+<p><?php
+    if ($error == 'error-unauthorized-controller') {
+        echo sprintf('%s %s', $this->translate('You are not authorized to access'), $controller);
+        if ($action) {
+            echo $action . 'Action()';
+        }
+    } elseif ($error == 'error-unauthorized-route') {
+        echo sprintf('%s %s', $this->translate('You are not authorized to access'), $route);
+    } elseif ($error == 'error-unauthorized') {
+        echo sprintf('%s %s', $this->translate('You are not authorized'), $reason);
+    } else {
+        echo $this->translate('An unknown error occurred');
+    }
+?></p>
