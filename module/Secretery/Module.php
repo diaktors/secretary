@@ -38,6 +38,7 @@ class Module
         );
         \Zend\Validator\AbstractValidator::setDefaultTranslator($translator);
 
+        // Attach to ZfcUser register.post event to create user role
         /* @var $zfcServiceEvents \Zend\EventManager\EventManager */
         $zfcServiceEvents = $e->getApplication()->getServiceManager()
             ->get('zfcuser_user_service')->getEventManager();
