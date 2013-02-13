@@ -153,6 +153,7 @@ return array(
             },
             'user-service' => function(ServiceManager $sm) {
                 $service = new UserService();
+                /* @var $em EntityManager */
                 $em      = $sm->get('doctrine.entitymanager.orm_default');
                 $service->setEntityManager($em);
                 return $service;
@@ -211,6 +212,7 @@ return array(
             'secretery/note/add'      => __DIR__ . '/../view/secretery/note/add.phtml',
             'zfc-user/user/login'     => __DIR__ . '/../view/zfc-user/login.phtml',
             'zfc-user/user/register'  => __DIR__ . '/../view/zfc-user/register.phtml',
+            'error/403'               => __DIR__ . '/../view/error/403.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),
