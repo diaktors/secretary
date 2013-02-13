@@ -165,7 +165,7 @@ class ActionController extends \Zend\Mvc\Controller\AbstractActionController
         $uri = new \StdClass();
 
         $uri->absolute = $this->getRequest()->getUri();
-        $uri->relative = $this->getRequest()->getRequestUri();
+        //$uri->relative = $this->getRequest()->getRequestUri();
 
         $uri->scheme   = parse_url($uri->absolute, PHP_URL_SCHEME);
         $uri->host     = parse_url($uri->absolute, PHP_URL_HOST);
