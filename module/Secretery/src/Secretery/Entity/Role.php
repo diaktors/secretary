@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * An example entity that represents a role.
  *
  * @ORM\Entity
- * @ORM\Table(name="role")
+ * @ORM\Table(name="`role`")
  *
  * @author Tom Oram <tom@scl.co.uk>
  */
@@ -37,7 +37,7 @@ class Role implements HierarchicalRoleInterface
 
     /**
      * @var string
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", name="`default`")
      */
     protected $default = false;
 
@@ -60,13 +60,13 @@ class Role implements HierarchicalRoleInterface
     /**
      * Set the id.
      *
-     * @param int $id
-     *
-     * @return void
+     * @param  int $id
+     * @return self
      */
     public function setId($id)
     {
         $this->id = (int)$id;
+        return $this;
     }
 
     /**
@@ -82,13 +82,13 @@ class Role implements HierarchicalRoleInterface
     /**
      * Set the role id.
      *
-     * @param string $roleId
-     *
-     * @return void
+     * @param  string $roleId
+     * @return self
      */
     public function setRoleId($roleId)
     {
         $this->roleId = (string) $roleId;
+        return $this;
     }
 
     /**
@@ -104,12 +104,34 @@ class Role implements HierarchicalRoleInterface
     /**
      * Set the parent role.
      *
-     * @param Role $role
-     *
-     * @return void
+     * @param  Role $role
+     * @return self
      */
     public function setParent(Role $parent)
     {
         $this->parent = $parent;
+        return $this;
+    }
+
+    /**
+     * Get the default
+     *
+     * @return Role
+     */
+    public function getDefault()
+    {
+        return $this->default;
+    }
+
+    /**
+     * Set the default.
+     *
+     * @param  bool $default
+     * @return self
+     */
+    public function setDefault($default)
+    {
+        $this->default = (bool) $default;
+        return $this;
     }
 }
