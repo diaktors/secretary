@@ -39,7 +39,7 @@ class Group extends Base
 {
     /**
      * @param  int $userId
-     * @return array
+     * @return GroupEntity
      * @throws \InvalidArgumentException If UserID is invalid
      */
     public function fetchGroup($groupId)
