@@ -11,6 +11,8 @@ namespace Secretery;
 
 use Secretery\Controller\KeyController;
 use Secretery\Controller\NoteController;
+use Secretery\Controller\GroupController;
+use Secretery\Service\Group as GroupService;
 use Secretery\Service\Key as KeyService;
 use Secretery\Service\Note as NoteService;
 use Secretery\Service\User as UserService;
@@ -70,6 +72,13 @@ return array(
                 'resource' => 'notes',
                 'privilege' => 'use'
             ),
+            'groups' => array(
+                'label' => 'Manage Groups',
+                'route' => 'secretery/group',
+                'module' => 'secretery',
+                'resource' => 'groups',
+                'privilege' => 'use'
+            ),
         ),
     ),
 
@@ -124,6 +133,20 @@ return array(
                             ),
                         ),
                     ),
+                    'group' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/group[/:action[/:id]]',
+                            'constraints' => array(
+                                'action'  => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'      => '[0-9]*',
+                            ),
+                            'defaults' => array(
+                                'controller'    => 'Group',
+                                'action'        => 'index',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
@@ -144,7 +167,7 @@ return array(
             'note-service' => function(ServiceManager $sm) {
                 $service = new NoteService();
                 /* @var $em EntityManager */
-                $em         = $sm->get('doctrine.entitymanager.orm_default');
+                $em = $sm->get('doctrine.entitymanager.orm_default');
                 /* @var $encService EncryptionService */
                 $encService = $sm->get('encryption-service');
                 $service->setEntityManager($em);
@@ -154,13 +177,21 @@ return array(
             'user-service' => function(ServiceManager $sm) {
                 $service = new UserService();
                 /* @var $em EntityManager */
-                $em      = $sm->get('doctrine.entitymanager.orm_default');
+                $em = $sm->get('doctrine.entitymanager.orm_default');
+                $service->setEntityManager($em);
+                return $service;
+            },
+            'group-service' => function(ServiceManager $sm) {
+                $service = new GroupService();
+                /* @var $em EntityManager */
+                $em = $sm->get('doctrine.entitymanager.orm_default');
                 $service->setEntityManager($em);
                 return $service;
             },
         ),
         'invokables' => array(
             'encryption-service' => 'Secretery\Service\Encryption',
+            'groupMember-form'   => 'Secretery\Form\GroupMember',
         ),
     ),
 
@@ -191,6 +222,11 @@ return array(
             'Secretery\Controller\Note' => function(ControllerManager $cm) {
                 $controller = new NoteController();
                 $controller->setNoteService($cm->getServiceLocator()->get('note-service'));
+                return $controller;
+            },
+            'Secretery\Controller\Group' => function(ControllerManager $cm) {
+                $controller = new GroupController();
+                $controller->setGroupService($cm->getServiceLocator()->get('group-service'));
                 return $controller;
             },
         )
