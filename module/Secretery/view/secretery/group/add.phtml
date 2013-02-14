@@ -1,0 +1,19 @@
+<div class="row groups">
+    <div class="span12">
+        <h1><?php
+            if (isset($this->editMode)) {
+                $actionTitle = 'Edit Group';
+            } else {
+                $actionTitle = 'Add Group';
+            }
+            echo $this->translate($actionTitle);
+        ?></h1>
+        <?php
+            if (!empty($this->msg) && $this->msg[0] == 'error') {
+                echo $this->ztbAlert($this->translate($this->msg[1]), false, 'alert-error');
+            }
+        ?>
+
+        <?php echo $this->render('secretery/group/_groupForm.phtml') ?>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="row groups">
+    <div class="span12">
+        <h1><?php echo $this->translate('Leave Group') ?></h1>
+        <?php
+            if (!empty($this->msg) && $this->msg[0] == 'error') {
+                echo $this->ztbAlert($this->translate($this->msg[1]), false, 'alert-error');
+            }
+            echo $this->ztbAlert($this->translate('Do you really want to leave this group?'), false, 'alert-error');
+        ?>
+
+        <div class="well-small">
+            <p>
+                <strong><?php echo $this->translate('Groupname') ?>: </strong>
+                <?php echo $this->escapeHtml($this->groupRecord->getName()) ?>
+            </p>
+            <p>&nbsp;</p>
+            <p>
+                <a class="btn btn-danger" href="<?php echo $this->url('secretery/group', array('action' => 'leave', 'id' => $this->groupRecord->getId())) ?>?confirm=1">
+                    <?php echo $this->translate('Leave Project') ?>
+                </a>
+                <a class="btn" href="<?php echo $this->url('secretery/group') ?>">
+                    <i class="icon-arrow-left"><?php echo $this->translate('Back to overview') ?></i>
+                </a>
+            </p>
+        </div>
+    </div>
+</div>

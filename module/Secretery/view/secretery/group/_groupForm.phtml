@@ -1,0 +1,11 @@
+<h2><?php
+    if (isset($this->editMode)) {
+        $actionTitle = 'Save Group';
+    } else {
+        $actionTitle = 'Create Group';
+    }
+    echo $this->translate($actionTitle);
+?></h2>
+<fieldset>
+    <?php echo $this->ztbForm($this->groupForm); ?>
+</fieldset>

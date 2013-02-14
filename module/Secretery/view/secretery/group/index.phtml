@@ -1,0 +1,84 @@
+<div class="row groups">
+    <div class="span12">
+        <h1><?php echo $this->translate('Manage Groups') ?></h1>
+
+        <?php if (!empty($this->msg) && $this->msg[0] == 'success') {
+        echo $this->ztbAlert($this->msg[1], false, 'alert-success');
+    } ?>
+    </div>
+    <div class="span6">
+        <h2><?php echo $this->translate('Group Memberships') ?></h2>
+        <?php if ($this->groupCollection->count() > 0): ?>
+        <table class="table table-striped" summary="List of User Groups">
+            <thead>
+                <tr>
+                    <th class="title"><?php echo $this->translate('Note title') ?></th>
+                    <th class="date"><?php echo $this->translate('Note date') ?></th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->groupCollection as $group): ?>
+                <tr>
+                    <td class="title">
+                        <a href="<?php echo $this->url('secretery/group', array('action' => 'members', 'id' => $group->getId())) ?>">
+                            <?php echo $this->escapeHtml($group->getName()); ?>
+                        </a>
+                    </td>
+                    <td class="date"><?php echo $this->escapeHtml($group->getDateCreated()->format('Y-m-d H:i:s')); ?></td>
+                    <td class="funcs">
+                        <a href="<?php echo $this->url('secretery/group', array('action' => 'members', 'id' => $group->getId())) ?>">
+                            <i class="icon-user" title="<?php echo $this->translate('view group members') ?>"></i>
+                        </a>
+                        <?php if ($this->zfcuseridentity()->getId() == $group->getOwner()): ?>
+                            <a href="<?php echo $this->url('secretery/group', array('action' => 'edit', 'id' => $group->getId())) ?>">
+                                <i class="icon-pencil" title="<?php echo $this->translate('edit') ?>"></i>
+                            </a>
+                        <?php endif; ?>
+                        <a href="<?php echo $this->url('secretery/group', array('action' => 'leave', 'id' => $group->getId())) ?>">
+                            <i class="icon-road" title="<?php echo $this->translate('leave') ?>"></i>
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php else:  ?>
+            <?php echo $this->ztbAlert($this->translate('You are not member of any group right now'), false, 'alert-error') ?>
+        <?php endif; ?>
+    </div>
+
+    <div class="span5 offset1 rightBox">
+        <?php if (isset($this->memberMode)): ?>
+            <h2><?php echo $this->groupRecord->getName() ?></h2>
+            <p><strong><?php echo $this->translate('Group Members') ?></strong></p>
+            <ul>
+            <?php foreach ($this->groupRecord->getUsers() as $user): ?>
+                <li>
+                    <?php echo sprintf('%s (%s)', $user->getDisplayName(), $user->getEmail()) ?>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+            <?php if ($this->zfcuseridentity()->getId() == $this->groupRecord->getOwner()): ?>
+                <div class="well well-small">
+                    <p><strong><?php echo $this->translate('Add new Group Member') ?></strong></p>
+                    <?php
+                        echo $this->form()->openTag($this->newMemberForm);
+                        echo $this->formElement($this->newMemberForm->get('newMember'));
+                        echo $this->formElement($this->newMemberForm->get('submit'));
+                        echo $this->form()->closeTag();
+                    ?>
+                </div>
+            <?php endif; ?>
+            <p class="backBtn">
+                <a class="btn btn-small" href="<?php echo $this->url('secretery/group') ?>">
+                    <i class="icon-arrow-left"></i> <?php echo $this->translate('Back to overview') ?>
+                </a>
+            </p>
+        <?php else: ?>
+
+            <?php echo $this->render('secretery/group/_groupForm.phtml') ?>
+
+        <?php endif; ?>
+    </div>
+</div>
