@@ -131,6 +131,19 @@ class Module implements BootstrapListenerInterface,
         );
     }
 
+    public function getFormElementConfig()
+    {
+        return array(
+            'factories' => array('Secretery\Form\GroupMember' => function($sm) {
+                $serviceLocator = $sm->getServiceLocator();
+                $em = $serviceLocator->get('doctrine.entitymanager.orm_default');
+                $form = new \Secretery\Form\GroupMember();
+                $form->setObjectManager($em);
+                return $form;
+            })
+        );
+    }
+
     /**
      * @param  \Zend\Mvc\MvcEvent $e
      * @return void
