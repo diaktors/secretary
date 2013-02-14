@@ -27,13 +27,15 @@ return array(
                 array('route' => 'home', 'roles' => array('guest', 'user')),
                 array('route' => 'secretery/default', 'roles' => array('user')),
                 array('route' => 'secretery/note', 'roles' => array('user')),
+                array('route' => 'secretery/group', 'roles' => array('user')),
             ),
         ),
         'resource_providers' => array(
             'BjyAuthorize\Provider\Resource\Config' => array(
                 'dashboard' => array(),
-                'key' => array(),
-                'notes' => array(),
+                'key'       => array(),
+                'notes'     => array(),
+                'groups'    => array(),
             ),
         ),
         'rule_providers' => array(
@@ -41,7 +43,8 @@ return array(
                 'allow' => array(
                     array(array('user'), 'dashboard', 'use'),
                     array(array('user'), 'key', 'use'),
-                    array(array('user'), 'notes', 'use')
+                    array(array('user'), 'notes', 'use'),
+                    array(array('user'), 'groups', 'use')
                 ),
                 'deny' => array(),
             ),
