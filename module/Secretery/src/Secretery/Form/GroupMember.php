@@ -90,7 +90,7 @@ class GroupMember extends Form implements ObjectManagerAwareInterface
             'name' => 'submit',
             'attributes' => array(
                 'type'   => 'submit',
-                'value'  => 'Add Group Member',
+                'value'  => 'add',
                 'class'  => 'btn btn-primary'
             ),
         ));
