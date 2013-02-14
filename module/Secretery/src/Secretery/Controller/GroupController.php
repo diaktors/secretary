@@ -217,9 +217,23 @@ class GroupController extends ActionController
             return $this->redirect()->toRoute('secretery/group');
         }
 
+        $groupCollection = $this->identity->getGroups();
+        $messages       = $this->flashMessenger()->getCurrentSuccessMessages();
+        $msg            = false;
+        if (!empty($messages)) {
+            $msg = array('success', $messages[0]);
+        }
+        $this->flashMessenger()->clearMessages();
+
         $form      = $this->getGroupForm('edit', $groupId);
         $viewModel = new ViewModel();
-        $viewVars  = array('groupForm' => $form, 'editMode' => true);
+        $viewVars  = array(
+            'groupRecord'     => $groupRecord,
+            'groupCollection' => $groupCollection,
+            'msg'             => $msg,
+            'groupForm'       => $form,
+            'editMode' => true
+        );
         $form->setData(array('groupname' => $groupRecord->getName()));
 
         if ($this->getRequest()->isPost()) {
@@ -249,7 +263,7 @@ class GroupController extends ActionController
         }
 
         $viewModel->setVariables($viewVars);
-        $viewModel->setTemplate('secretery/group/add');
+        $viewModel->setTemplate('secretery/group/index');
         return $viewModel;
     }
 

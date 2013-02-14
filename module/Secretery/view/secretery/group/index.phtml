@@ -19,7 +19,7 @@
             </thead>
             <tbody>
             <?php foreach ($this->groupCollection as $group): ?>
-                <tr>
+                <tr<?php if (isset($this->groupRecord) && $this->groupRecord->getId() == $group->getId()) { echo ' class="alert alert-error"'; } ?>>
                     <td class="title">
                         <a href="<?php echo $this->url('secretery/group', array('action' => 'members', 'id' => $group->getId())) ?>">
                             <?php echo $this->escapeHtml($group->getName()); ?>
@@ -50,7 +50,10 @@
 
     <div class="span5 offset1 rightBox">
         <?php if (isset($this->memberMode)): ?>
-            <h2><?php echo $this->groupRecord->getName() ?></h2>
+            <h2>
+                <?php echo $this->translate('Group') ?>:
+                <?php echo $this->groupRecord->getName() ?>
+            </h2>
             <p><strong><?php echo $this->translate('Group Members') ?></strong></p>
             <ul>
             <?php foreach ($this->groupRecord->getUsers() as $user): ?>
@@ -78,6 +81,13 @@
         <?php else: ?>
 
             <?php echo $this->render('secretery/group/_groupForm.phtml') ?>
+            <?php if (isset($this->editMode)): ?>
+            <p class="backBtn">
+                <a class="btn btn-small" href="<?php echo $this->url('secretery/group') ?>">
+                    <i class="icon-arrow-left"></i> <?php echo $this->translate('Back to overview') ?>
+                </a>
+            </p>
+            <?php endif; ?>
 
         <?php endif; ?>
     </div>

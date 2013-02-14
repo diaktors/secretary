@@ -41,7 +41,7 @@ class Group extends Form
         parent::__construct('groupForm');
         $this->setAttribute('method', 'post')
             ->setAttribute('action', $action)
-            ->setAttribute('class', 'form-horizontal');
+            ->setAttribute('class', 'form-vertical');
         $this->add(array(
             'name' => 'groupname',
             'attributes' => array(
