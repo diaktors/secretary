@@ -45,6 +45,7 @@ class Key extends Form
             'name' => 'passphrase',
             'attributes' => array(
                 'type'   => 'text',
+                'required' => 'required'
             ),
             'options'    => array(
                 'label'  => 'Passphrase',
