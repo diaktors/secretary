@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-02-10 22:12+0100\n"
+"PO-Revision-Date: 2013-02-14 23:18+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
 "Language: de_DE\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: general stuff
@@ -40,6 +40,18 @@ msgstr "Hinzufügen"
 msgid "save"
 msgstr "Sichern"
 
+msgid "leave"
+msgstr "Verlassen"
+
+msgid "title"
+msgstr "Titel"
+
+msgid "date"
+msgstr "Datum"
+
+msgid "Back to overview"
+msgstr "Zurück zur Übersicht"
+
 #: ../view/layout/layout.phtml:6 ../view/layout/layout.phtml:33
 msgid "Secretery"
 msgstr ""
@@ -59,6 +71,10 @@ msgstr "Schlüsselverwaltung"
 #: ../view/layout/layout.phtml:31
 msgid "Manage Notes"
 msgstr "Notizen"
+
+#: ../view/layout/layout.phtml:31
+msgid "Manage Groups"
+msgstr "Gruppen"
 
 #: ../view/layout/layout.phtml:36
 msgid "Login"
@@ -133,69 +149,6 @@ msgstr "Name"
 msgid "Password Verify"
 msgstr "Passwort Verifzierung"
 
-#: ../view/secretery/key/index.phtml:6
-msgid "Warning"
-msgstr "Warnung"
-
-#: ../view/secretery/key/index.phtml:9
-msgid "Private Key can only be generated once"
-msgstr "Der private Schlüssel kann nur einmalig erzeugt werden."
-
-#: ../view/secretery/key/index.phtml:10
-msgid "Please choose a secure passphrase for your key"
-msgstr "Wähle bitte eine sicheres Passwort für den Schlüssel!"
-
-#: ../view/secretery/key/index.phtml:11
-msgid "Backup your key carefully (different places are a good idea)"
-msgstr "Und backupe den Schlüssel auf einem anderen/mehreren Backupmedien."
-
-#: ../view/secretery/key/index.phtml:20 ../src/Secretery/Form/Key.php:56
-msgid "Create Key"
-msgstr "Schlüssel erzeugen"
-
-#: ../view/secretery/key/index.phtml:24
-msgid "You already created a private key"
-msgstr "Du hast bereits einen Schlüssel erzeugt!"
-
-#: ../src/Secretery/Form/Key.php:49
-msgid "Passphrase"
-msgstr "Passwort"
-
-#: ../src/Secretery/Controller/KeyController.php:184
-msgid "Your key was created successfully"
-msgstr "Dein Schlüssel wurde erfolgreich erzeugt."
-
-#: ../view/secretery/key/success.phtml:10
-msgid "The passphrase will be needed again to use the key - so save it!"
-msgstr ""
-"Du wirst das Schlüssel Passwort immer wieder benötigen - speicher/merke es "
-"dir gut!"
-
-#: ../view/secretery/key/success.phtml:14
-msgid "Copy the key to file and name it \"something.pem\""
-msgstr ""
-"Kopiere den Schlüssel(text) in eine Textdatei und nenne sie \"xyz.pem\""
-
-#: ../view/secretery/note/s.phtml:10
-msgid "Add Note"
-msgstr "Notiz hinzufügen"
-
-#: ../view/secretery/note/adds.phtml:5
-msgid "Edit Note"
-msgstr "Notiz bearbeiten"
-
-#: ../view/secretery/note/index.phtml:17 ../src/Secretery/Form/Note.php:51
-msgid "Note title"
-msgstr "Titel"
-
-#: ../src/Secretery/Form/Note.php:60
-msgid "Note text"
-msgstr "Text"
-
-#: ../src/Secretery/Form/Note.php:64
-msgid "Note private"
-msgstr "Privat"
-
 #: ../src/Secretery/Form/KeyRequest.php:58
 msgid "Your private key"
 msgstr "Privater Schlüssel"
@@ -207,82 +160,6 @@ msgstr "Schlüssel Passwort"
 #: ../src/Secretery/Form/KeyRequest.php:75
 msgid "Send key"
 msgstr "Schlüssel abschicken"
-
-#: ../src/Secretery/Controller/NoteController.php:125
-msgid "Note was created successfully"
-msgstr "Die Notiz wurde erfolgreich erstellt"
-
-#: ../src/Secretery/Controller/NoteController.php:180
-msgid "Your key is not readable"
-msgstr "Dein Schlüssel ist nicht lesbar"
-
-#: ../src/Secretery/Controller/NoteController.php:195
-msgid "Note could not be decrypted"
-msgstr "Notiz konnte nicht entschlüsselt werden"
-
-#: ../src/Secretery/Controller/NoteController.php:252
-msgid "Note was updated successfully"
-msgstr "Die Notiz wurde erfolgreich aktualisiert"
-
-#: ../src/Secretery/Controller/NoteController.php:356
-msgid "Note was removed successfully"
-msgstr "Die Notiz wurde erfolgreich gelöscht"
-
-#: ../view/secretery/note/index.phtml:13
-msgid "Private Notes"
-msgstr "Private Notizen"
-
-#: ../view/secretery/note/index.phtml:18
-msgid "Note date"
-msgstr "Datum"
-
-#: ../view/secretery/note/index.phtml:19
-msgid "Note owner"
-msgstr "Eigentümer"
-
-#: ../view/secretery/note/index.phtml:20
-msgid "Note permissions"
-msgstr "Rechte"
-
-#: ../view/secretery/note/index.phtml:61
-msgid "No notes found"
-msgstr "Keine Notizen vorhanden"
-
-#: ../view/secretery/note/add.phtml:20
-msgid "Create Note"
-msgstr "Notiz erstellen"
-
-#: ../view/secretery/note/add.phtml:18
-msgid "Modify Note"
-msgstr "Notiz ändern"
-
-#: ../view/secretery/note/view.phtml:3
-msgid "View Note"
-msgstr "Notiz einsehen"
-
-#: ../src/Secretery/Entity/Note:102
-msgid "Save Note"
-msgstr "Notiz speichern"
-
-#: ../view/secretery/note/view.phtml:15
-msgid "Decryption Request"
-msgstr "Entschlüsseln"
-
-#: ../view/secretery/note/view.phtml:27
-msgid "Back to overview"
-msgstr "Zurück zur Übersicht"
-
-#: ../view/secretery/note/delete.phtml:3
-msgid "Delete Note"
-msgstr "Notiz löschen"
-
-#: ../view/secretery/note/delete.phtml:11
-msgid "Do you really want to delete this note?"
-msgstr "Wollen Sie diese Notiz wirklich löschen?"
-
-#: ../view/secretery/note/delete.phtml:16
-msgid "Please confirm with key to delete note"
-msgstr "Bestätige den Löschvorgang mit deinem Schlüssel"
 
 #: ../view/error/index.phtml:1
 msgid "An error occurred"
