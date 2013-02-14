@@ -46,7 +46,7 @@ use BjyAuthorize\Provider\Role\ProviderInterface;
  *     @ORM\UniqueConstraint(name="email", columns={"email"})
  *   }
  * )
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Secretery\Entity\Repository\User")
  */
 class User implements UserInterface, ProviderInterface
 {
@@ -101,7 +101,7 @@ class User implements UserInterface, ProviderInterface
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     * @ORM\ManyToMany(targetEntity="Secretery\Entity\Role")
+     * @ORM\ManyToMany(targetEntity="Secretery\Entity\Role", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="user2role",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
@@ -115,6 +115,16 @@ class User implements UserInterface, ProviderInterface
      * @ORM\JoinColumn(name="id", referencedColumnName="user_id")
      */
     protected $user2note;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Group", inversedBy="users", cascade={"persist"})
+     * @ORM\JoinTable(name="user2group",
+     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    protected $groups;
 
     /**
      * Get id.
@@ -270,6 +280,16 @@ class User implements UserInterface, ProviderInterface
     }
 
     /**
+     * Get User2Note collection
+     *
+     * @return ArrayCollection
+     */
+    public function getUser2Note()
+    {
+        return $this->user2note;
+    }
+
+    /**
      * Add user 2 note relation
      *
      * @param  User2Note $user2note
@@ -282,16 +302,6 @@ class User implements UserInterface, ProviderInterface
     }
 
     /**
-     * Get User2Note collection
-     *
-     * @return ArrayCollection
-     */
-    public function getUser2Note()
-    {
-        return $this->user2note;
-    }
-
-    /**
      * Get Key Relation
      *
      * @return Key
@@ -301,12 +311,35 @@ class User implements UserInterface, ProviderInterface
         return $this->key;
     }
 
+    /**
+     * Get groups.
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
+
+    /**
+     * Add group relation
+     *
+     * @param  Gruop $group
+     * @return $this
+     */
+    public function addGroup(Group $group)
+    {
+        $this->getGroups()->add($group);
+        return $this;
+    }
+
 
     /**
      * return void
      */
     public function __construct()
     {
+        $this->groups    = new ArrayCollection();
         $this->roles     = new ArrayCollection();
         $this->user2note = new ArrayCollection();
     }
