@@ -11,16 +11,28 @@ namespace Secretery;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Zend\ModuleManager\ModuleManager;
+use Zend\EventManager\EventInterface;
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\BootstrapListenerInterface;
+use Zend\ModuleManager\Feature\FormElementProviderInterface;
+use Zend\ModuleManager\Feature\InitProviderInterface;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
+use Zend\ModuleManager\ModuleManagerInterface;
 use \Doctrine\Common\Persistence\PersistentObject;
 
-class Module
+class Module implements BootstrapListenerInterface,
+    FormElementProviderInterface,
+    InitProviderInterface,
+    ConfigProviderInterface,
+    AutoloaderProviderInterface,
+    ViewHelperProviderInterface
 {
     /**
      * @param  \Zend\Mvc\MvcEvent $e
      * @return void
      */
-    public function onBootstrap(MvcEvent $e)
+    public function onBootstrap(EventInterface $e)
     {
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
@@ -46,7 +58,7 @@ class Module
         $zfcServiceEvents->attach('register.post', array($userService, 'saveUserRole'));
     }
 
-    public function init(ModuleManager $moduleManager)
+    public function init(ModuleManagerInterface $moduleManager)
     {
         /*$sharedEvents = $moduleManager->getEventManager()->getSharedManager();
         $sharedEvents->attach(__NAMESPACE__, 'dispatch', function($e) {
