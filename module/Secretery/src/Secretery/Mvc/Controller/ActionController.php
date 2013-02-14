@@ -22,8 +22,8 @@
 
 namespace Secretery\Mvc\Controller;
 
-use Zend\Mvc\MvcEvent,
-    Zend\View\Model\ViewModel;
+use Zend\Mvc\MvcEvent;
+use Zend\View\Model\ViewModel;
 
 /**
  * MVC Action Controller
