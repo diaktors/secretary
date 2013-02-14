@@ -22,10 +22,11 @@
 
 namespace Secretery\Controller;
 
-use Secretery\Mvc\Controller\ActionController;
-use Zend\View\Model\ViewModel;
-use Secretery\Service\Note as NoteService;
 use Secretery\Entity\Note as NoteEntity;
+use Secretery\Mvc\Controller\ActionController;
+use Secretery\Service\Note as NoteService;
+use Zend\Mvc\MvcEvent;
+use Zend\View\Model\ViewModel;
 
 /**
  * Note Controller
@@ -80,6 +81,18 @@ class NoteController extends ActionController
     {
         $this->noteService = $noteService;
         return $this;
+    }
+
+    /**
+     * @param \Zend\Mvc\MvcEvent $event
+     * @return void
+     */
+    public function preDispatch(MvcEvent $event)
+    {
+        parent::preDispatch($event);
+        $this->translator->addTranslationFilePattern(
+            'gettext', __DIR__ . '/../../../language', 'note-%s.mo'
+        );
     }
 
     /**

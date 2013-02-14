@@ -22,12 +22,13 @@
 
 namespace Secretery\Controller;
 
+use Secretery\Entity\Key as KeyEntity;
+use Secretery\Form\Key as KeyForm;
 use Secretery\Mvc\Controller\ActionController;
-use Zend\View\Model\ViewModel;
 use Secretery\Service\Encryption as EncryptionService;
 use Secretery\Service\Key as KeyService;
-use Secretery\Form\Key as KeyForm;
-use Secretery\Entity\Key as KeyEntity;
+use Zend\Mvc\MvcEvent;
+use Zend\View\Model\ViewModel;
 
 /**
  * Key Controller
@@ -115,6 +116,18 @@ class KeyController extends ActionController
     public function getKeyService()
     {
         return $this->keyService;
+    }
+
+    /**
+     * @param \Zend\Mvc\MvcEvent $event
+     * @return void
+     */
+    public function preDispatch(MvcEvent $event)
+    {
+        parent::preDispatch($event);
+        $this->translator->addTranslationFilePattern(
+            'gettext', __DIR__ . '/../../../language', 'key-%s.mo'
+        );
     }
 
     /**
