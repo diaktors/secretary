@@ -39,16 +39,50 @@ class Group extends Base
 {
     /**
      * @param  int $userId
-     * @return GroupEntity
+     * @param  int $groupId
+     * @return bool
+     * @throws \InvalidArgumentException If GroupID is invalid
      * @throws \InvalidArgumentException If UserID is invalid
+     */
+    public function checkGroupMembership($groupId, $userId)
+    {
+        if (empty($groupId) || !is_numeric($groupId)) {
+            throw new \InvalidArgumentException('Please provide a valid GroupID');
+        }
+        if (empty($userId) || !is_numeric($userId)) {
+            throw new \InvalidArgumentException('Please provide a valid UserID');
+        }
+        return $this->em->getRepository('Secretery\Entity\Group')
+            ->checkGroupMembership($groupId, $userId);
+    }
+
+    /**
+     * @param  int $groupId
+     * @return GroupEntity
+     * @throws \InvalidArgumentException If GroupID is invalid
      */
     public function fetchGroup($groupId)
     {
         if (empty($groupId) || !is_numeric($groupId)) {
-            throw new \InvalidArgumentException('Please provide a valid UserID');
+            throw new \InvalidArgumentException('Please provide a valid GroupID');
         }
         return $this->em->getRepository('Secretery\Entity\Group')
             ->find($groupId);
+    }
+
+    /**
+     * @param  int $groupId
+     * @param  int $userId
+     * @return array
+     * @throws \InvalidArgumentException If GroupID is invalid
+     */
+    public function fetchGroupMembers($groupId, $userId = null)
+    {
+        if (empty($groupId) || !is_numeric($groupId)) {
+            throw new \InvalidArgumentException('Please provide a valid GroupID');
+        }
+        return $this->em->getRepository('Secretery\Entity\Group')
+            ->fetchGroupMembers($groupId, $userId);
     }
 
     /**
