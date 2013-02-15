@@ -3,6 +3,12 @@
  */
 $(document).ready(function() {
     $('#noteForm').find('input[type="checkbox"]').change(function(e) {
+        if ($(this).attr('checked') == 'checked') {
+            $('#groupHidden').val('');
+            $('#membersHidden').val('');
+            $('#groupMembers').html('');
+            $('#selectedGroupMembers').find('ul').html('');
+        }
         $('#shareNote').toggle();
     });
     $('#groupSelectForm').submit(function(e) {
