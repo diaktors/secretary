@@ -124,6 +124,11 @@ class Group extends EntityRepository
      */
     public function fetchUserGroups($userId)
     {
-        return $this->findBy(array('userId' => $userId));
+        $qb = $this->createQueryBuilder('g')
+            ->join('g.users', 'u')
+            ->where('u.id = :userId')
+            ->setParameter('userId', $userId)
+            ->addOrderBy('g.name', 'ASC');
+        return $qb->getQuery()->getResult();
     }
 }
