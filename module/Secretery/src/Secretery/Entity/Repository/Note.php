@@ -85,4 +85,32 @@ class Note extends EntityRepository
 
         return $qb->getQuery()->getArrayResult();
     }
+
+    /**
+     * @param  int $userId
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function fetchGroupNotes($userId, $groupId = null)
+    {
+        $qb = $this->createQueryBuilder('n');
+        $qb->select(array('n.id', 'n.title', 'n.content', 'n.private', 'n.dateCreated', 'n.dateUpdated'))
+            ->addSelect(array('u2n.owner', 'u2n.readPermission', 'u2n.writePermission'))
+            ->addSelect(array('g.name as groupName', 'g.id as groupId'))
+            ->leftJoin('n.user2note', 'u2n')
+            ->leftJoin('u2n.user', 'u')
+            ->leftJoin('n.group', 'g')
+            ->where('u2n.userId = :userId')
+            ->andWhere('u.id = :userId')
+            ->andWhere('n.private = :private')
+            ->addOrderBy('n.title', 'ASC')
+            ->setParameter('userId', $userId)
+            ->setParameter('private', 0);
+
+        if (!empty($groupId) && is_numeric($groupId)) {
+            $qb->andWhere('IDENTITY(n.group) = :groupId')
+                ->setParameter('groupId', $groupId);
+        }
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }

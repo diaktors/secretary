@@ -22,8 +22,8 @@
                 </tr>
             </thead>
             <tbody>
-            <?php if (!empty($this->noteCollection)): ?>
-            <?php foreach ($this->noteCollection as $note): ?>
+            <?php if (!empty($this->userNoteCollection)): ?>
+            <?php foreach ($this->userNoteCollection as $note): ?>
                 <tr>
                     <td class="title">
                         <a href="<?php echo $this->url('secretery/note', array('action' => 'view', 'id' => $note['id'])) ?>">
@@ -66,6 +66,67 @@
                     </td>
                 </tr>
             <?php endif; ?>
+            </tbody>
+        </table>
+
+        <h2><?php echo $this->translate('Group Notes') ?></h2>
+        <table class="table table-striped" summary="List of Group Notes">
+            <thead>
+            <tr>
+                <th class="title"><?php echo $this->translate('Note title') ?></th>
+                <th class="date"><?php echo $this->translate('Note date') ?></th>
+                <th class="smallInfo"><?php echo $this->translate('Note owner') ?></th>
+                <th class="smallInfo"><?php echo $this->translate('Note permissions') ?></th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php if (!empty($this->groupNoteCollection)): ?>
+                <?php foreach ($this->groupNoteCollection as $note): ?>
+                <tr>
+                    <td class="title">
+                        <a href="<?php echo $this->url('secretery/note', array('action' => 'view', 'id' => $note['id'])) ?>">
+                            <?php echo $this->escapeHtml($note['title']); ?>
+                        </a>
+                    </td>
+                    <td class="date"><?php echo $this->escapeHtml($note['dateCreated']->format('Y-m-d H:i:s')); ?></td>
+                    <td class="smallInfo"><?php
+                        if (true === $note['owner']) {
+                            echo $this->translate('yes');
+                        } else {
+                            echo $this->translate('no');
+                        }
+                        ?></td>
+                    <td class="smallInfo"><?php
+                        if (true === $note['readPermission']) {
+                            echo "R";
+                        }
+                        if (true === $note['writePermission']) {
+                            echo "W";
+                        }
+                        ?></td>
+                    <td class="funcs">
+                        <a href="<?php echo $this->url('secretery/note', array('action' => 'view', 'id' => $note['id'])) ?>">
+                            <i class="icon-lock" title="<?php echo $this->translate('view') ?>"></i>
+                        </a>
+                        <?php if (true === $note['writePermission']): ?>
+                            <a href="<?php echo $this->url('secretery/note', array('action' => 'edit', 'id' => $note['id'])) ?>">
+                                <i class="icon-pencil" title="<?php echo $this->translate('edit') ?>"></i>
+                            </a>
+                            <a href="<?php echo $this->url('secretery/note', array('action' => 'delete', 'id' => $note['id'])) ?>">
+                                <i class="icon-trash" title="<?php echo $this->translate('delete') ?>"></i>
+                            </a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                    <?php endforeach; ?>
+                <?php else:  ?>
+            <tr>
+                <td colspan="5">
+                    <?php echo $this->ztbAlert($this->translate('No notes found'), false, 'alert-error'); ?>
+                </td>
+            </tr>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>

@@ -104,6 +104,11 @@ class NoteController extends ActionController
         );
         $this->getServiceLocator()->get('viewhelpermanager')->get('headScript')
             ->prependFile($this->getRequest()->getBaseUrl() . '/js/note.js', 'text/javascript');
+
+        $userKeyCheck = $this->identity->getKey();
+        if (empty($userKeyCheck)) {
+            return $this->redirect()->toRoute('secretery/default', array('controller' => 'key'));
+        }
     }
 
     /**
@@ -119,10 +124,12 @@ class NoteController extends ActionController
             $msg = array('success', $messages[0]);
         }
         $this->flashMessenger()->clearMessages();
-        $noteCollection = $this->noteService->fetchUserNotes($this->identity->getId());
+        $userNoteCollection  = $this->noteService->fetchUserNotes($this->identity->getId());
+        $groupNoteCollection = $this->noteService->fetchGroupNotes($this->identity->getId());
         return new ViewModel(array(
-            'noteCollection' => $noteCollection,
-            'msg'            => $msg
+            'userNoteCollection'  => $userNoteCollection,
+            'groupNoteCollection' => $groupNoteCollection,
+            'msg'                 => $msg
         ));
     }
 
@@ -153,17 +160,24 @@ class NoteController extends ActionController
                 if ($this->getRequest()->getPost('private') == 0) {
                     $groupId = $this->getRequest()->getPost('group');
                     if (empty($groupId) || !is_numeric($groupId)) {
+                        // @todo log stuff here?
+                        $viewVars['msg'] = array('error', 'You need to select a group');
                         return new ViewModel($viewVars);
                     }
                     $groupMemberCheck = $this->groupService->checkGroupMembership(
                         $groupId, $this->identity->getId()
                     );
                     if (false === $groupMemberCheck) {
+                        // @todo log stuff here?
                         return new ViewModel($viewVars);
                     }
                 }
                 if ($this->getRequest()->getPost('private') == 0) {
                     $members = $this->getRequest()->getPost('members');
+                    if (empty($members)) {
+                        $viewVars['msg'] = array('error', 'Please select a group member to share note with');
+                        return new ViewModel($viewVars);
+                    }
                     $this->noteService->saveGroupNote(
                         $this->identity,
                         $form->getData(),
@@ -442,7 +456,7 @@ class NoteController extends ActionController
             $routeParams['id'] = $id;
         }
         $url = $this->url()->fromRoute('secretery/note', $routeParams);
-        return $this->noteService->getGroupForm($url);
+        return $this->noteService->getGroupForm($this->identity->getId(), $url);
     }
 
     /**
