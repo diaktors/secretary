@@ -38,6 +38,87 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Group extends EntityRepository
 {
     /**
+     * @param  int $groupId
+     * @param  int $userId
+     * @return bool
+     */
+    public function checkGroupMembership($groupId, $userId)
+    {
+        $qb = $this->createQueryBuilder('g')
+            ->select('u.id')
+            ->join('g.users', 'u')
+            ->where('g.id = :groupId')
+            ->andWhere('u.id = :userId')
+            ->setParameter('groupId', $groupId)
+            ->setParameter('userId', $userId);
+
+        $result = $qb->getQuery()->getOneOrNullResult();
+        if (empty($result)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param  int $groupId
+     * @return \Secretery\Entity\Group
+     */
+    public function fetchGroup($groupId)
+    {
+        return $this->findOneBy(array('id' => $groupId));
+    }
+
+    /**
+     * @param  int $groupId
+     * @param  int $userId
+     * @return array
+     */
+    public function fetchGroupMembers($groupId, $userId = null)
+    {
+        $qb = $this->createQueryBuilder('g')
+            ->select('u.id, u.displayName, u.email')
+            ->join('g.users', 'u')
+            ->where('g.id = :groupId')
+            ->addOrderBy('u.displayName', 'ASC')
+            ->addOrderBy('u.email', 'ASC')
+            ->setParameter('groupId', $groupId);
+
+        if (!empty($userId)) {
+            $qb->andWhere('u.id != :userId')
+                ->setParameter('userId', $userId);
+        }
+
+        $result = $qb->getQuery()->getArrayResult();
+        $users  = array();
+        foreach ($result as $user) {
+            $users[] = $user;
+        }
+
+        return $users;
+    }
+
+    /**
+     * @param  int $groupId
+     * @return array
+     */
+    public function fetchGroupMemberIds($groupId)
+    {
+        $qb = $this->createQueryBuilder('g')
+            ->select('u.id')
+            ->join('g.users', 'u')
+            ->where('g.id = :groupId')
+            ->setParameter('groupId', $groupId);
+
+        $result = $qb->getQuery()->getArrayResult();
+        $ids    = array();
+        foreach ($result as $id) {
+            array_push($ids, $id['id']);
+        }
+
+        return $ids;
+    }
+
+    /**
      * @param  int $userId
      * @return ArrayCollection
      */
