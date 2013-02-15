@@ -45,6 +45,7 @@ use Zend\Form\Annotation;
 class Note //extends PersistentObject
 {
     /**
+     * @var int
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -53,6 +54,7 @@ class Note //extends PersistentObject
     protected $id;
 
     /**
+     * @var string
      * @ORM\Column(name="title")
      * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Required({"required":"true"})
@@ -62,6 +64,7 @@ class Note //extends PersistentObject
     protected $title;
 
     /**
+     * @var string
      * @ORM\Column(name="content", type="text")
      * @Annotation\Type("Zend\Form\Element\Textarea")
      * @Annotation\Required({"required":"true"})
@@ -70,6 +73,7 @@ class Note //extends PersistentObject
     protected $content;
 
     /**
+     * @var bool
      * @ORM\Column(name="private", type="boolean")
      * @Annotation\Type("Zend\Form\Element\Checkbox")
      * @Annotation\Options({"label":"Note private"})
@@ -80,6 +84,17 @@ class Note //extends PersistentObject
     protected $private = true;
 
     /**
+     * @var Group
+     * @ORM\ManyToOne(targetEntity="Group", inversedBy="notes")
+     * @ORM\JoinColumn(name="`group`", referencedColumnName="id")
+     * @Annotation\Type("Zend\Form\Element\Hidden")
+     * @Annotation\Attributes({"id":"groupHidden"})
+     * @Annotation\AllowEmpty({"allowEmpty":"false"})
+     */
+    protected $group;
+
+    /**
+     * @var \DateTime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="date_created", type="datetime")
      * @Annotation\Exclude()
@@ -87,6 +102,7 @@ class Note //extends PersistentObject
     protected $dateCreated;
 
     /**
+     * @var \DateTime
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="date_updated", type="datetime")
      * @Annotation\Exclude()
@@ -94,6 +110,7 @@ class Note //extends PersistentObject
     protected $dateUpdated;
 
     /**
+     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="User2Note", mappedBy="note", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="id", referencedColumnName="note_id")
      * @Annotation\Exclude()
@@ -108,13 +125,8 @@ class Note //extends PersistentObject
 
     /**
      * @Annotation\Type("Zend\Form\Element\Hidden")
-     * @Annotation\Attributes({"id":"groupHidden"})
-     */
-    protected $group;
-
-    /**
-     * @Annotation\Type("Zend\Form\Element\Hidden")
      * @Annotation\Attributes({"id":"membersHidden"})
+     * @Annotation\AllowEmpty({"allowEmpty":"false"})
      */
     protected $members;
 
@@ -167,6 +179,23 @@ class Note //extends PersistentObject
     }
 
     /**
+     * Set Group
+     *
+     * @param  Group $group
+     * @return self
+     */
+    public function setGroup($group)
+    {
+        if ($group instanceof Group) {
+            $this->group = $group;
+        } else {
+            $this->group = null;
+        }
+        return $this;
+    }
+
+
+    /**
      * Add User2Note relation
      *
      * @param  User2Note $user2note
@@ -208,6 +237,14 @@ class Note //extends PersistentObject
     public function getPrivate()
     {
         return $this->private;
+    }
+
+    /**
+     * @return Group
+     */
+    public function getGroup()
+    {
+        return $this->group;
     }
 
     /**

@@ -81,6 +81,12 @@ class Group implements InputFilterAwareInterface
     protected $users;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\OneToMany(targetEntity="Note", mappedBy="group")
+     */
+    protected $notes;
+
+    /**
      * @var \Zend\InputFilter\InputFilter
      */
     protected $inputFilter;
