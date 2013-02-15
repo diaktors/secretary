@@ -104,6 +104,18 @@ class Note //extends PersistentObject
     protected $submit;
 
     /**
+     * @Annotation\Type("Zend\Form\Element\Hidden")
+     * @Annotation\Attributes({"id":"groupHidden"})
+     */
+    protected $group;
+
+    /**
+     * @Annotation\Type("Zend\Form\Element\Hidden")
+     * @Annotation\Attributes({"id":"membersHidden"})
+     */
+    protected $members;
+
+    /**
      * Set Id
      *
      * @param  int $id
