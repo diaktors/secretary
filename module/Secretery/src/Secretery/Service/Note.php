@@ -28,6 +28,7 @@ use Secretery\Entity\Note as NoteEntity;
 use Secretery\Entity\User as UserEntity;
 use Secretery\Entity\User2Note as User2NoteEntity;
 use Secretery\Form\Note as NoteForm;
+use Secretery\Form\GroupSelect as GroupSelectForm;
 use Secretery\Form\KeyRequest as KeyRequestForm;
 
 /**
@@ -48,13 +49,18 @@ class Note extends Base
     protected $encryptionService;
 
     /**
-     * @var NoteForm
+     * @var \Secretery\Form\GroupSelect
+     */
+    protected $groupForm;
+
+    /**
+     * @var \Secretery\Form\Note
      */
     protected $noteForm;
 
 
     /**
-     * @var KeyRequestForm
+     * @var \Secretery\Form\KeyRequest
      */
     protected $keyRequestForm;
 
@@ -76,20 +82,35 @@ class Note extends Base
     }
 
     /**
+     * @param GroupForm $groupForm
+     */
+    public function setGroupForm(GroupForm $groupForm)
+    {
+        $this->groupForm = $groupForm;
+        return $this;
+    }
+
+    /**
+     * @param  \Secretery\Entity\Note $noteRecord
+     * @param  string                 $url
+     * @return \Zend\Form\Form
+     */
+    public function getGroupForm($url = '')
+    {
+        if (is_null($this->groupForm)) {
+            $this->groupForm = new GroupSelectForm($url);
+            $this->groupForm->setObjectManager($this->getEntityManager());
+            $this->groupForm->init();
+        }
+        return $this->groupForm;
+    }
+
+    /**
      * @param NoteForm $noteForm
      */
     public function setNoteForm(NoteForm $noteForm)
     {
         $this->noteForm = $noteForm;
-        return $this;
-    }
-
-    /**
-     * @param KeyRequestForm $keyRequestForm
-     */
-    public function setKeyRequestForm(KeyRequestForm $keyRequestForm)
-    {
-        $this->keyRequestForm = $keyRequestForm;
         return $this;
     }
 
@@ -111,6 +132,15 @@ class Note extends Base
             $this->noteForm->bind($note);
         }
         return $this->noteForm;
+    }
+
+    /**
+     * @param KeyRequestForm $keyRequestForm
+     */
+    public function setKeyRequestForm(KeyRequestForm $keyRequestForm)
+    {
+        $this->keyRequestForm = $keyRequestForm;
+        return $this;
     }
 
     /**
