@@ -52,6 +52,11 @@ class GroupMember extends Form implements ObjectManagerAwareInterface
     protected $userId;
 
     /**
+     * @var int
+     */
+    protected $groupId;
+
+    /**
      * @var \Doctrine\Common\Persistence\ObjectManager
      */
     protected $objectManager;
@@ -70,7 +75,10 @@ class GroupMember extends Form implements ObjectManagerAwareInterface
     public function init()
     {
         if (empty($this->userId)) {
-            throw new \InvalidArgumentException('Please provide identity id');
+            throw new \InvalidArgumentException('Please provide Identity ID');
+        }
+        if (empty($thisgroupId)) {
+            throw new \InvalidArgumentException('Please provide Group ID');
         }
 
         $this->add(array(
@@ -82,7 +90,7 @@ class GroupMember extends Form implements ObjectManagerAwareInterface
                 'property'       => 'displayName',
                 'find_method'    => array(
                     'name'   => 'getSelectUser',
-                    'params' => array('userId' => $this->userId),
+                    'params' => array('userId' => $this->userId, 'groupId' => $this->groupId),
                 ),
             ),
         ));
@@ -130,6 +138,14 @@ class GroupMember extends Form implements ObjectManagerAwareInterface
     public function setUserId($userId)
     {
         $this->userId = (int) $userId;
+    }
+
+    /**
+     * @param int $groupId
+     */
+    public function setGroupId($groupId)
+    {
+        $this->groupId = (int) $groupId;
     }
 
     /**
