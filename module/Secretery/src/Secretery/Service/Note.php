@@ -129,6 +129,8 @@ class Note extends Base
                 $this->getEntityManager(),
                 'Secretery\Entity\Note'
             ));
+            $this->noteForm->get('private')->setAttribute('required', false);
+            $this->noteForm->getInputFilter()->get('private')->setRequired(false);
             $this->noteForm->bind($note);
         }
         return $this->noteForm;
