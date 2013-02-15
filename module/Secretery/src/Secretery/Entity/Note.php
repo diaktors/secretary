@@ -73,6 +73,9 @@ class Note //extends PersistentObject
      * @ORM\Column(name="private", type="boolean")
      * @Annotation\Type("Zend\Form\Element\Checkbox")
      * @Annotation\Options({"label":"Note private"})
+     * @Annotation\Attributes({"label":"Note private"})
+     * @Annotation\AllowEmpty({"allowEmpty":"false"})
+     * @Annotation\Required({"required":"false"})
      */
     protected $private = true;
 
