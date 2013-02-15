@@ -222,6 +222,7 @@ return array(
             'Secretery\Controller\Note' => function(ControllerManager $cm) {
                 $controller = new NoteController();
                 $controller->setNoteService($cm->getServiceLocator()->get('note-service'));
+                $controller->setGroupService($cm->getServiceLocator()->get('group-service'));
                 return $controller;
             },
             'Secretery\Controller\Group' => function(ControllerManager $cm) {
