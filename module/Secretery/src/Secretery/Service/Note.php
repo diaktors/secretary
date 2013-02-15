@@ -286,6 +286,43 @@ class Note extends Base
      *
      * @param  \Secretery\Entity\User $user
      * @param  \Secretery\Entity\Note $note
+     * @param  int                    $groupId
+     * @param  string                 $members
+     * @return \Secretery\Entity\Note
+     */
+    public function saveGroupNote(UserEntity $user, NoteEntity $note, $groupId, $members)
+    {
+        $encryptData = $this->getEncryptionService()->encryptForSingleKey(
+            $note->getContent(),
+            $user->getKey()->getPubKey()
+        );
+        $note->setContent($encryptData['content']);
+
+        $this->em->persist($note);
+        $this->em->flush();
+
+        $user2Note = new User2NoteEntity();
+        $user2Note->setUser($user)
+            ->setUserId($user->getId())
+            ->setNote($note)
+            ->setNoteId($note->getId())
+            ->setEkey($encryptData['ekey'])
+            ->setOwner(true)
+            ->setReadPermission(true)
+            ->setWritePermission(true);
+
+        $note->addUser2Note($user2Note);
+
+        $this->em->persist($note);
+        $this->em->flush();
+        return $note;
+    }
+
+    /**
+     * Save user note
+     *
+     * @param  \Secretery\Entity\User $user
+     * @param  \Secretery\Entity\Note $note
      * @return \Secretery\Entity\Note
      */
     public function saveUserNote(UserEntity $user, NoteEntity $note)
