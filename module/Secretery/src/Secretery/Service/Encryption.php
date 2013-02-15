@@ -61,6 +61,48 @@ class Encryption
     }
 
     /**
+     * Encrypt string with multiple public keys
+     *
+     * @param  string $content
+     * @param  array  $users
+     * @param  array  $keys
+     * @return array
+     * @throws \InvalidArgumentException If key is empty
+     * @throws \LogicException           If key is not readable as key
+     * @throws \LogicException           If encryption errors
+     */
+    public function encryptForMultipleKeys($content, array $users, array $keys)
+    {
+        if (empty($keys)) {
+            throw new \InvalidArgumentException('Keys array canot be empty');
+        }
+        $pubKeys = array();
+        foreach ($keys as $userId => $key) {
+            $pk = openssl_pkey_get_public($key);
+            if (false === $pk) {
+                throw new \LogicException('Key is not readable');
+            }
+            $pubKey    = openssl_pkey_get_details($pk);
+            $pubKeys[] = $pubKey['key'];
+            openssl_free_key($pk);
+            unset($pubKey);
+        }
+        $sealCheck = openssl_seal(serialize($content), $sealedContent, $eKeys, $pubKeys);
+        unset($pubKeys);
+        if (false === $sealCheck) {
+            throw new \LogicException('An error occurred while encrypting');
+        }
+        $eKeysEncoded = array();
+        foreach ($eKeys as $eKey) {
+            $eKeysEncoded[] = base64_encode($eKey);
+        }
+        return array(
+            'ekey'    => $eKeysEncoded,
+            'content' => base64_encode($sealedContent)
+        );
+    }
+
+    /**
      * Encrypt string with public key
      *
      * @param  string $content
