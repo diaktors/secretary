@@ -325,7 +325,9 @@ class GroupController extends ActionController
                     ));
                 }
 
-                $viewVars['msg'] = array('error', 'An error occurred');
+                $viewVars['msg'] = array(
+                    'error', $this->translator->translate('An error occurred')
+                );
             }
         }
 
