@@ -23,10 +23,13 @@
 namespace Secretery\Controller;
 
 use Secretery\Entity\Note as NoteEntity;
+use Secretery\Form\GroupSelect as GroupSelectForm;
 use Secretery\Mvc\Controller\ActionController;
 use Secretery\Service\Note as NoteService;
+use Secretery\Service\Group as GroupService;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 /**
  * Note Controller
@@ -46,23 +49,9 @@ class NoteController extends ActionController
     protected $noteService;
 
     /**
-     * @param  \Secretery\Entity\Note $note
-     * @param  string                 $action
-     * @param  int                    $id
-     * @return \Zend\Form\Form
+     * @var \Secretery\Service\Group
      */
-    public function getNoteForm(NoteEntity $note, $action = 'add', $id = null)
-    {
-        $urlValues = array(
-            'controller' => 'note',
-            'action'     => $action
-        );
-        if ($action == 'edit') {
-            $urlValues['id'] = $id;
-        }
-        $url = $this->url()->fromRoute('secretery/note', $urlValues);
-        return $this->getNoteService()->getNoteForm($note, $url);
-    }
+    protected $groupService;
 
     /**
      * @return \Secretery\Service\Note
@@ -83,6 +72,26 @@ class NoteController extends ActionController
         return $this;
     }
 
+
+    /**
+     * @return \Secretery\Service\Group
+     */
+    public function getGroupService()
+    {
+        return $this->groupService;
+    }
+
+
+    /**
+     * @param  \Secretery\Service\Group $groupService
+     * @return \Secretery\Service\Group
+     */
+    public function setGroupService(GroupService $groupService)
+    {
+        $this->groupService = $groupService;
+        return $this;
+    }
+
     /**
      * @param \Zend\Mvc\MvcEvent $event
      * @return void
@@ -93,6 +102,8 @@ class NoteController extends ActionController
         $this->translator->addTranslationFilePattern(
             'gettext', __DIR__ . '/../../../language', 'note-%s.mo'
         );
+        $this->getServiceLocator()->get('viewhelpermanager')->get('headScript')
+            ->prependFile($this->getRequest()->getBaseUrl() . '/js/note.js', 'text/javascript');
     }
 
     /**
@@ -102,8 +113,8 @@ class NoteController extends ActionController
      */
     public function indexAction()
     {
-        $messages       = $this->flashMessenger()->getCurrentSuccessMessages();
-        $msg            = false;
+        $messages = $this->flashMessenger()->getCurrentSuccessMessages();
+        $msg      = false;
         if (!empty($messages)) {
             $msg = array('success', $messages[0]);
         }
@@ -124,36 +135,55 @@ class NoteController extends ActionController
     {
         $noteRecord = new NoteEntity();
         $form       = $this->getNoteForm($noteRecord);
+        $groupForm  = $this->getGroupForm();
+        $viewVars   = array(
+            'noteFormLegend' => 'Create Note',
+            'noteForm'       => $form,
+            'groupForm'      => $groupForm
+        );
 
         if (!$this->getRequest()->isPost()) {
-            return new ViewModel(array(
-                'noteFormLegend' => 'Create Note',
-                'noteForm'       => $form
-            ));
+            return new ViewModel($viewVars);
         }
 
         if ($this->getRequest()->isPost()) {
+            $viewVars['msg'] = array('error', 'An error occurred');
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                // Save data
-                $this->noteService->saveUserNote(
-                    $this->identity,
-                    $form->getData()
-                );
-                // Success msg
+                if ($this->getRequest()->getPost('private') == 0) {
+                    $groupId = $this->getRequest()->getPost('group');
+                    if (empty($groupId) || !is_numeric($groupId)) {
+                        return new ViewModel($viewVars);
+                    }
+                    $groupMemberCheck = $this->groupService->checkGroupMembership(
+                        $groupId, $this->identity->getId()
+                    );
+                    if (false === $groupMemberCheck) {
+                        return new ViewModel($viewVars);
+                    }
+                }
+                if ($this->getRequest()->getPost('private') == 0) {
+                    $members = $this->getRequest()->getPost('members');
+                    $this->noteService->saveGroupNote(
+                        $this->identity,
+                        $form->getData(),
+                        $groupId,
+                        $members
+                    );
+                } else {
+                    $this->noteService->saveUserNote(
+                        $this->identity,
+                        $form->getData()
+                    );
+                }
                 $this->flashMessenger()->addSuccessMessage(
                     $this->translator->translate('Note was created successfully')
                 );
-                // Redirect
                 return $this->redirect()->toRoute('secretery/note');
             }
         }
 
-        return new ViewModel(array(
-            'noteForm'       => $form,
-            'noteFormLegend' => 'Create Note',
-            'msg'            => array('error', 'An error occurred')
-        ));
+        return new ViewModel($viewVars);
     }
 
     /**
@@ -383,6 +413,39 @@ class NoteController extends ActionController
     }
 
     /**
+     * Return group members in JSON
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function groupAction()
+    {
+        $jsonModel = new JsonModel(array('success' => false));
+        $groupId   = $this->getRequest()->getPost('group');
+        if (empty($groupId) || !is_numeric($groupId)) {
+            return $jsonModel;
+        }
+        $groupMembers = $this->groupService->fetchGroupMembers($groupId, $this->identity->getId());
+        $jsonModel->setVariable('success', true);
+        $jsonModel->setVariable('groupMembers', $groupMembers);
+        return $jsonModel;
+    }
+
+    /**
+     * @param  string $action
+     * @param  int    $id
+     * @return \Zend\Form\Form
+     */
+    protected function getGroupForm($id = null)
+    {
+        $routeParams = array('action' => 'group');
+        if (!empty($id)) {
+            $routeParams['id'] = $id;
+        }
+        $url = $this->url()->fromRoute('secretery/note', $routeParams);
+        return $this->noteService->getGroupForm($url);
+    }
+
+    /**
      * @param  int    $id
      * @param  string $action
      * @return \Secretery\Form\KeyRequest
@@ -394,5 +457,24 @@ class NoteController extends ActionController
             'id'     => $id
         ));
         return $this->noteService->getKeyRequestForm($formUrl);
+    }
+
+    /**
+     * @param  \Secretery\Entity\Note $note
+     * @param  string                 $action
+     * @param  int                    $id
+     * @return \Zend\Form\Form
+     */
+    protected function getNoteForm(NoteEntity $note, $action = 'add', $id = null)
+    {
+        $urlValues = array(
+            'controller' => 'note',
+            'action'     => $action
+        );
+        if ($action == 'edit') {
+            $urlValues['id'] = $id;
+        }
+        $url = $this->url()->fromRoute('secretery/note', $urlValues);
+        return $this->getNoteService()->getNoteForm($note, $url);
     }
 }
