@@ -10,7 +10,7 @@
         <h2><?php echo $this->translate('Add Note') ?></h2>
         <?php echo $this->render('secretery/note/_noteForm.phtml') ?>
     </div>
-    <div class="span6 hide" id="shareNote">
+    <div class="span6 <?php if ($this->noteForm->get('private')->getValue() === true) { echo 'hide'; } ?>" id="shareNote">
         <h2><?php echo $this->translate('Add Note Members') ?></h2>
         <fieldset>
             <legend><?php echo $this->translate('Select Group') ?></legend>
