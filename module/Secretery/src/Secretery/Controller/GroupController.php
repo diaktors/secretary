@@ -307,7 +307,7 @@ class GroupController extends ActionController
                 $form->setInputFilter($this->groupRecord->getInputFilter());
                 $form->setData($this->getRequest()->getPost());
 
-                if ($form->isValid()) {
+                if ($form->isValid() && $this->getRequest()->getPost('newMember') != 0) {
                     $values     = $form->getData();
                     $newMember  = $values['newMember'];
                     $userRecord = $this->groupService->addGroupMember($this->groupRecord, $newMember);
