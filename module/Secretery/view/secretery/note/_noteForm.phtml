@@ -2,6 +2,8 @@
     <legend><?php echo $this->translate($this->noteFormLegend) ?></legend>
     <?php
         echo $this->form()->openTag($this->noteForm);
+        echo $this->formElement($this->noteForm->get('group'));
+        echo $this->formElement($this->noteForm->get('members'));
         echo $this->ztbFormElement($this->noteForm->get('title'));
         echo $this->ztbFormElement($this->noteForm->get('content'));
         echo '<label class="checkbox">';
