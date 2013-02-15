@@ -77,7 +77,7 @@ class GroupMember extends Form implements ObjectManagerAwareInterface
         if (empty($this->userId)) {
             throw new \InvalidArgumentException('Please provide Identity ID');
         }
-        if (empty($thisgroupId)) {
+        if (empty($this->groupId)) {
             throw new \InvalidArgumentException('Please provide Group ID');
         }
 
