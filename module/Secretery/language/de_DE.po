@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-02-14 23:18+0100\n"
+"PO-Revision-Date: 2013-02-15 23:41+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
 "Language: de_DE\n"
@@ -42,6 +42,9 @@ msgstr "Sichern"
 
 msgid "leave"
 msgstr "Verlassen"
+
+msgid "select"
+msgstr "Auswählen"
 
 msgid "title"
 msgstr "Titel"
