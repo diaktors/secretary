@@ -91,14 +91,14 @@ class Note extends Base
     }
 
     /**
-     * @param  \Secretery\Entity\Note $noteRecord
-     * @param  string                 $url
+     * @param  int    $userId
+     * @param  string $url
      * @return \Zend\Form\Form
      */
-    public function getGroupForm($url = '')
+    public function getGroupForm($userId, $url = '')
     {
         if (is_null($this->groupForm)) {
-            $this->groupForm = new GroupSelectForm($url);
+            $this->groupForm = new GroupSelectForm($userId, $url);
             $this->groupForm->setObjectManager($this->getEntityManager());
             $this->groupForm->init();
         }
@@ -282,39 +282,67 @@ class Note extends Base
     }
 
     /**
+     * @param  int $userId
+     * @param  int $groupId
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function fetchGroupNotes($userId, $groupId = null)
+    {
+        return $this->em->getRepository('Secretery\Entity\Note')
+            ->fetchGroupNotes($userId, $groupId);
+    }
+
+    /**
      * Save user note
      *
-     * @param  \Secretery\Entity\User $user
+     * @param  \Secretery\Entity\User $owner
      * @param  \Secretery\Entity\Note $note
      * @param  int                    $groupId
      * @param  string                 $members
      * @return \Secretery\Entity\Note
      */
-    public function saveGroupNote(UserEntity $user, NoteEntity $note, $groupId, $members)
+    public function saveGroupNote(UserEntity $owner, NoteEntity $note, $groupId, $members)
     {
-        $encryptData = $this->getEncryptionService()->encryptForSingleKey(
+        $members   = $this->getMembersArray($members);
+        $usersKeys = $this->getUsersWithKeys($members, $owner, $groupId);
+        $users     = $usersKeys['users'];
+        $keys      = $usersKeys['keys'];
+
+        $encryptData = $this->getEncryptionService()->encryptForMultipleKeys(
             $note->getContent(),
-            $user->getKey()->getPubKey()
+            $users,
+            $keys
         );
+
+        // Save Note
         $note->setContent($encryptData['content']);
-
         $this->em->persist($note);
         $this->em->flush();
 
-        $user2Note = new User2NoteEntity();
-        $user2Note->setUser($user)
-            ->setUserId($user->getId())
-            ->setNote($note)
-            ->setNoteId($note->getId())
-            ->setEkey($encryptData['ekey'])
-            ->setOwner(true)
-            ->setReadPermission(true)
-            ->setWritePermission(true);
+        $i = 0;
+        // Save User2Note entries
+        foreach ($users as $user) {
+            $ownerCheck = false;
+            if ($owner->getId() == $user->getId()) {
+                $ownerCheck = true;
+            }
+            $user2Note = new User2NoteEntity();
+            $user2Note->setUser($user)
+                ->setUserId($user->getId())
+                ->setNote($note)
+                ->setNoteId($note->getId())
+                ->setEkey($encryptData['ekey'][$i])
+                ->setOwner($ownerCheck)
+                ->setReadPermission(true)
+                ->setWritePermission($ownerCheck);
 
-        $note->addUser2Note($user2Note);
+            $note->addUser2Note($user2Note);
 
-        $this->em->persist($note);
+            $this->em->persist($note);
+            $i++;
+        }
         $this->em->flush();
+
         return $note;
     }
 
@@ -401,6 +429,62 @@ class Note extends Base
             //@todo logging?
         }
         return false;
+    }
+
+    /**
+     * @param  string $members
+     * @return array
+     * @throws \LogicException If no members are given
+     */
+    protected function getMembersArray($members)
+    {
+        if (empty($members)) {
+            throw new \LogicException('No members given');
+        }
+        $membersArray = explode(',', trim($members, ','));
+        $membersArray = array_unique($membersArray);
+        if (empty($membersArray)) {
+            throw new \LogicException('You must provide at least one note member');
+        }
+        return $membersArray;
+    }
+
+    /**
+     * @param  string     $members
+     * @param  UserEntity $owner
+     * @param  int        $groupId
+     * @return array $members
+     * @throws \LogicException If given User(Member) ID does not
+     * @throws \LogicException If given User(Member) has not set key
+     * @throws \LogicException If given User(Member) is not member of given group
+     */
+    protected function getUsersWithKeys($members, UserEntity $owner, $groupId)
+    {
+        $users = array();
+        $keys  = array();
+        $group = $this->em->getRepository('Secretery\Entity\Group')->find((int) $groupId);
+        foreach ($members as $member) {
+            /* @var $user \Secretery\Entity\User */
+            $user = $this->em->getRepository('Secretery\Entity\User')->find((int) $member);
+            if (false === $user->getGroups()->contains($group)) {
+                throw new \LogicException('User does not belong to selected group');
+            }
+            if (empty($user)) {
+                throw new \LogicException('User does not exists: ' . $member);
+            }
+            $key = $user->getKey();
+            if (empty($key)) {
+                throw new \LogicException('User key does not exists: ' . $member);
+            }
+            $users[$user->getId()] = $user;
+            $keys[$user->getId()]  = $key->getPubKey();
+        }
+        $users[$owner->getId()] = $owner;
+        $keys[$owner->getId()]  = $owner->getKey()->getPubKey();
+        return array(
+            'users' => $users,
+            'keys'  => $keys
+        );
     }
 
     /**
