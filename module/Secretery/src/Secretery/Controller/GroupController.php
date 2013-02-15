@@ -136,6 +136,7 @@ class GroupController extends ActionController
             $form = new GroupMemberForm($url);
             $form->setObjectManager($this->groupService->getEntityManager());
             $form->setUserId($this->identity->getId());
+            $form->setGroupId($groupId);
             $form->init();
             $this->groupMemberForm = $form;
         }
