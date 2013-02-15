@@ -63,6 +63,23 @@ div.container div.groups table tr .funcs i {
     margin: 0 5px;
 }
 
+div.container div.notes #groupSelectForm input[type="submit"] {
+    margin-left: 10px;
+}
+div.container div.notes #groupMembers ul,
+div.container div.notes #selectedGroupMembers ul {
+    list-style: none;
+    margin: 0;
+}
+div.container div.notes #groupMembers ul li,
+div.container div.notes #selectedGroupMembers ul li {
+    padding: 2px 0;
+}
+div.container div.notes #groupMembers ul i.icon-thumbs-up,
+div.container div.notes #selectedGroupMembers ul i.icon-thumbs-down {
+    cursor: pointer;
+}
+
 /**
  * Groups
  */
