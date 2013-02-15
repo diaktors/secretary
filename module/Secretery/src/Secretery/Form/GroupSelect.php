@@ -40,6 +40,10 @@ use Zend\InputFilter\Factory as InputFactory;
  */
 class GroupSelect extends Form implements ObjectManagerAwareInterface
 {
+    /**
+     * @var int
+     */
+    protected $userId;
 
     /**
      * @var InputFilter
@@ -51,8 +55,47 @@ class GroupSelect extends Form implements ObjectManagerAwareInterface
      */
     protected $objectManager;
 
-    public function __construct($action = '#')
+
+    /**
+     * @param \Doctrine\Common\Persistence\ObjectManager $objectManager
+     */
+    public function setObjectManager(ObjectManager $objectManager)
     {
+        $this->objectManager = $objectManager;
+    }
+
+    /**
+     * @return \Doctrine\Common\Persistence\ObjectManager
+     */
+    public function getObjectManager()
+    {
+        return $this->objectManager;
+    }
+
+
+    /**
+     * @param int $userId
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @param int    $userId
+     * @param string $action
+     */
+    public function __construct($userId, $action = '#')
+    {
+        $this->setUserId($userId);
         parent::__construct('groupSelectForm');
         $this->setAttribute('method', 'post')
             ->setAttribute('action', $action)
@@ -72,8 +115,8 @@ class GroupSelect extends Form implements ObjectManagerAwareInterface
                 'target_class'   => 'Secretery\Entity\Group',
                 'property'       => 'name',
                 'find_method'    => array(
-                    'name'   => 'findAll',
-                    'orderBy'  => array('lastname' => 'ASC'),
+                    'name'   => 'fetchUserGroups',
+                    'params' => array('userId' => $this->userId),
                 ),
             ),
         ));
@@ -105,22 +148,6 @@ class GroupSelect extends Form implements ObjectManagerAwareInterface
             $this->inputFilter = $inputFilter;
         }
         return $this->inputFilter;
-    }
-
-    /**
-     * @param \Doctrine\Common\Persistence\ObjectManager $objectManager
-     */
-    public function setObjectManager(ObjectManager $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
-
-    /**
-     * @return \Doctrine\Common\Persistence\ObjectManager
-     */
-    public function getObjectManager()
-    {
-        return $this->objectManager;
     }
 
 }
