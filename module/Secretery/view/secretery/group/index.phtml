@@ -1,10 +1,9 @@
 <div class="row groups">
     <div class="span12">
         <h1><?php echo $this->translate('Manage Groups') ?></h1>
-
-        <?php if (!empty($this->msg) && $this->msg[0] == 'success') {
-        echo $this->ztbAlert($this->msg[1], false, 'alert-success');
-    } ?>
+        <?php if (!empty($this->msg)) {
+            echo $this->ztbAlert($this->msg[1], false, 'alert-' . $this->msg[0]);
+        } ?>
     </div>
     <div class="span6">
         <h2><?php echo $this->translate('Group Memberships') ?></h2>
