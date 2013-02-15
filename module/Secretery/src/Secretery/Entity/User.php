@@ -123,6 +123,7 @@ class User implements UserInterface, ProviderInterface
      *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
+     * @ORM\OrderBy({"name" = "ASC"})
      */
     protected $groups;
 
