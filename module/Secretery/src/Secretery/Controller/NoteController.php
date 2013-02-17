@@ -316,10 +316,28 @@ class NoteController extends ActionController
             }
         }
 
-        $noteRecord = $this->getNoteService()->fetchNote($id);
-        $form       = $this->getNoteForm($noteRecord, 'edit', $id);
+        $noteRecord   = $this->getNoteService()->fetchNote($id);
+        $groupMembers = null;
+        if (false === $noteRecord->getPrivate()) {
+            $groupMembers = $this->groupService->fetchNoteGroupMembers(
+                $noteRecord->getId(),
+                $noteRecord->getGroup()->getId(),
+                $this->identity->getId()
+            );
+            $viewModel->setVariable('groupMembers', $groupMembers);
+            $groupMembersUnselected = $this->groupService->fetchNoteGroupMembersUnselected(
+                $noteRecord->getId(),
+                $noteRecord->getGroup()->getId(),
+                $this->identity->getId()
+            );
+            $viewModel->setVariable('groupMembersUnselected', $groupMembersUnselected);
+        }
+
+        $form = $this->getNoteForm($noteRecord, 'edit', $id, $groupMembers);
 
         $viewModel->setVariable('noteForm', $form);
+        $viewModel->setVariable('editMode', true);
+        $viewModel->setVariable('noteRecord', $noteRecord);
         $viewModel->setVariable('noteFormLegend', 'Modify Note');
         $viewModel->setVariable('showKeyRequestForm', false);
 
@@ -331,16 +349,32 @@ class NoteController extends ActionController
         if ($this->getRequest()->getPost('title')) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                // Save data
-                $this->noteService->updateUserNote(
-                    $this->identity,
-                    $form->getData()
-                );
-                // Success msg
+                $group = $this->getRequest()->getPost('group');
+                if (!empty($group)) {
+                    if ($group != $noteRecord->getGroup()->getId()) {
+                        $viewVars['msg'] = array('error', 'You cannot change the group');
+                        return new ViewModel($viewVars);
+                    }
+                    $members = $this->getRequest()->getPost('members');
+                    if (empty($members)) {
+                        $viewVars['msg'] = array('error', 'Please select a group member to share note with');
+                        return new ViewModel($viewVars);
+                    }
+                    $this->noteService->updateGroupNote(
+                        $this->identity,
+                        $form->getData(),
+                        $noteRecord->getGroup()->getId(),
+                        $members
+                    );
+                } else {
+                    $this->noteService->updateUserNote(
+                        $this->identity,
+                        $form->getData()
+                    );
+                }
                 $this->flashMessenger()->addSuccessMessage(
                     $this->translator->translate('Note was updated successfully')
                 );
-                // Redirect
                 return $this->redirect()->toRoute('secretery/note');
             }
         }
@@ -476,19 +510,20 @@ class NoteController extends ActionController
     /**
      * @param  \Secretery\Entity\Note $note
      * @param  string                 $action
-     * @param  int                    $id
+     * @param  int                    $noteId
+     * @param  array                  $groupMembers
      * @return \Zend\Form\Form
      */
-    protected function getNoteForm(NoteEntity $note, $action = 'add', $id = null)
+    protected function getNoteForm(NoteEntity $note, $action = 'add', $noteId = null, $groupMembers = null)
     {
         $urlValues = array(
             'controller' => 'note',
             'action'     => $action
         );
         if ($action == 'edit') {
-            $urlValues['id'] = $id;
+            $urlValues['id'] = $noteId;
         }
         $url = $this->url()->fromRoute('secretery/note', $urlValues);
-        return $this->getNoteService()->getNoteForm($note, $url);
+        return $this->getNoteService()->getNoteForm($note, $url, $action, $groupMembers);
     }
 }
