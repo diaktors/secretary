@@ -48,4 +48,33 @@ $(document).ready(function() {
         li.find('i.icon-thumbs-down').attr('class', 'icon-thumbs-up');
         $('#groupMembers').find('ul').append(li);
     });
+
+    // Markdown Editor
+    if ($('#epicEditor').length) {
+        var editor = new EpicEditor({
+            container: 'epicEditor',
+            basePath: '/js/vendor/epiceditor',
+            clientSideStorage: false,
+            localStorageName: 'epiceditor',
+            useNativeFullsreen: true,
+            parser: marked,
+            file: {
+                defaultContent: $('#contentPlaceholder').html(),
+                autoSave: 100
+            },
+            theme: {
+                base:'/themes/base/epiceditor.css',
+                preview:'/themes/preview/preview-dark.css',
+                editor:'/themes/editor/epic-dark.css'
+            }
+        });
+        editor.load();
+
+        // Note Form submit
+        $('#noteForm').submit(function(e) {
+            var editorContent = editor.exportFile();
+            $('#contentPlaceholder').html(editorContent);
+        })
+    }
+
 });
