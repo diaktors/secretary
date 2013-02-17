@@ -1,11 +1,10 @@
 <div class="row notes">
-    <div class="span12">
-        <?php
+    <div class="span12"><?php
         if (!empty($this->msg) && $this->msg[0] == 'error') {
             echo $this->ztbAlert($this->translate($this->msg[1]), false, 'alert-error');
         }
-        ?>
-    </div>
+    ?></div>
+
     <div class="span6">
         <h2><?php echo $this->translate('Add Note') ?></h2>
         <?php echo $this->render('secretery/note/_noteForm.phtml') ?>
