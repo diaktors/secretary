@@ -6,6 +6,7 @@
         echo $this->formElement($this->noteForm->get('members'));
         echo $this->ztbFormElement($this->noteForm->get('title'));
         echo $this->ztbFormElement($this->noteForm->get('content'));
+        echo '<div id="epicEditor"></div>';
         if (empty($this->editMode)) {
             echo '<label class="checkbox">';
             echo $this->formElement($this->noteForm->get('private'), 'append');
