@@ -19,7 +19,8 @@ use Zend\ModuleManager\Feature\InitProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\ModuleManager\ModuleManagerInterface;
-use \Doctrine\Common\Persistence\PersistentObject;
+use Doctrine\Common\Persistence\PersistentObject;
+use Secretery\View\Helper\Markdown;
 
 class Module implements BootstrapListenerInterface,
     FormElementProviderInterface,
@@ -126,7 +127,11 @@ class Module implements BootstrapListenerInterface,
                     //\Zend\View\Helper\Navigation::setDefaultRole($role);
 
                     return $navigation;
-                }
+                },
+                'SecreteryMarkdown' => function($sm) {
+                    $locator = $sm->getServiceLocator();
+                    return new Markdown($locator->get('Request'));
+                },
             )
         );
     }
