@@ -48,7 +48,7 @@
                     ?></td>
                     <td class="funcs">
                         <a href="<?php echo $this->url('secretery/note', array('action' => 'view', 'id' => $note['id'])) ?>">
-                            <i class="icon-lock" title="<?php echo $this->translate('view') ?>"></i>
+                            <i class="icon-eye-open" title="<?php echo $this->translate('view') ?>"></i>
                         </a>
                         <a href="<?php echo $this->url('secretery/note', array('action' => 'edit', 'id' => $note['id'])) ?>">
                             <i class="icon-pencil" title="<?php echo $this->translate('edit') ?>"></i>
@@ -107,7 +107,7 @@
                         ?></td>
                     <td class="funcs">
                         <a href="<?php echo $this->url('secretery/note', array('action' => 'view', 'id' => $note['id'])) ?>">
-                            <i class="icon-lock" title="<?php echo $this->translate('view') ?>"></i>
+                            <i class="icon-eye-open" title="<?php echo $this->translate('view') ?>"></i>
                         </a>
                         <?php if (true === $note['writePermission']): ?>
                             <a href="<?php echo $this->url('secretery/note', array('action' => 'edit', 'id' => $note['id'])) ?>">
