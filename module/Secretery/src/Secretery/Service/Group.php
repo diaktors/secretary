@@ -86,6 +86,54 @@ class Group extends Base
     }
 
     /**
+     * @param  int $noteId
+     * @param  int $groupId
+     * @param  int $userId
+     * @return array
+     * @throws \InvalidArgumentException If GroupID is invalid
+     * @throws \InvalidArgumentException If NoteID is invalid
+     * @throws \InvalidArgumentException If UserID is invalid
+     */
+    public function fetchNoteGroupMembers($noteId, $groupId, $userId)
+    {
+        if (empty($noteId) || !is_numeric($noteId)) {
+            throw new \InvalidArgumentException('Please provide a valid NoteID');
+        }
+        if (empty($groupId) || !is_numeric($groupId)) {
+            throw new \InvalidArgumentException('Please provide a valid GroupID');
+        }
+        if (empty($userId) || !is_numeric($userId)) {
+            throw new \InvalidArgumentException('Please provide a valid UserID');
+        }
+        return $this->em->getRepository('Secretery\Entity\User')
+            ->fetchNoteGroupMembers($noteId, $groupId, $userId);
+    }
+
+    /**
+     * @param  int $noteId
+     * @param  int $groupId
+     * @param  int $userId
+     * @return array
+     * @throws \InvalidArgumentException If GroupID is invalid
+     * @throws \InvalidArgumentException If NoteID is invalid
+     * @throws \InvalidArgumentException If UserID is invalid
+     */
+    public function fetchNoteGroupMembersUnselected($noteId, $groupId, $userId)
+    {
+        if (empty($noteId) || !is_numeric($noteId)) {
+            throw new \InvalidArgumentException('Please provide a valid NoteID');
+        }
+        if (empty($groupId) || !is_numeric($groupId)) {
+            throw new \InvalidArgumentException('Please provide a valid GroupID');
+        }
+        if (empty($userId) || !is_numeric($userId)) {
+            throw new \InvalidArgumentException('Please provide a valid UserID');
+        }
+        return $this->em->getRepository('Secretery\Entity\User')
+            ->fetchNoteGroupMembersUnselected($noteId, $groupId, $userId);
+    }
+
+    /**
      * @param  int $userId
      * @return array
      * @throws \InvalidArgumentException If UserID is invalid
