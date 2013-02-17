@@ -2,6 +2,7 @@
  * Note JS
  */
 $(document).ready(function() {
+    // Listen to private checkbox
     $('#noteForm').find('input[type="checkbox"]').change(function(e) {
         if ($(this).attr('checked') == 'checked') {
             $('#groupHidden').val('');
@@ -11,6 +12,7 @@ $(document).ready(function() {
         }
         $('#shareNote').toggle();
     });
+    // Fetch Group Members
     $('#groupSelectForm').submit(function(e) {
         e.preventDefault();
         var group = $('#groupSelectForm').find('select').val();
@@ -33,6 +35,7 @@ $(document).ready(function() {
             }
         });
     });
+    // Move group member to note
     $('#groupMembers').find('i.icon-thumbs-up').live('click', function() {
         var li = $(this).parent();
         var id = li.attr('class');
@@ -40,6 +43,7 @@ $(document).ready(function() {
         li.find('i.icon-thumbs-up').attr('class', 'icon-thumbs-down');
         $('#selectedGroupMembers').find('ul').append(li);
     });
+    // Remove group member from note
     $('#selectedGroupMembers').find('i.icon-thumbs-down').live('click', function() {
         var li      = $(this).parent();
         var id      = li.attr('class');
