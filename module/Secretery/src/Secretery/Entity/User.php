@@ -357,6 +357,9 @@ class User implements UserInterface, ProviderInterface
         $array['dateUpdated'] = $array['dateUpdated']->format('Y-m-d H:i:s');
         unset($array['key']);
         unset($array['user2note']);
+        unset($array['groups']);
+        unset($array['roles']);
+        unset($array['password']);
         return $array;
     }
 }
