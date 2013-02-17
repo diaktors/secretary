@@ -103,7 +103,9 @@ class NoteController extends ActionController
             'gettext', __DIR__ . '/../../../language', 'note-%s.mo'
         );
         $this->getServiceLocator()->get('viewhelpermanager')->get('headScript')
-            ->prependFile($this->getRequest()->getBaseUrl() . '/js/note.js', 'text/javascript');
+            ->prependFile($this->getRequest()->getBaseUrl() . '/js/note.js', 'text/javascript')
+            ->prependFile($this->getRequest()->getBaseUrl() .
+                                '/js/vendor/epiceditor/js/epiceditor.min.js', 'text/javascript');
 
         $userKeyCheck = $this->identity->getKey();
         if (empty($userKeyCheck)) {
