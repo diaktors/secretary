@@ -62,6 +62,10 @@ div.container div.notes table tr .funcs i,
 div.container div.groups table tr .funcs i {
     margin: 0 5px;
 }
+div#epicEditor {
+    height: 200px;
+    margin-bottom: 20px;
+}
 
 div.container div.notes #groupSelectForm input[type="submit"] {
     margin-left: 10px;
