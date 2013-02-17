@@ -305,6 +305,7 @@ class Note //extends PersistentObject
         $array                = get_object_vars($this);
         $array['dateCreated'] = $array['dateCreated']->format('Y-m-d H:i:s');
         $array['dateUpdated'] = $array['dateUpdated']->format('Y-m-d H:i:s');
+        $array['group']       = $array['group']->getIdentity();
         unset($array['user2note']);
         return $array;
     }
