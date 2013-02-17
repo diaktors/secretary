@@ -6,10 +6,12 @@
         echo $this->formElement($this->noteForm->get('members'));
         echo $this->ztbFormElement($this->noteForm->get('title'));
         echo $this->ztbFormElement($this->noteForm->get('content'));
-        echo '<label class="checkbox">';
-        echo $this->formElement($this->noteForm->get('private'), 'append');
-        echo $this->translate($this->noteForm->get('private')->getLabel());
-        echo '</label>';
+        if (empty($this->editMode)) {
+            echo '<label class="checkbox">';
+            echo $this->formElement($this->noteForm->get('private'), 'append');
+            echo $this->translate($this->noteForm->get('private')->getLabel());
+            echo '</label>';
+        }
         echo '<div class="form-actions">';
         echo $this->ztbFormElement($this->noteForm->get('submit'));
         echo '</div>';
