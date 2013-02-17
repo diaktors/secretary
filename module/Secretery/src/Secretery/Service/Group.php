@@ -22,7 +22,7 @@
 
 namespace Secretery\Service;
 
-use Secretery\Entity\User;
+use Secretery\Entity\User as UserEntity;
 use Secretery\Entity\Group as GroupEntity;
 
 /**
@@ -148,11 +148,11 @@ class Group extends Base
     }
 
     /**
-     * @param  User   $user
-     * @param  string $groupname
+     * @param  UserEntity $user
+     * @param  string     $groupname
      * @return GroupEntity
      */
-    public function addUserGroup(User $user, $groupname)
+    public function addUserGroup(UserEntity $user, $groupname)
     {
         $groupRecord = new GroupEntity();
         $groupRecord->setName($groupname)
@@ -167,7 +167,7 @@ class Group extends Base
     /**
      * @param  GroupEntity $group
      * @param  int         $userId
-     * @return User
+     * @return UserEntity
      * @throws \InvalidArgumentException If UserID is invalid
      * @throws \LogicException           If User could not been found
      */
@@ -187,11 +187,11 @@ class Group extends Base
     }
 
     /**
-     * @param  User        $user
+     * @param  UserEntity  $user
      * @param  GroupEntity $group
      * @return User
      */
-    public function deleteUserGroup(User $user, GroupEntity $group)
+    public function deleteUserGroup(UserEntity $user, GroupEntity $group)
     {
         $user->getGroups()->removeElement($group);
         $this->em->persist($user);
