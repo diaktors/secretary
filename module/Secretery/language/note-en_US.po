@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-02-15 23:43+0100\n"
+"PO-Revision-Date: 2013-02-17 03:46+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
 "Language: de_DE\n"
@@ -125,4 +125,12 @@ msgstr ""
 
 #: ../view/secretery/note/delete.phtml:16
 msgid "Please confirm with key to delete note"
+msgstr ""
+
+#: ../view/secretery/note/edit.phtml:20
+msgid "Manage Note Members"
+msgstr ""
+
+#: ../view/secretery/note/edit.phtml:22
+msgid "Selected Group"
 msgstr ""
