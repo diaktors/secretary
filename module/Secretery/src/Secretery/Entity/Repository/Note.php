@@ -42,7 +42,13 @@ class Note extends EntityRepository
      */
     public function fetchNote($id)
     {
-        return $this->find($id);
+        $qb = $this->createQueryBuilder('n');
+        $qb->addSelect('g')
+            ->leftJoin('n.group', 'g')
+            ->where('n.id = :noteId')
+            ->setParameter('noteId', $id);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**
