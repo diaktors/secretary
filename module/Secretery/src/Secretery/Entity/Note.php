@@ -41,6 +41,7 @@ use Zend\Form\Annotation;
  * @ORM\Table(name="note")
  * @ORM\Entity(repositoryClass="Secretery\Entity\Repository\Note")
  * @Annotation\Name("noteForm")
+ * @Annotation\Attributes({"id":"noteForm"})
  */
 class Note //extends PersistentObject
 {
@@ -68,6 +69,8 @@ class Note //extends PersistentObject
      * @ORM\Column(name="content", type="text")
      * @Annotation\Type("Zend\Form\Element\Textarea")
      * @Annotation\Required({"required":"true"})
+     * @Annotation\Attributes({"class":"hide", "id": "contentPlaceholder", "required":false})
+     * @Annotation\AllowEmpty({"allowEmpty":"true"})
      * @Annotation\Options({"label":"Note text"})
      */
     protected $content;

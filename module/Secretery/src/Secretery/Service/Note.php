@@ -127,6 +127,7 @@ class Note extends Base
             $builder        = new AnnotationBuilder($this->getEntityManager());
             $this->noteForm = $builder->createForm($note);
             $this->noteForm->setAttribute('action', $url);
+            $this->noteForm->setAttribute('id', 'noteForm');
             $this->noteForm->setHydrator(new DoctrineObject(
                 $this->getEntityManager(),
                 'Secretery\Entity\Note'
