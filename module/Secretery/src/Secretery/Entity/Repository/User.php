@@ -38,6 +38,55 @@ use Doctrine\Common\Collections\ArrayCollection;
 class User extends EntityRepository
 {
     /**
+     * @param  int $noteId
+     * @param  int $groupId
+     * @param  int $userId
+     * @return array
+     */
+    public function fetchNoteGroupMembers($noteId, $groupId, $userId)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->from($this->_entityName, 'u', 'u.id')
+            ->select('u.id, u.displayName, u.email')
+            ->join('u.groups', 'g')
+            ->where('g.id = :groupId')
+            ->andWhere('u.id != :userId')
+            ->andWhere('EXISTS (SELECT u2n.noteId FROM Secretery\Entity\User2Note u2n WHERE u2n.userId = u.id AND u2n.noteId = :noteId)')
+            ->addOrderBy('u.displayName', 'ASC')
+            ->addOrderBy('u.email', 'ASC')
+            ->addGroupBy('u.id')
+            ->setParameter('groupId', $groupId)
+            ->setParameter('noteId', $noteId)
+            ->setParameter('userId', $userId);
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @param  int $noteId
+     * @param  int $groupId
+     * @param  int $userId
+     * @return array
+     */
+    public function fetchNoteGroupMembersUnselected($noteId, $groupId, $userId)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->from($this->_entityName, 'u', 'u.id')
+            ->select('u.id, u.displayName, u.email')
+            ->join('u.groups', 'g')
+            ->where('g.id = :groupId')
+            ->andWhere('u.id != :userId')
+            ->andWhere('NOT EXISTS (SELECT u2n.noteId FROM Secretery\Entity\User2Note u2n WHERE u2n.userId = u.id AND u2n.noteId = :noteId)')
+            ->addOrderBy('u.displayName', 'ASC')
+            ->addOrderBy('u.email', 'ASC')
+            ->addGroupBy('u.id')
+            ->setParameter('noteId', $noteId)
+            ->setParameter('groupId', $groupId)
+            ->setParameter('userId', $userId);
+
+        return $qb->getQuery()->getArrayResult();
+    }
+    /**
      * @param  int $userId
      * @param  int $groupId
      * @return ArrayCollection
