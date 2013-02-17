@@ -22,12 +22,12 @@
 
 namespace Secretery\Service;
 
+use \Doctrine\Common\Collections\ArrayCollection;
 use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Secretery\Entity\Note as NoteEntity;
 use Secretery\Entity\User as UserEntity;
 use Secretery\Entity\User2Note as User2NoteEntity;
-use Secretery\Form\Note as NoteForm;
 use Secretery\Form\GroupSelect as GroupSelectForm;
 use Secretery\Form\KeyRequest as KeyRequestForm;
 
@@ -54,7 +54,7 @@ class Note extends Base
     protected $groupForm;
 
     /**
-     * @var \Secretery\Form\Note
+     * @var \Zend\Form\Form
      */
     protected $noteForm;
 
@@ -117,9 +117,11 @@ class Note extends Base
     /**
      * @param  \Secretery\Entity\Note $noteRecord
      * @param  string                 $url
+     * @param  string                 $action
+     * @param  array                  $members
      * @return \Zend\Form\Form
      */
-    public function getNoteForm(NoteEntity $note, $url = '')
+    public function getNoteForm(NoteEntity $note, $url = '', $action = 'add', $members = null)
     {
         if (is_null($this->noteForm)) {
             $builder        = new AnnotationBuilder($this->getEntityManager());
@@ -129,9 +131,17 @@ class Note extends Base
                 $this->getEntityManager(),
                 'Secretery\Entity\Note'
             ));
-            $this->noteForm->get('private')->setAttribute('required', false);
-            $this->noteForm->getInputFilter()->get('private')->setRequired(false);
             $this->noteForm->bind($note);
+            if ($action == 'edit' && $note->getPrivate() === false) {
+                $this->noteForm->remove('private');
+                $group         = $note->getGroup();
+                $membersString = $this->getMembersString(array_keys($members));
+                $this->noteForm->get('group')->setValue($group->getId());
+                $this->noteForm->get('members')->setValue($membersString);
+            } else {
+                $this->noteForm->get('private')->setAttribute('required', false);
+                $this->noteForm->getInputFilter()->get('private')->setRequired(false);
+            }
         }
         return $this->noteForm;
     }
@@ -314,36 +324,45 @@ class Note extends Base
             $keys
         );
 
+        $note->setContent($encryptData['content']);
+        $this->em->persist($note);
+        $this->em->flush();
+
+        return $this->saveUser2NoteRelations($users, $note, $owner, $encryptData);
+    }
+
+    /**
+     * Save user note
+     *
+     * @param  \Secretery\Entity\User $owner
+     * @param  \Secretery\Entity\Note $note
+     * @param  int                    $groupId
+     * @param  string                 $members
+     * @return \Secretery\Entity\Note
+     */
+    public function updateGroupNote(UserEntity $owner, NoteEntity $note, $groupId, $members)
+    {
+        $members   = $this->getMembersArray($members);
+        $usersKeys = $this->getUsersWithKeys($members, $owner, $groupId);
+        $users     = $usersKeys['users'];
+        $keys      = $usersKeys['keys'];
+
+        $encryptData = $this->getEncryptionService()->encryptForMultipleKeys(
+            $note->getContent(),
+            $users,
+            $keys
+        );
+
+        // Remove Associations
+        $this->em->getRepository('Secretery\Entity\User2Note')
+            ->removeUserFromNote($note->getId());
+
         // Save Note
         $note->setContent($encryptData['content']);
         $this->em->persist($note);
         $this->em->flush();
 
-        $i = 0;
-        // Save User2Note entries
-        foreach ($users as $user) {
-            $ownerCheck = false;
-            if ($owner->getId() == $user->getId()) {
-                $ownerCheck = true;
-            }
-            $user2Note = new User2NoteEntity();
-            $user2Note->setUser($user)
-                ->setUserId($user->getId())
-                ->setNote($note)
-                ->setNoteId($note->getId())
-                ->setEkey($encryptData['ekey'][$i])
-                ->setOwner($ownerCheck)
-                ->setReadPermission(true)
-                ->setWritePermission($ownerCheck);
-
-            $note->addUser2Note($user2Note);
-
-            $this->em->persist($note);
-            $i++;
-        }
-        $this->em->flush();
-
-        return $note;
+        return $this->saveUser2NoteRelations($users, $note, $owner, $encryptData);
     }
 
     /**
@@ -436,6 +455,21 @@ class Note extends Base
      * @return array
      * @throws \LogicException If no members are given
      */
+    protected function getMembersString(array $members)
+    {
+        if (empty($members)) {
+            throw new \LogicException('No members given');
+        }
+        $membersString  = implode(',', $members);
+        $membersString .= ',';
+        return $membersString;
+    }
+
+    /**
+     * @param  string $members
+     * @return array
+     * @throws \LogicException If no members are given
+     */
     protected function getMembersArray($members)
     {
         if (empty($members)) {
@@ -485,6 +519,42 @@ class Note extends Base
             'users' => $users,
             'keys'  => $keys
         );
+    }
+
+    /**
+     * @param  array      $users
+     * @param  NoteEntity $note
+     * @param  UserEntity $owner
+     * @param  array      $encryptData
+     * @return Note
+     */
+    protected function saveUser2NoteRelations(array $users, NoteEntity $note,
+                                              UserEntity $owner, array $encryptData)
+    {
+        $i = 0;
+        // Save User2Note entries
+        foreach ($users as $user) {
+            $ownerCheck = false;
+            if ($owner->getId() == $user->getId()) {
+                $ownerCheck = true;
+            }
+            $user2Note = new User2NoteEntity();
+            $user2Note->setUser($user)
+                ->setUserId($user->getId())
+                ->setNote($note)
+                ->setNoteId($note->getId())
+                ->setEkey($encryptData['ekey'][$i])
+                ->setOwner($ownerCheck)
+                ->setReadPermission(true)
+                ->setWritePermission($ownerCheck);
+
+            $note->addUser2Note($user2Note);
+
+            $this->em->persist($note);
+            $i++;
+        }
+        $this->em->flush();
+        return $note;
     }
 
     /**
