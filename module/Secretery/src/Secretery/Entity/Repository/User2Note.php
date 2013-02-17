@@ -45,4 +45,18 @@ class User2Note extends EntityRepository
     {
         return $this->findOneBy(array('userId' => $userId, 'noteId' => $noteId));
     }
+
+    /**s
+     * @param  int $noteId
+     * @return bool
+     */
+    public function removeUserFromNote($noteId)
+    {
+        $qb = $this->createQueryBuilder('u2n')
+                ->delete()
+                ->where('u2n.noteId = :noteId')
+                ->setParameter('noteId', $noteId);
+
+        return $qb->getQuery()->execute();
+    }
 }
