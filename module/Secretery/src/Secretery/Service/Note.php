@@ -304,6 +304,31 @@ class Note extends Base
     }
 
     /**
+     * @param  \Secretery\Entity\User  $user
+     * @param  \Secretery\Entity\Group $group
+     * @return void
+     */
+    public function deleteUserFromGroupNotes(UserEntity $user, GroupEntity $group)
+    {
+        $groupNotes = $this->em->getRepository('Secretery\Entity\Note')->fetchGroupNotes(
+            $user->getId(), $group->getId(), \Doctrine\ORM\AbstractQuery::HYDRATE_OBJECT
+        );
+        if (empty($groupNotes)) {
+            return;
+        }
+
+        $groupOwner = $this->em->getRepository('Secretery\Entity\User')->find($group->getOwner());
+        foreach ($groupNotes as $note) {
+            $this->em->getRepository('Secretery\Entity\User2Note')
+                ->checkNoteOwnershipForLeavingUser(
+                    $note, $user->getId(), $groupOwner->getId()
+                );
+        }
+
+        return;
+    }
+
+    /**
      * Save user note
      *
      * @param  \Secretery\Entity\User $owner
