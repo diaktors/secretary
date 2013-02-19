@@ -260,6 +260,26 @@ class User implements UserInterface, ProviderInterface
     }
 
     /**
+     * Get Date Created.
+     *
+     * @return \DateTime
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * Get Date Updated.
+     *
+     * @return \DateTime
+     */
+    public function getDateUpdated()
+    {
+        return $this->dateUpdated;
+    }
+
+    /**
      * Get role.
      *
      * @return \Doctrine\Common\Collections\Collection
@@ -353,8 +373,9 @@ class User implements UserInterface, ProviderInterface
     public function toArray()
     {
         $array                = get_object_vars($this);
-        $array['dateCreated'] = $array['dateCreated']->format('Y-m-d H:i:s');
-        $array['dateUpdated'] = $array['dateUpdated']->format('Y-m-d H:i:s');
+        $array['dateCreated'] = $this->getDateCreated()->format('Y-m-d H:i:s');
+        $array['dateUpdated'] = $this->getDateUpdated()->format('Y-m-d H:i:s');
+        $array['role']        = $this->getRoles()->first()->getRoleId();
         unset($array['key']);
         unset($array['user2note']);
         unset($array['groups']);
