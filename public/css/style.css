@@ -43,10 +43,23 @@ div.container div.groups h1 {
 }
 div.container div.notes a.addNote {
     float: right;
-    nargin-top: 10px;
+    margin-top: 5px;
+}
+div.container div.notes h2.group {
+    float: left;
+}
+div.container div.notes form.groupFilter {
+    float: right;
+    margin: 17px 0 0;
 }
 div.container div.notes table tr .title {
     width: 500px;
+}
+div.container div.notes table tr .titleSmall {
+    width: 300px;
+}
+div.container div.notes table tr .group {
+    width: 184px;
 }
 div.container div.notes table tr .date {
     width: 160px;
