@@ -382,7 +382,7 @@ class Note extends Base
 
         // Remove Associations
         $this->em->getRepository('Secretery\Entity\User2Note')
-            ->removeUserFromNote($note->getId());
+            ->removeUsersFromNote($note->getId());
 
         // Save Note
         $note->setContent($encryptData['content']);

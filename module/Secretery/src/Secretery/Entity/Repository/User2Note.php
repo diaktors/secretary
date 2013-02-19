@@ -50,7 +50,7 @@ class User2Note extends EntityRepository
      * @param  int $noteId
      * @return bool
      */
-    public function removeUserFromNote($noteId)
+    public function removeUsersFromNote($noteId)
     {
         $qb = $this->createQueryBuilder('u2n')
                 ->delete()
