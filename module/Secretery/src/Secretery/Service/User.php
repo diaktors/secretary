@@ -37,11 +37,15 @@ class User extends Base
     /**
      * @param  \Zend\EventManager\Event $e
      * @return void
+     * @throws \LogicException If needed role can not be found
      */
     public function saveUserRole(\Zend\EventManager\Event $e)
     {
         $roleRecord = $this->em->getRepository('Secretery\Entity\Role')
             ->findOneBy(array('roleId' => 'user'));
+        if (empty($roleRecord)) {
+            throw new \LogicException('Roles are missing, please configure them');
+        }
         $user = $e->getParam('user');
         $user->addRole($roleRecord);
         $this->em->persist($roleRecord);
