@@ -22,6 +22,8 @@
 
 namespace Secretery\Service;
 
+use Secretery\Entity\User as UserEntity;
+
 /**
  * User Service
  *
@@ -52,6 +54,22 @@ class User extends Base
         $this->em->flush();
         return;
     }
+
+    /**
+     * @param  \Secretery\Entity\User $user
+     * @return void
+     * @throws \LogicException If needed role can not be found
+     */
+    public function updateUserToKeyRole(UserEntity $user)
+    {
+        $roleRecord = $this->em->getRepository('Secretery\Entity\Role')
+            ->findOneBy(array('roleId' => 'keyuser'));
+        if (empty($roleRecord)) {
+            throw new \LogicException('Roles are missing, please configure them');
+        }
+        $user->getRoles()->clear();
+        $user->addRole($roleRecord);
+        $this->em->persist($user);
         $this->em->flush();
         return;
     }
