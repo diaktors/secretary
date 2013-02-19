@@ -69,11 +69,23 @@
             </tbody>
         </table>
 
-        <h2><?php echo $this->translate('Group Notes') ?></h2>
+        <h2 class="group"><?php echo $this->translate('Group Notes') ?></h2>
+        <form action="<?php echo $this->url('secretery/note') ?>" method="get" class="groupFilter">
+            <select name="group" class="btn-info">
+                <option value=""><?php echo $this->translate('Filter group') ?></option>
+                <?php foreach ($this->groupCollection as $group): ?>
+                    <option value="<?php echo $this->escapeHtml($group->getId()) ?>"<?php if ($this->groupId == $group->getId()) { echo ' selected="selected"'; } ?>>
+                        <?php echo $this->escapeHtml($group->getName()) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </form>
+        <div class="clearfix"></div>
         <table class="table table-striped" summary="List of Group Notes">
             <thead>
             <tr>
-                <th class="title"><?php echo $this->translate('Note title') ?></th>
+                <th class="titleSmall"><?php echo $this->translate('Note title') ?></th>
+                <th class="group"><?php echo $this->translate('Note group') ?></th>
                 <th class="date"><?php echo $this->translate('Note date') ?></th>
                 <th class="smallInfo"><?php echo $this->translate('Note owner') ?></th>
                 <th class="smallInfo"><?php echo $this->translate('Note permissions') ?></th>
@@ -84,11 +96,12 @@
             <?php if (!empty($this->groupNoteCollection)): ?>
                 <?php foreach ($this->groupNoteCollection as $note): ?>
                 <tr>
-                    <td class="title">
+                    <td class="titleSmall">
                         <a href="<?php echo $this->url('secretery/note', array('action' => 'view', 'id' => $note['id'])) ?>">
                             <?php echo $this->escapeHtml($note['title']); ?>
                         </a>
                     </td>
+                    <td class="group"><?php echo $this->escapeHtml($note['groupName']); ?></td>
                     <td class="date"><?php echo $this->escapeHtml($note['dateCreated']->format('Y-m-d H:i:s')); ?></td>
                     <td class="smallInfo"><?php
                         if (true === $note['owner']) {
@@ -122,7 +135,7 @@
                     <?php endforeach; ?>
                 <?php else:  ?>
             <tr>
-                <td colspan="5">
+                <td colspan="6">
                     <?php echo $this->ztbAlert($this->translate('No notes found'), false, 'alert-error'); ?>
                 </td>
             </tr>

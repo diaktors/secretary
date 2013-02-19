@@ -120,17 +120,26 @@ class NoteController extends ActionController
      */
     public function indexAction()
     {
+        $groupId  = null;
         $messages = $this->flashMessenger()->getCurrentSuccessMessages();
         $msg      = false;
         if (!empty($messages)) {
             $msg = array('success', $messages[0]);
         }
         $this->flashMessenger()->clearMessages();
-        $userNoteCollection  = $this->noteService->fetchUserNotes($this->identity->getId());
-        $groupNoteCollection = $this->noteService->fetchGroupNotes($this->identity->getId());
+        $userNoteCollection = $this->noteService->fetchUserNotes($this->identity->getId());
+        if ($this->getRequest()->getQuery('group') &&
+            is_numeric($this->getRequest()->getQuery('group'))) {
+            $groupId = (int) $this->getRequest()->getQuery('group');
+        }
+        $groupNoteCollection = $this->noteService->fetchGroupNotes(
+            $this->identity->getId(), $groupId
+        );
         return new ViewModel(array(
             'userNoteCollection'  => $userNoteCollection,
             'groupNoteCollection' => $groupNoteCollection,
+            'groupCollection'     => $this->identity->getGroups(),
+            'groupId'             => $groupId,
             'msg'                 => $msg
         ));
     }
