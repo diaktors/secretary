@@ -81,4 +81,11 @@ $(document).ready(function() {
         })
     }
 
+    // Group Filter (form submit)
+    if ($('form.groupFilter').length) {
+        $('form.groupFilter select').change(function() {
+            $(this).parent().submit();
+        })
+    }
+
 });
