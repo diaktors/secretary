@@ -27,6 +27,7 @@ use Secretery\Form\GroupMember as GroupMemberForm;
 use Secretery\Entity\Group as GroupEntity;
 use Secretery\Mvc\Controller\ActionController;
 use Secretery\Service\Group as GroupService;
+use Secretery\Service\Note as NoteService;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 
@@ -68,6 +69,11 @@ class GroupController extends ActionController
     protected $groupService;
 
     /**
+     * @var \Secretery\Service\Note
+     */
+    protected $noteService;
+
+    /**
      * @var array
      */
     protected $msg;
@@ -99,6 +105,16 @@ class GroupController extends ActionController
     public function setGroupService(GroupService $groupService)
     {
         $this->groupService = $groupService;
+        return $this;
+    }
+
+    /**
+     * @param  \Secretery\Service\Note $noteService
+     * @return self
+     */
+    public function setNoteService(NoteService $noteService)
+    {
+        $this->noteService = $noteService;
         return $this;
     }
 
@@ -149,6 +165,14 @@ class GroupController extends ActionController
     public function getGroupService()
     {
         return $this->groupService;
+    }
+
+    /**
+     * @return \Secretery\Service\Note
+     */
+    public function getNoteService()
+    {
+        return $this->noteService;
     }
 
     /**
@@ -344,12 +368,18 @@ class GroupController extends ActionController
     public function leaveAction()
     {
         $viewModel = new ViewModel();
-        $viewVars  = array('groupRecord' => $this->groupRecord);
+        $viewModel->setVariable('groupRecord', $this->groupRecord);
 
         // Delete User from Group / Delete Group
         if ($this->getRequest()->getQuery('confirm')) {
+            if ($this->groupRecord->getOwner() == $this->identity->getId()) {
+                return $this->redirect()->toRoute('secretery/group');
+            }
             try {
                 $groupName = $this->groupRecord->getName();
+                $this->noteService->deleteUserFromGroupNotes(
+                    $this->identity, $this->groupRecord
+                );
                 $this->groupService->deleteUserGroup($this->identity, $this->groupRecord);
                 $this->flashMessenger()->addSuccessMessage(
                     sprintf(
@@ -363,7 +393,6 @@ class GroupController extends ActionController
             }
         }
 
-        $viewModel->setVariables($viewVars);
         return $viewModel;
     }
 
