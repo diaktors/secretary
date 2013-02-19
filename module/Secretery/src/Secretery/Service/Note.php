@@ -27,6 +27,7 @@ use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Secretery\Entity\Note as NoteEntity;
 use Secretery\Entity\User as UserEntity;
+use Secretery\Entity\Group as GroupEntity;
 use Secretery\Entity\User2Note as User2NoteEntity;
 use Secretery\Form\GroupSelect as GroupSelectForm;
 use Secretery\Form\KeyRequest as KeyRequestForm;
