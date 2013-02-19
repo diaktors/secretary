@@ -22,6 +22,7 @@
 
 namespace Secretery\Entity\Repository;
 
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -96,7 +97,7 @@ class Note extends EntityRepository
      * @param  int $userId
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function fetchGroupNotes($userId, $groupId = null)
+    public function fetchGroupNotes($userId, $groupId = null, $fetchMode = AbstractQuery::HYDRATE_ARRAY)
     {
         $qb = $this->createQueryBuilder('n');
         $qb->select(array('n.id', 'n.title', 'n.content', 'n.private', 'n.dateCreated', 'n.dateUpdated'))
@@ -117,6 +118,6 @@ class Note extends EntityRepository
                 ->setParameter('groupId', $groupId);
         }
 
-        return $qb->getQuery()->getArrayResult();
+        return $qb->getQuery()->getResult($fetchMode);
     }
 }
