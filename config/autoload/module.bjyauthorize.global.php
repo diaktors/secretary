@@ -26,8 +26,8 @@ return array(
                 array('route' => 'zfcuser/register', 'roles' => array('guest')),
                 array('route' => 'home', 'roles' => array('guest', 'user')),
                 array('route' => 'secretery/default', 'roles' => array('user')),
-                array('route' => 'secretery/note', 'roles' => array('user')),
-                array('route' => 'secretery/group', 'roles' => array('user')),
+                array('route' => 'secretery/note', 'roles' => array('keyuser')),
+                array('route' => 'secretery/group', 'roles' => array('keyuser')),
             ),
         ),
         'resource_providers' => array(
@@ -43,8 +43,8 @@ return array(
                 'allow' => array(
                     array(array('user'), 'dashboard', 'use'),
                     array(array('user'), 'key', 'use'),
-                    array(array('user'), 'notes', 'use'),
-                    array(array('user'), 'groups', 'use')
+                    array(array('keyuser'), 'notes', 'use'),
+                    array(array('keyuser'), 'groups', 'use')
                 ),
                 'deny' => array(),
             ),
