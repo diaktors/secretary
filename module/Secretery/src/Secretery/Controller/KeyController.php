@@ -27,6 +27,7 @@ use Secretery\Form\Key as KeyForm;
 use Secretery\Mvc\Controller\ActionController;
 use Secretery\Service\Encryption as EncryptionService;
 use Secretery\Service\Key as KeyService;
+use Secretery\Service\User as UserService;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 
@@ -48,14 +49,19 @@ class KeyController extends ActionController
     protected $keyForm;
 
     /**
+     * @var EncryptionService
+     */
+    protected $encryptionService;
+
+    /**
      * @var KeyService
      */
     protected $keyService;
 
     /**
-     * @var EncryptionService
+     * @var UserService
      */
-    protected $encryptionService;
+    protected $userService;
 
     /**
      * @param  KeyForm $keyForm
@@ -74,6 +80,16 @@ class KeyController extends ActionController
     public function setKeyService(KeyService $keyService)
     {
         $this->keyService = $keyService;
+        return $this;
+    }
+
+    /**
+     * @param  UserService $userService
+     * @return self
+     */
+    public function setUserService(UserService $userService)
+    {
+        $this->userService = $userService;
         return $this;
     }
 
@@ -116,6 +132,14 @@ class KeyController extends ActionController
     public function getKeyService()
     {
         return $this->keyService;
+    }
+
+    /**
+     * @return UserService
+     */
+    public function getUserService()
+    {
+        return $this->userService;
     }
 
     /**
@@ -194,6 +218,9 @@ class KeyController extends ActionController
                     $this->identity,
                     $keys['pub']
                 );
+
+                // Upgrade User to KeyUser Role
+                $this->userService->updateUserToKeyRole($this->identity);
 
                 // Success
                 $viewVars['msg'] = array(
