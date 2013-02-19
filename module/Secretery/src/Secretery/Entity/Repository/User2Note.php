@@ -59,4 +59,55 @@ class User2Note extends EntityRepository
 
         return $qb->getQuery()->execute();
     }
+
+    /**
+     * @param  array $note
+     * @param  int   $userId
+     * @param  int   $groupOwnerId
+     * @return \Secretery\Entity\User2Note
+     */
+    public function checkNoteOwnershipForLeavingUser(array $note, $userId, $groupOwnerId)
+    {
+        $user2noteRecord = $this->findOneBy(
+            array('userId' => $userId, 'noteId' => $note['id'])
+        );
+        if (false == $note['owner']) {
+            $this->getEntityManager()->remove($user2noteRecord);
+            $this->getEntityManager()->flush();
+            return;
+        }
+        $newUser2NoteOwnerRecord = $this->getNewNoteOwner($note['id'], $userId, $groupOwnerId);
+        $newUser2NoteOwnerRecord->setOwner(true)
+            ->setReadPermission(true)
+            ->setWritePermission(true);
+        $this->getEntityManager()->persist($newUser2NoteOwnerRecord);
+        $this->getEntityManager()->remove($user2noteRecord);
+        $this->getEntityManager()->flush();
+        return;
+    }
+
+    /**
+     * @param  int $noteId
+     * @param  int $deleteUserId
+     * @param  int $groupOwnerId
+     * @return \Secretery\Entity\User2Note
+     */
+    protected function getNewNoteOwner($noteId, $deleteUserId, $groupOwnerId)
+    {
+        $user2noteOwnerRecord = $this->findOneBy(
+            array('userId' => $groupOwnerId, 'noteId' => $noteId)
+        );
+        if (!empty($user2noteOwnerRecord)) {
+            return $user2noteOwnerRecord;
+        }
+        $qb = $this->createQueryBuilder('u2n')
+            ->where('u2n.noteId = :noteId')
+            ->andWhere('u2n.userId != :userId')
+            ->setParameter('noteId', $noteId)
+            ->setParameter('userId', $deleteUserId)
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
 }
