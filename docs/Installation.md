@@ -16,3 +16,10 @@ Using Composer to install
 6. change config/autoload/local.php db values
 7. create Apache/Nginx host for project with SSL(!)
 8. run https://your-secretery.com/user/register and register your first account
+
+Tests
+-----
+Only a small amount of tests are there right now.
+
+- cd into modules/Secretery/test
+- phpunit
