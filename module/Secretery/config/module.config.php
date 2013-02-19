@@ -216,7 +216,8 @@ return array(
             'Secretery\Controller\Key' => function(ControllerManager $cm) {
                 $controller = new KeyController();
                 $controller->setKeyService($cm->getServiceLocator()->get('key-service'))
-                    ->setEncryptionService($cm->getServiceLocator()->get('encryption-service'));
+                    ->setEncryptionService($cm->getServiceLocator()->get('encryption-service'))
+                    ->setUserService($cm->getServiceLocator()->get('user-service'));
                 return $controller;
             },
             'Secretery\Controller\Note' => function(ControllerManager $cm) {
