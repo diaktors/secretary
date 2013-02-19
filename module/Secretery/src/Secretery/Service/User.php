@@ -48,7 +48,10 @@ class User extends Base
         }
         $user = $e->getParam('user');
         $user->addRole($roleRecord);
-        $this->em->persist($roleRecord);
+        $this->em->persist($user);
+        $this->em->flush();
+        return;
+    }
         $this->em->flush();
         return;
     }
