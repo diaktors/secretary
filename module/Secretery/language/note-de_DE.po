@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-02-17 03:46+0100\n"
+"PO-Revision-Date: 2013-02-19 03:47+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
 "Language: de_DE\n"
@@ -78,6 +78,14 @@ msgstr "Keine Notizen vorhanden"
 #: ../view/secretery/note/index.phtml:72
 msgid "Group Notes"
 msgstr "Gruppen Notizen"
+
+#: ../view/secretery/note/index.phtml:75
+msgid "Filter group"
+msgstr "Nach Gruppe filtern"
+
+#: ../view/secretery/note/index.phtml:88
+msgid "Note group"
+msgstr "Gruppe"
 
 #: ../view/secretery/note/add.phtml:14
 msgid "Add Note Members"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-02-14 23:18+0100\n"
+"PO-Revision-Date: 2013-02-19 01:33+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
 "Language: de_DE\n"
@@ -43,7 +43,11 @@ msgstr "Du bist noch kein Mitglied in einer Gruppe"
 msgid "Leave Group"
 msgstr "Gruppe verlassen"
 
-#: ../view/secretery/group/leave.phtml:8
+#: ../view/secretery/group/leave.phtml:7
+msgid "You are Group Owner - you cannot leave the group"
+msgstr "Du bist Gruppen Besitzer, du kannst die Gruppe nicht verlassen"
+
+#: ../view/secretery/group/leave.phtml:23
 msgid "Do you really want to leave this group?"
 msgstr "Willst du wirklich die Gruppe verlassen?"
 

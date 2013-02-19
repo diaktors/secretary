@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-02-15 23:41+0100\n"
+"PO-Revision-Date: 2013-02-18 10:45+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
 "Language: de_DE\n"
@@ -115,6 +115,11 @@ msgstr "Willkommen zu Ihrem %sSecretery%s"
 #: ../view/secretery/index/index.phtml:3
 msgid "A secure place for shared infos"
 msgstr "Ein sicherer Ort für geteilte Informationen"
+
+#: ../view/secretery/index/index.phtml:15
+msgid "Please create your private key to be able to add notes"
+msgstr ""
+"Bitte erstellen Sie Ihren privaten Schlüssel um Notizen hinzufügen zu können"
 
 #: ../view/login/login.phtml:11
 msgid "Sign In"
