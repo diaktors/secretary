@@ -94,10 +94,13 @@ class User extends EntityRepository
     public function getSelectUser($userId, $groupId = null)
     {
         $qb = $this->createQueryBuilder('u')
+            ->join('u.roles', 'r')
             ->where('u.id != :userId')
+            ->andWhere('r.roleId = :role')
             ->addOrderBy('u.displayName', 'ASC')
             ->addOrderBy('u.email', 'ASC')
-            ->setParameter('userId', $userId);
+            ->setParameter('userId', $userId)
+            ->setParameter('role', 'keyuser');
         if (!empty($groupId)) {
             $memberIds = $this->getEntityManager()->getRepository('Secretery\Entity\Group')
                 ->fetchGroupMemberIds($groupId);
