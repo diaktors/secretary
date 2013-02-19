@@ -10,6 +10,7 @@ return array(
         'BjyAuthorize',
         'ZfcAdmin',
         'ZfcTwitterBootstrap',
+        //'WdevMarkdown',
         'ZendDeveloperTools'
     ),
     'module_listener_options' => array(
