@@ -1,4 +1,4 @@
-Secretery
+Secretery [![Build Status](https://travis-ci.org/wesrc/secretery.png)](https://travis-ci.org/wesrc/secretery)
 =========
 A secure place for shared infos.
 
