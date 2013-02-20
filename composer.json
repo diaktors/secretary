@@ -3,21 +3,6 @@
     "description": "Your personal secretery - A secure place for shared infos",
     "license": "MIT",
     "homepage": "http://secretery.github.com/",
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "version": "master",
-                "name": "ZfcTwitterBootstrap",
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/mwillbanks/ZfcTwitterBootstrap",
-                    "reference": "master"
-                }
-            }
-
-        }
-    ],
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.1.2",
@@ -27,7 +12,7 @@
         "zf-commons/zfc-admin": "dev-master",
         "gedmo/doctrine-extensions": "2.3.4",
         "bjyoungblood/bjy-authorize": "1.1.1",
-        "ZfcTwitterBootstrap": "dev-master",
+        "mwillbanks/zfc-twitter-bootstrap": "dev-master",
         "dflydev/markdown": "1.0.2"
     }
 }

@@ -1,17 +1,6 @@
 {
-    "hash": "cefe1590a907871458fcd76c967840b0",
+    "hash": "1d77bc6883043d108730d9c81b887814",
     "packages": [
-        {
-            "name": "ZfcTwitterBootstrap",
-            "version": "master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mwillbanks/ZfcTwitterBootstrap",
-                "reference": "master"
-            },
-            "time": "2013-02-07 18:55:00",
-            "type": "library"
-        },
         {
             "name": "bjyoungblood/bjy-authorize",
             "version": "1.1.1",
@@ -565,6 +554,50 @@
             ]
         },
         {
+            "name": "mwillbanks/zfc-twitter-bootstrap",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mwillbanks/ZfcTwitterBootstrap.git",
+                "reference": "a23b9b2bcfabf124da2caf86335e3bfdd9290a13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mwillbanks/ZfcTwitterBootstrap/zipball/a23b9b2bcfabf124da2caf86335e3bfdd9290a13",
+                "reference": "a23b9b2bcfabf124da2caf86335e3bfdd9290a13",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "zendframework/zendframework": "2.*"
+            },
+            "time": "2013-02-07 18:55:00",
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "ZfcTwitterBootstrap": "src/"
+                },
+                "classmap": [
+                    "./"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Mike Willbanks",
+                    "email": "mike@digitalstruct.com",
+                    "homepage": "http://blog.digitalstruct.com/"
+                }
+            ],
+            "description": "A module that assists in implementing Twitter Bootstrap for ZF2",
+            "homepage": "https://github.com/mwillbanks/ZfcTwitterBootstrap",
+            "keywords": [
+                "twBootstrap",
+                "twitter bootstrap",
+                "zf2"
+            ]
+        },
+        {
             "name": "symfony/console",
             "version": "v2.1.7",
             "target-dir": "Symfony/Component/Console",
@@ -980,6 +1013,6 @@
     "stability-flags": {
         "zendframework/zend-developer-tools": 20,
         "zf-commons/zfc-admin": 20,
-        "zfctwitterbootstrap": 20
+        "mwillbanks/zfc-twitter-bootstrap": 20
     }
 }
