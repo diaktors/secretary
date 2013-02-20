@@ -40,7 +40,7 @@ use Zend\InputFilter\InputFilterInterface;
  * @version  Release: @package_version@
  * @link     http://www.wesrc.com
  *
- * @ORM\Table(name="`group`")
+ * @ORM\Table(name="groups")
  * @ORM\Entity(repositoryClass="Secretery\Entity\Repository\Group")
  */
 class Group implements InputFilterAwareInterface
