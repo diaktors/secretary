@@ -25,9 +25,9 @@
         "doctrine/doctrine-orm-module": "0.7.0",
         "zf-commons/zfc-user-doctrine-orm": "0.1.1",
         "zf-commons/zfc-admin": "dev-master",
-        "gedmo/doctrine-extensions": "v2.3.4",
+        "gedmo/doctrine-extensions": "2.3.4",
         "bjyoungblood/bjy-authorize": "1.1.1",
         "ZfcTwitterBootstrap": "dev-master",
-        "dflydev/markdown": "v1.0.2"
+        "dflydev/markdown": "1.0.2"
     }
 }
