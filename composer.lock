@@ -1,5 +1,5 @@
 {
-    "hash": "fa74abf602a75db4235d1b5a1825cfce",
+    "hash": "f0bd3d0675b13efdbdaf354fd3359ebf",
     "packages": [
         {
             "name": "ZfcTwitterBootstrap",
@@ -337,16 +337,16 @@
         },
         {
             "name": "doctrine/doctrine-orm-module",
-            "version": "dev-master",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
                 "url": "git://github.com/doctrine/DoctrineORMModule.git",
-                "reference": "8da0dab03be4f282b97632d54979d6b45d6bf479"
+                "reference": "0.7.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/DoctrineORMModule/archive/8da0dab03be4f282b97632d54979d6b45d6bf479.zip",
-                "reference": "8da0dab03be4f282b97632d54979d6b45d6bf479",
+                "url": "https://github.com/doctrine/DoctrineORMModule/archive/0.7.0.zip",
+                "reference": "0.7.0",
                 "shasum": ""
             },
             "require": {
@@ -367,7 +367,7 @@
                 "doctrine/migrations": "doctrine migrations if you want to keep your schema definitions versioned",
                 "zendframework/zend-developer-tools": "zend-developer-tools if you want to profile operations executed by the ORM during development"
             },
-            "time": "2013-01-23 19:32:00",
+            "time": "2013-01-13 19:47:34",
             "type": "library",
             "extra": {
                 "branch-alias": {
