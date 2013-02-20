@@ -20,15 +20,14 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "dev-master",
+        "zendframework/zendframework": "2.1.2",
         "zendframework/zend-developer-tools": "dev-master",
-        "zf-commons/zfc-user-doctrine-orm": "0.*",
+        "zf-commons/zfc-user-doctrine-orm": "0.1.1",
         "zf-commons/zfc-admin": "dev-master",
         "doctrine/migrations": "dev-master",
-        "doctrine/data-fixtures": "dev-master",
-        "gedmo/doctrine-extensions": "dev-master",
-        "bjyoungblood/bjy-authorize": "1.*",
+        "gedmo/doctrine-extensions": "v2.3.4",
+        "bjyoungblood/bjy-authorize": "1.1.1",
         "ZfcTwitterBootstrap": "dev-master",
-        "dflydev/markdown": "dev-master"
+        "dflydev/markdown": "v1.0.2"
     }
 }
