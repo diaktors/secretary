@@ -1,5 +1,5 @@
 {
-    "hash": "1d77bc6883043d108730d9c81b887814",
+    "hash": "d83e9244d26ab7d7e339382d2adbb4f4",
     "packages": [
         {
             "name": "bjyoungblood/bjy-authorize",
@@ -598,6 +598,50 @@
             ]
         },
         {
+            "name": "sensiolabs/security-checker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sensiolabs/security-checker.git",
+                "reference": "9d07721f05c7e78f8f5039dd89b671b59bd32989"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/9d07721f05c7e78f8f5039dd89b671b59bd32989",
+                "reference": "9d07721f05c7e78f8f5039dd89b671b59bd32989",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/console": ">=2.0,<3.0"
+            },
+            "time": "2013-02-20 20:57:54",
+            "bin": [
+                "security-checker"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "SensioLabs\\Security": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien.potencier@gmail.com"
+                }
+            ],
+            "description": "A security checker for your composer.lock"
+        },
+        {
             "name": "symfony/console",
             "version": "v2.1.7",
             "target-dir": "Symfony/Component/Console",
@@ -1013,6 +1057,7 @@
     "stability-flags": {
         "zendframework/zend-developer-tools": 20,
         "zf-commons/zfc-admin": 20,
-        "mwillbanks/zfc-twitter-bootstrap": 20
+        "mwillbanks/zfc-twitter-bootstrap": 20,
+        "sensiolabs/security-checker": 20
     }
 }

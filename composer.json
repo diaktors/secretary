@@ -13,6 +13,16 @@
         "gedmo/doctrine-extensions": "2.3.4",
         "bjyoungblood/bjy-authorize": "1.1.1",
         "mwillbanks/zfc-twitter-bootstrap": "dev-master",
-        "dflydev/markdown": "1.0.2"
+        "dflydev/markdown": "1.0.2",
+        "sensiolabs/security-checker": "dev-master"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "vendor/bin/security-checker security:check"
+         ],
+        "post-update-cmd": [
+            "vendor/bin/security-checker security:check"
+        ]
     }
+
 }
