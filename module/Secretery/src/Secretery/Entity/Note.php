@@ -88,7 +88,6 @@ class Note //extends PersistentObject
 
     /**
      * @var Group
-     * @ORM\Column(name="group_id", type="integer")
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="notes")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
      * @Annotation\Type("Zend\Form\Element\Hidden")
