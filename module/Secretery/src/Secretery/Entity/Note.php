@@ -89,7 +89,7 @@ class Note //extends PersistentObject
     /**
      * @var Group
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="notes")
-     * @ORM\JoinColumn(name="`group`", referencedColumnName="id")
+     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
      * @Annotation\Type("Zend\Form\Element\Hidden")
      * @Annotation\Attributes({"id":"groupHidden"})
      * @Annotation\AllowEmpty({"allowEmpty":"false"})
