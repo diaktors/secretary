@@ -13,18 +13,18 @@ return array(
                     'password' => 'abc'
                 )
             )
+        ),
+        'configuration' => array(
+            'orm_default' => array(
+                'metadata_cache'    => 'array',
+                'query_cache'       => 'array',
+                'result_cache'      => 'array',
+                'driver'            => 'orm_default',
+                'generate_proxies'  => false,
+                'proxy_dir'         => 'data/Secretery/Entity/Proxy',
+                'proxy_namespace'   => 'Secretery\Entity\Proxy',
+                'filters'           => array()
+            )
         )
-    ),
-    'configuration' => array(
-        'orm_default' => array(
-            'metadata_cache'    => 'array',
-            'query_cache'       => 'array',
-            'result_cache'      => 'array',
-            'driver'            => 'orm_default',
-            'generate_proxies'  => false,
-            'proxy_dir'         => 'data/Secretery/Entity/Proxy',
-            'proxy_namespace'   => 'Secretery\Entity\Proxy',
-            'filters'           => array()
-        )
-    ),
+    )
 );
