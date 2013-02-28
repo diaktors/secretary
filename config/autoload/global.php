@@ -16,9 +16,9 @@ return array(
         ),
         'configuration' => array(
             'orm_default' => array(
-                'metadata_cache'    => 'array',
-                'query_cache'       => 'array',
-                'result_cache'      => 'array',
+                'metadata_cache'    => 'apc',
+                'query_cache'       => 'apc',
+                'result_cache'      => 'apc',
                 'driver'            => 'orm_default',
                 'generate_proxies'  => false,
                 'proxy_dir'         => 'data/Secretery/Entity/Proxy',
