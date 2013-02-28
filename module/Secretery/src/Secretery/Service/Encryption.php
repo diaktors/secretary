@@ -64,14 +64,13 @@ class Encryption
      * Encrypt string with multiple public keys
      *
      * @param  string $content
-     * @param  array  $users
      * @param  array  $keys
      * @return array
      * @throws \InvalidArgumentException If key is empty
      * @throws \LogicException           If key is not readable as key
      * @throws \LogicException           If encryption errors
      */
-    public function encryptForMultipleKeys($content, array $users, array $keys)
+    public function encryptForMultipleKeys($content, array $keys)
     {
         if (empty($keys)) {
             throw new \InvalidArgumentException('Keys array canot be empty');
@@ -97,7 +96,7 @@ class Encryption
             $eKeysEncoded[] = base64_encode($eKey);
         }
         return array(
-            'ekey'    => $eKeysEncoded,
+            'ekeys'   => $eKeysEncoded,
             'content' => base64_encode($sealedContent)
         );
     }

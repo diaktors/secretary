@@ -347,7 +347,6 @@ class Note extends Base
 
         $encryptData = $this->getEncryptionService()->encryptForMultipleKeys(
             $note->getContent(),
-            $users,
             $keys
         );
 
@@ -570,7 +569,7 @@ class Note extends Base
                 ->setUserId($user->getId())
                 ->setNote($note)
                 ->setNoteId($note->getId())
-                ->setEkey($encryptData['ekey'][$i])
+                ->setEkey($encryptData['ekeys'][$i])
                 ->setOwner($ownerCheck)
                 ->setReadPermission(true)
                 ->setWritePermission($ownerCheck);
