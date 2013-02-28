@@ -347,7 +347,6 @@ class Note extends Base
 
         $encryptData = $this->getEncryptionService()->encryptForMultipleKeys(
             $note->getContent(),
-            $users,
             $keys
         );
 
