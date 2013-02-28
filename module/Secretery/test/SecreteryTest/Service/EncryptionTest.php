@@ -111,6 +111,37 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testEncryptForMultipleKeysArgumentException()
+    {
+        $this->encryptionService->encryptForMultipleKeys($this->content, array());
+    }
+    /**
+     * @expectedException \LogicException
+     */
+    public function testEncryptForMultipleKeysLogicException()
+    {
+        $key1 = 'abc';
+        $key2 = 'xyz';
+        $this->encryptionService->encryptForMultipleKeys($this->content, array($key1, $key2));
+    }
+
+    public function testEncryptForMultipleKeys()
+    {
+        $key1      = file_get_contents(dirname(__DIR__) . '/../keys/public.pem');
+        $key2      = file_get_contents(dirname(__DIR__) . '/../keys/public2.pem');
+        $response = $this->encryptionService->encryptForMultipleKeys(
+            $this->content, array($key1, $key2)
+        );
+
+        $this->assertArrayHasKey('ekeys', $response);
+        $this->assertArrayHasKey('content', $response);
+        $this->assertNotEmpty($response['ekeys']);
+        $this->assertNotEmpty($response['content']);
+    }
+
+    /**
      * @dataProvider emptyProvider
      * @expectedException \InvalidArgumentException
      */
