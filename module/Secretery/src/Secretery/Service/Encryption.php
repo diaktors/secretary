@@ -96,7 +96,7 @@ class Encryption
             $eKeysEncoded[] = base64_encode($eKey);
         }
         return array(
-            'ekey'    => $eKeysEncoded,
+            'ekeys'   => $eKeysEncoded,
             'content' => base64_encode($sealedContent)
         );
     }
