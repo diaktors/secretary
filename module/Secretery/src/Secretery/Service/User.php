@@ -37,6 +37,15 @@ use Secretery\Entity\User as UserEntity;
 class User extends Base
 {
     /**
+     * @param  $id
+     * @return \Secretery\Entity\User
+     */
+    public function getUserById($id)
+    {
+        return $this->getUserRepository()->find($id);
+    }
+
+    /**
      * @param  \Zend\EventManager\Event $e
      * @return void
      * @throws \LogicException If needed role can not be found
