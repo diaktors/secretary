@@ -219,10 +219,16 @@ class GroupController extends ActionController
             }
         }
         if ($action == 'index' || $action == 'members' || $action == 'edit') {
-            $messages  = $this->flashMessenger()->getCurrentSuccessMessages();
             $this->msg = false;
+            $messages  = $this->flashMessenger()->getCurrentErrorMessages();
             if (!empty($messages)) {
-                $this->msg = array('success', $messages[0]);
+                $this->msg = array('error', $messages[0]);
+            } else {
+                $messages  = $this->flashMessenger()->getCurrentSuccessMessages();
+                $this->msg = false;
+                if (!empty($messages)) {
+                    $this->msg = array('success', $messages[0]);
+                }
             }
             $this->flashMessenger()->clearMessages();
         }
