@@ -57,7 +57,21 @@
             <ul>
             <?php foreach ($this->groupRecord->getUsers() as $user): ?>
                 <li>
-                    <?php echo sprintf('%s (%s)', $user->getDisplayName(), $user->getEmail()) ?>
+                    <span>
+                        <?php echo sprintf('%s (%s)', $user->getDisplayName(), $user->getEmail()) ?>
+                    </span>
+                    <?php
+                        if ($this->zfcuseridentity()->getId() == $this->groupRecord->getOwner() &&
+                            $user->getId() != $this->groupRecord->getOwner()):
+
+                            $removeUrl = $this->url('secretery/group', array(
+                                'action' => 'remove', 'id' => $this->groupRecord->getId()
+                            ));
+                    ?>
+                    <a class="remove" href="<?php echo sprintf('%s?user=%s', $removeUrl, $user->getId()); ?>">
+                        <i class="icon-trash" title="<?php echo $this->translate('remove member') ?>"></i>
+                    </a>
+                    <?php endif; ?>
                 </li>
             <?php endforeach; ?>
             </ul>
