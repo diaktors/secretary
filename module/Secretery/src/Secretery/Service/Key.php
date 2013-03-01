@@ -53,11 +53,19 @@ class Key extends Base
     }
 
     /**
-     * @param $id
+     * @param  $id
      * @return \Secretery\Entity\Key
      */
     public function fetchKey($id)
     {
-        return $this->em->getRepository('Secretery\Entity\Key')->find($id);
+        return $this->getKeyRepository()->find($id);
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
+    protected function getKeyRepository()
+    {
+        return $this->em->getRepository('Secretery\Entity\Key');
     }
 }

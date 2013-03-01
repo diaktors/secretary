@@ -177,8 +177,7 @@ class Note extends Base
     public function checkNoteEditPermission($userId, $noteId)
     {
         /* @var $user2noteRecord User2NoteEntity */
-        $user2noteRecord = $this->em->getRepository('Secretery\Entity\User2Note')
-            ->fetchUserNote($userId, $noteId);
+        $user2noteRecord = $this->getUser2NoteRepository()->fetchUserNote($userId, $noteId);
         if (empty($user2noteRecord)) {
             return false;
         }
@@ -198,8 +197,7 @@ class Note extends Base
     public function checkNoteViewPermission($userId, $noteId)
     {
         /* @var $user2noteRecord User2NoteEntity */
-        $user2noteRecord = $this->em->getRepository('Secretery\Entity\User2Note')
-            ->fetchUserNote($userId, $noteId);
+        $user2noteRecord = $this->getUser2NoteRepository()->fetchUserNote($userId, $noteId);
         if (empty($user2noteRecord)) {
             return false;
         }
@@ -219,7 +217,7 @@ class Note extends Base
     public function deleteUserNote($userId, $noteId)
     {
         $note = $this->fetchNote($noteId);
-        $user2Note = $this->em->getRepository('Secretery\Entity\User2Note')->findOneBy(
+        $user2Note = $this->getUser2NoteRepository()->findOneBy(
             array('userId' => $userId, 'noteId' => $noteId)
         );
         $this->em->remove($user2Note);
@@ -268,8 +266,7 @@ class Note extends Base
      */
     public function fetchNote($id)
     {
-        return $this->em->getRepository('Secretery\Entity\Note')
-            ->fetchNote($id);
+        return $this->getNoteRepository()->fetchNote($id);
     }
 
     /**
@@ -279,8 +276,7 @@ class Note extends Base
      */
     public function fetchNoteWithUserData($noteId, $userId)
     {
-        return $this->em->getRepository('Secretery\Entity\Note')
-            ->fetchNoteWithUserData($noteId, $userId);
+        return $this->getNoteRepository()->fetchNoteWithUserData($noteId, $userId);
     }
 
     /**
@@ -289,8 +285,7 @@ class Note extends Base
      */
     public function fetchUserNotes($userId)
     {
-        return $this->em->getRepository('Secretery\Entity\Note')
-            ->fetchUserNotes($userId);
+        return $this->getNoteRepository()->fetchUserNotes($userId);
     }
 
     /**
@@ -300,8 +295,7 @@ class Note extends Base
      */
     public function fetchGroupNotes($userId, $groupId = null)
     {
-        return $this->em->getRepository('Secretery\Entity\Note')
-            ->fetchGroupNotes($userId, $groupId);
+        return $this->getNoteRepository()->fetchGroupNotes($userId, $groupId);
     }
 
     /**
@@ -311,19 +305,18 @@ class Note extends Base
      */
     public function deleteUserFromGroupNotes(UserEntity $user, GroupEntity $group)
     {
-        $groupNotes = $this->em->getRepository('Secretery\Entity\Note')->fetchGroupNotes(
+        $groupNotes = $this->getNoteRepository()->fetchGroupNotes(
             $user->getId(), $group->getId(), \Doctrine\ORM\AbstractQuery::HYDRATE_OBJECT
         );
         if (empty($groupNotes)) {
             return;
         }
 
-        $groupOwner = $this->em->getRepository('Secretery\Entity\User')->find($group->getOwner());
+        $groupOwner = $this->getUserRepository()->find($group->getOwner());
         foreach ($groupNotes as $note) {
-            $this->em->getRepository('Secretery\Entity\User2Note')
-                ->checkNoteOwnershipForLeavingUser(
-                    $note, $user->getId(), $groupOwner->getId()
-                );
+            $this->getUser2NoteRepository()->checkNoteOwnershipForLeavingUser(
+                $note, $user->getId(), $groupOwner->getId()
+            );
         }
 
         return;
@@ -380,8 +373,7 @@ class Note extends Base
         );
 
         // Remove Associations
-        $this->em->getRepository('Secretery\Entity\User2Note')
-            ->removeUsersFromNote($note->getId());
+        $this->getUser2NoteRepository()->removeUsersFromNote($note->getId());
 
         // Save Note
         $note->setContent($encryptData['content']);
@@ -442,7 +434,7 @@ class Note extends Base
         $this->em->persist($note);
         $this->em->flush();
 
-        $user2Note = $this->em->getRepository('Secretery\Entity\User2Note')->findOneBy(
+        $user2Note = $this->getUser2NoteRepository()->findOneBy(
             array('userId' => $user->getId(), 'noteId' => $note->getId())
         );
         $user2Note->setEkey($encryptData['ekey']);
@@ -522,10 +514,10 @@ class Note extends Base
     {
         $users = array();
         $keys  = array();
-        $group = $this->em->getRepository('Secretery\Entity\Group')->find((int) $groupId);
+        $group = $this->getGroupRepository()->find((int) $groupId);
         foreach ($members as $member) {
             /* @var $user \Secretery\Entity\User */
-            $user = $this->em->getRepository('Secretery\Entity\User')->find((int) $member);
+            $user = $this->getUserRepository()->find((int) $member);
             if (false === $user->getGroups()->contains($group)) {
                 throw new \LogicException('User does not belong to selected group');
             }
@@ -597,6 +589,38 @@ class Note extends Base
             //@todo logging?
         }
         return false;
+    }
+
+    /**
+     * @return \Secretery\Entity\Repository\Group
+     */
+    protected function getGroupRepository()
+    {
+        return $this->em->getRepository('Secretery\Entity\Group');
+    }
+
+    /**
+     * @return \Secretery\Entity\Repository\Note
+     */
+    protected function getNoteRepository()
+    {
+        return $this->em->getRepository('Secretery\Entity\Note');
+    }
+
+    /**
+     * @return \Secretery\Entity\Repository\User
+     */
+    protected function getUserRepository()
+    {
+        return $this->em->getRepository('Secretery\Entity\User');
+    }
+
+    /**
+     * @return \Secretery\Entity\Repository\User2Note
+     */
+    protected function getUser2NoteRepository()
+    {
+        return $this->em->getRepository('Secretery\Entity\User2Note');
     }
 
 }
