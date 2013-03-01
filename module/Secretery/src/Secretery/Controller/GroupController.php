@@ -416,7 +416,7 @@ class GroupController extends ActionController
                 $this->noteService->deleteUserFromGroupNotes(
                     $this->identity, $this->groupRecord
                 );
-                $this->groupService->deleteUserGroup($this->identity, $this->groupRecord);
+                $this->groupService->removeUserFromGroup($this->identity, $this->groupRecord);
                 $this->flashMessenger()->addSuccessMessage(
                     sprintf(
                         $this->translator->translate('Group "%s" was leaved successfully'),
