@@ -52,8 +52,7 @@ class Group extends Base
         if (empty($userId) || !is_numeric($userId)) {
             throw new \InvalidArgumentException('Please provide a valid UserID');
         }
-        return $this->em->getRepository('Secretery\Entity\Group')
-            ->checkGroupMembership($groupId, $userId);
+        return $this->getGroupRepository()->checkGroupMembership($groupId, $userId);
     }
 
     /**
@@ -66,8 +65,7 @@ class Group extends Base
         if (empty($groupId) || !is_numeric($groupId)) {
             throw new \InvalidArgumentException('Please provide a valid GroupID');
         }
-        return $this->em->getRepository('Secretery\Entity\Group')
-            ->find($groupId);
+        return $this->getGroupRepository()->find($groupId);
     }
 
     /**
@@ -81,8 +79,7 @@ class Group extends Base
         if (empty($groupId) || !is_numeric($groupId)) {
             throw new \InvalidArgumentException('Please provide a valid GroupID');
         }
-        return $this->em->getRepository('Secretery\Entity\Group')
-            ->fetchGroupMembers($groupId, $userId);
+        return $this->getGroupRepository()->fetchGroupMembers($groupId, $userId);
     }
 
     /**
@@ -105,8 +102,7 @@ class Group extends Base
         if (empty($userId) || !is_numeric($userId)) {
             throw new \InvalidArgumentException('Please provide a valid UserID');
         }
-        return $this->em->getRepository('Secretery\Entity\User')
-            ->fetchNoteGroupMembers($noteId, $groupId, $userId);
+        return $this->getUserRepository()->fetchNoteGroupMembers($noteId, $groupId, $userId);
     }
 
     /**
@@ -129,8 +125,9 @@ class Group extends Base
         if (empty($userId) || !is_numeric($userId)) {
             throw new \InvalidArgumentException('Please provide a valid UserID');
         }
-        return $this->em->getRepository('Secretery\Entity\User')
-            ->fetchNoteGroupMembersUnselected($noteId, $groupId, $userId);
+        return $this->getUserRepository()->fetchNoteGroupMembersUnselected(
+            $noteId, $groupId, $userId
+        );
     }
 
     /**
@@ -143,8 +140,7 @@ class Group extends Base
         if (empty($userId) || !is_numeric($userId)) {
             throw new \InvalidArgumentException('Please provide a valid UserID');
         }
-        return $this->em->getRepository('Secretery\Entity\Group')
-            ->fetchUserGroups($userId);
+        return $this->getGroupRepository()->fetchUserGroups($userId);
     }
 
     /**
@@ -176,7 +172,7 @@ class Group extends Base
         if (empty($userId) || !is_numeric($userId)) {
             throw new \InvalidArgumentException('Please provide a valid UserID');
         }
-        $userRecord = $this->em->getRepository('Secretery\Entity\User')->find($userId);
+        $userRecord = $this->getUserRepository()->find($userId);
         if (empty($userRecord)) {
             throw new \LogicException('User could not been found');
         }
@@ -227,6 +223,22 @@ class Group extends Base
         $this->em->persist($group);
         $this->em->flush();
         return $group;
+    }
+
+    /**
+     * @return \Secretery\Entity\Repository\Group
+     */
+    protected function getGroupRepository()
+    {
+        return $this->em->getRepository('Secretery\Entity\Group');
+    }
+
+    /**
+     * @return \Secretery\Entity\Repository\User
+     */
+    protected function getUserRepository()
+    {
+        return $this->em->getRepository('Secretery\Entity\User');
     }
 
 }

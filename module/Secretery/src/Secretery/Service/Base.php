@@ -37,12 +37,12 @@ use Doctrine\ORM\EntityManager;
 class Base
 {
     /**
-     * @var EntityManager
+     * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
 
     /**
-     * @param EntityManager $em
+     * @param \Doctrine\ORM\EntityManager $em
      */
     public function setEntityManager(EntityManager $em)
     {
@@ -50,7 +50,7 @@ class Base
     }
 
     /**
-     * @return $em
+     * @return \Doctrine\ORM\EntityManager
      */
     public function getEntityManager()
     {
