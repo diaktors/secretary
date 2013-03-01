@@ -432,4 +432,59 @@ class GroupController extends ActionController
         return $viewModel;
     }
 
+
+    /**
+     * Remove member from group
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function removeAction()
+    {
+        $userId = (int) $this->getRequest()->getQuery('user');
+        if ($this->groupRecord->getOwner() != $this->identity->getId()) {
+            return $this->redirect()->toRoute('secretery/group');
+        }
+        if (empty($userId) || $userId == $this->identity->getId()) {
+            return $this->redirect()->toRoute('secretery/group', array(
+                'action' => 'members', 'id' => $this->groupRecord->getId()
+            ));
+        }
+
+        $membershipCheck = $this->groupService->checkGroupMembership(
+            $this->groupRecord->getId(), $userId
+        );
+        if (false === $membershipCheck) {
+            return $this->redirect()->toRoute('secretery/group', array(
+                'action' => 'members', 'id' => $this->groupRecord->getId()
+            ));
+        }
+
+        // Delete User from Group / Delete Group
+        try {
+            $groupName  = $this->groupRecord->getName();
+            $userRecord = $this->userService->getUserById($userId);
+
+            $this->noteService->deleteUserFromGroupNotes(
+                $userRecord, $this->groupRecord
+            );
+            $this->groupService->removeUserFromGroup($userRecord, $this->groupRecord);
+
+            $this->flashMessenger()->addSuccessMessage(
+                sprintf(
+                    $this->translator->translate('User "%s" was successfully removed from group "%s"'),
+                    $userRecord->getDisplayName(),
+                    $groupName
+                )
+            );
+            return $this->redirect()->toRoute('secretery/group', array(
+                'action' => 'members', 'id' => $this->groupRecord->getId()
+            ));
+        } catch (\Exception $e) {
+            $this->flashMessenger()->addErrorMessage('An error occurred: ' . $e->getMessage());
+            return $this->redirect()->toRoute('secretery/group', array(
+                'action' => 'members', 'id' => $this->groupRecord->getId()
+            ));
+        }
+    }
+
 }
