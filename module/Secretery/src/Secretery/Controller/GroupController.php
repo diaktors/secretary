@@ -353,36 +353,42 @@ class GroupController extends ActionController
             'msg'             => $this->msg
         );
 
-        if ($this->identity->getId() == $this->groupRecord->getOwner()) {
+        if ($this->identity->getId() != $this->groupRecord->getOwner()) {
+            $viewModel->setVariables($viewVars);
+            $viewModel->setTemplate('secretery/group/index');
+            return $viewModel;
+        }
 
-            $form = $this->getGroupMemberForm($this->groupRecord->getId());
-            $viewVars['newMemberForm'] = $form;
+        $this->getServiceLocator()->get('viewhelpermanager')->get('headScript')
+            ->prependFile($this->getRequest()->getBaseUrl() . '/js/group.js', 'text/javascript');
 
-            if ($this->getRequest()->isPost()) {
-                $form->setInputFilter($this->groupRecord->getInputFilter());
-                $form->setData($this->getRequest()->getPost());
+        $form = $this->getGroupMemberForm($this->groupRecord->getId());
+        $viewVars['newMemberForm'] = $form;
 
-                if ($form->isValid() && $this->getRequest()->getPost('newMember') != 0) {
-                    $values     = $form->getData();
-                    $newMember  = $values['newMember'];
-                    $userRecord = $this->groupService->addGroupMember($this->groupRecord, $newMember);
-                    $this->flashMessenger()->addSuccessMessage(
-                        sprintf(
-                            $this->translator->translate('User "%s" was added to group "%s"'),
-                            $userRecord->getDisplayName(),
-                            $this->groupRecord->getName()
-                        )
-                    );
-                    return $this->redirect()->toRoute('secretery/group', array(
-                        'action' => 'members',
-                        'id'     => $this->groupRecord->getId()
-                    ));
-                }
+        if ($this->getRequest()->isPost()) {
+            $form->setInputFilter($this->groupRecord->getInputFilter());
+            $form->setData($this->getRequest()->getPost());
 
-                $viewVars['msg'] = array(
-                    'error', $this->translator->translate('An error occurred')
+            if ($form->isValid() && $this->getRequest()->getPost('newMember') != 0) {
+                $values     = $form->getData();
+                $newMember  = $values['newMember'];
+                $userRecord = $this->groupService->addGroupMember($this->groupRecord, $newMember);
+                $this->flashMessenger()->addSuccessMessage(
+                    sprintf(
+                        $this->translator->translate('User "%s" was added to group "%s"'),
+                        $userRecord->getDisplayName(),
+                        $this->groupRecord->getName()
+                    )
                 );
+                return $this->redirect()->toRoute('secretery/group', array(
+                    'action' => 'members',
+                    'id'     => $this->groupRecord->getId()
+                ));
             }
+
+            $viewVars['msg'] = array(
+                'error', $this->translator->translate('An error occurred')
+            );
         }
 
         $viewModel->setVariables($viewVars);
