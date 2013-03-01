@@ -74,3 +74,20 @@ class User extends Base
         return;
     }
 }
+
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
+    protected function getRoleRepository()
+    {
+        return $this->em->getRepository('Secretery\Entity\Role');
+    }
+
+    /**
+     * @return \Secretery\Entity\Repository\User
+     */
+    protected function getUserRepository()
+    {
+        return $this->em->getRepository('Secretery\Entity\User');
+    }
+}
