@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-02-19 01:33+0100\n"
+"PO-Revision-Date: 2013-03-01 03:22+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
 "Language: de_DE\n"
@@ -37,6 +37,14 @@ msgstr ""
 
 #: ../view/secretery/group/index.phtml:47
 msgid "You are not member of any group right now"
+msgstr ""
+
+#: ../view/secretery/group/index.phtml:72
+msgid "remove member"
+msgstr "Remove Member"
+
+#: ../view/secretery/group/index.phtml:111
+msgid "Do you really want to remove this user?"
 msgstr ""
 
 #: ../view/secretery/group/leave.phtml:3
@@ -85,4 +93,8 @@ msgstr ""
 
 #: ../src/Secretery/Controller/GroupController.phtml:353
 msgid "Group \"%s\" was leaved successfully"
+msgstr ""
+
+#: ../src/Secretery/Controller/GroupController.phtml:474
+msgid "User \"%s\" was successfully removed from group \"%s\""
 msgstr ""
