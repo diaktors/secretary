@@ -204,6 +204,19 @@ class Group extends Base
     }
 
     /**
+     * @param  UserEntity  $user
+     * @param  GroupEntity $group
+     * @return User
+     */
+    public function removeUserFromGroup(UserEntity $user, GroupEntity $group)
+    {
+        $user->getGroups()->removeElement($group);
+        $this->em->persist($user);
+        $this->em->flush();
+        return $user;
+    }
+
+    /**
      * @param  GroupEntity $group
      * @param  string      $groupname
      * @return GroupEntity
