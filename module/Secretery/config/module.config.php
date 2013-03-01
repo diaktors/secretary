@@ -229,7 +229,8 @@ return array(
             'Secretery\Controller\Group' => function(ControllerManager $cm) {
                 $controller = new GroupController();
                 $controller->setGroupService($cm->getServiceLocator()->get('group-service'))
-                    ->setNoteService($cm->getServiceLocator()->get('note-service'));
+                    ->setNoteService($cm->getServiceLocator()->get('note-service'))
+                    ->setUserService($cm->getServiceLocator()->get('user-service'));
                 return $controller;
             },
         )

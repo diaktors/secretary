@@ -70,7 +70,7 @@ class Group extends EntityRepository
 
     /**
      * @param  int $groupId
-     * @param  int $userId
+     * @param  int $userId  [Filter] Remove $userId from result
      * @return array
      */
     public function fetchGroupMembers($groupId, $userId = null)

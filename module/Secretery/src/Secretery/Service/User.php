@@ -37,14 +37,22 @@ use Secretery\Entity\User as UserEntity;
 class User extends Base
 {
     /**
+     * @param  $id
+     * @return \Secretery\Entity\User
+     */
+    public function getUserById($id)
+    {
+        return $this->getUserRepository()->find($id);
+    }
+
+    /**
      * @param  \Zend\EventManager\Event $e
      * @return void
      * @throws \LogicException If needed role can not be found
      */
     public function saveUserRole(\Zend\EventManager\Event $e)
     {
-        $roleRecord = $this->em->getRepository('Secretery\Entity\Role')
-            ->findOneBy(array('roleId' => 'user'));
+        $roleRecord = $this->getRoleRepository()->findOneBy(array('roleId' => 'user'));
         if (empty($roleRecord)) {
             throw new \LogicException('Roles are missing, please configure them');
         }
@@ -62,8 +70,7 @@ class User extends Base
      */
     public function updateUserToKeyRole(UserEntity $user)
     {
-        $roleRecord = $this->em->getRepository('Secretery\Entity\Role')
-            ->findOneBy(array('roleId' => 'keyuser'));
+        $roleRecord = $this->getRoleRepository()->findOneBy(array('roleId' => 'keyuser'));
         if (empty($roleRecord)) {
             throw new \LogicException('Roles are missing, please configure them');
         }
@@ -72,5 +79,21 @@ class User extends Base
         $this->em->persist($user);
         $this->em->flush();
         return;
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
+    protected function getRoleRepository()
+    {
+        return $this->em->getRepository('Secretery\Entity\Role');
+    }
+
+    /**
+     * @return \Secretery\Entity\Repository\User
+     */
+    protected function getUserRepository()
+    {
+        return $this->em->getRepository('Secretery\Entity\User');
     }
 }

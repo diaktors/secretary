@@ -28,6 +28,7 @@ use Secretery\Entity\Group as GroupEntity;
 use Secretery\Mvc\Controller\ActionController;
 use Secretery\Service\Group as GroupService;
 use Secretery\Service\Note as NoteService;
+use Secretery\Service\User as UserService;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 
@@ -74,6 +75,11 @@ class GroupController extends ActionController
     protected $noteService;
 
     /**
+     * @var \Secretery\Service\User
+     */
+    protected $userService;
+
+    /**
      * @var array
      */
     protected $msg;
@@ -115,6 +121,16 @@ class GroupController extends ActionController
     public function setNoteService(NoteService $noteService)
     {
         $this->noteService = $noteService;
+        return $this;
+    }
+
+    /**
+     * @param  \Secretery\Service\User $userService
+     * @return self
+     */
+    public function setUserService(UserService $userService)
+    {
+        $this->userService = $userService;
         return $this;
     }
 
@@ -176,6 +192,14 @@ class GroupController extends ActionController
     }
 
     /**
+     * @return \Secretery\Service\User
+     */
+    public function getUserService()
+    {
+        return $this->userService;
+    }
+
+    /**
      * @param \Zend\Mvc\MvcEvent $event
      * @return void
      */
@@ -195,10 +219,16 @@ class GroupController extends ActionController
             }
         }
         if ($action == 'index' || $action == 'members' || $action == 'edit') {
-            $messages  = $this->flashMessenger()->getCurrentSuccessMessages();
             $this->msg = false;
+            $messages  = $this->flashMessenger()->getCurrentErrorMessages();
             if (!empty($messages)) {
-                $this->msg = array('success', $messages[0]);
+                $this->msg = array('error', $messages[0]);
+            } else {
+                $messages  = $this->flashMessenger()->getCurrentSuccessMessages();
+                $this->msg = false;
+                if (!empty($messages)) {
+                    $this->msg = array('success', $messages[0]);
+                }
             }
             $this->flashMessenger()->clearMessages();
         }
@@ -323,36 +353,42 @@ class GroupController extends ActionController
             'msg'             => $this->msg
         );
 
-        if ($this->identity->getId() == $this->groupRecord->getOwner()) {
+        if ($this->identity->getId() != $this->groupRecord->getOwner()) {
+            $viewModel->setVariables($viewVars);
+            $viewModel->setTemplate('secretery/group/index');
+            return $viewModel;
+        }
 
-            $form = $this->getGroupMemberForm($this->groupRecord->getId());
-            $viewVars['newMemberForm'] = $form;
+        $this->getServiceLocator()->get('viewhelpermanager')->get('headScript')
+            ->prependFile($this->getRequest()->getBaseUrl() . '/js/group.js', 'text/javascript');
 
-            if ($this->getRequest()->isPost()) {
-                $form->setInputFilter($this->groupRecord->getInputFilter());
-                $form->setData($this->getRequest()->getPost());
+        $form = $this->getGroupMemberForm($this->groupRecord->getId());
+        $viewVars['newMemberForm'] = $form;
 
-                if ($form->isValid() && $this->getRequest()->getPost('newMember') != 0) {
-                    $values     = $form->getData();
-                    $newMember  = $values['newMember'];
-                    $userRecord = $this->groupService->addGroupMember($this->groupRecord, $newMember);
-                    $this->flashMessenger()->addSuccessMessage(
-                        sprintf(
-                            $this->translator->translate('User "%s" was added to group "%s"'),
-                            $userRecord->getDisplayName(),
-                            $this->groupRecord->getName()
-                        )
-                    );
-                    return $this->redirect()->toRoute('secretery/group', array(
-                        'action' => 'members',
-                        'id'     => $this->groupRecord->getId()
-                    ));
-                }
+        if ($this->getRequest()->isPost()) {
+            $form->setInputFilter($this->groupRecord->getInputFilter());
+            $form->setData($this->getRequest()->getPost());
 
-                $viewVars['msg'] = array(
-                    'error', $this->translator->translate('An error occurred')
+            if ($form->isValid() && $this->getRequest()->getPost('newMember') != 0) {
+                $values     = $form->getData();
+                $newMember  = $values['newMember'];
+                $userRecord = $this->groupService->addGroupMember($this->groupRecord, $newMember);
+                $this->flashMessenger()->addSuccessMessage(
+                    sprintf(
+                        $this->translator->translate('User "%s" was added to group "%s"'),
+                        $userRecord->getDisplayName(),
+                        $this->groupRecord->getName()
+                    )
                 );
+                return $this->redirect()->toRoute('secretery/group', array(
+                    'action' => 'members',
+                    'id'     => $this->groupRecord->getId()
+                ));
             }
+
+            $viewVars['msg'] = array(
+                'error', $this->translator->translate('An error occurred')
+            );
         }
 
         $viewModel->setVariables($viewVars);
@@ -380,7 +416,7 @@ class GroupController extends ActionController
                 $this->noteService->deleteUserFromGroupNotes(
                     $this->identity, $this->groupRecord
                 );
-                $this->groupService->deleteUserGroup($this->identity, $this->groupRecord);
+                $this->groupService->removeUserFromGroup($this->identity, $this->groupRecord);
                 $this->flashMessenger()->addSuccessMessage(
                     sprintf(
                         $this->translator->translate('Group "%s" was leaved successfully'),
@@ -394,6 +430,61 @@ class GroupController extends ActionController
         }
 
         return $viewModel;
+    }
+
+
+    /**
+     * Remove member from group
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function removeAction()
+    {
+        $userId = (int) $this->getRequest()->getQuery('user');
+        if ($this->groupRecord->getOwner() != $this->identity->getId()) {
+            return $this->redirect()->toRoute('secretery/group');
+        }
+        if (empty($userId) || $userId == $this->identity->getId()) {
+            return $this->redirect()->toRoute('secretery/group', array(
+                'action' => 'members', 'id' => $this->groupRecord->getId()
+            ));
+        }
+
+        $membershipCheck = $this->groupService->checkGroupMembership(
+            $this->groupRecord->getId(), $userId
+        );
+        if (false === $membershipCheck) {
+            return $this->redirect()->toRoute('secretery/group', array(
+                'action' => 'members', 'id' => $this->groupRecord->getId()
+            ));
+        }
+
+        // Delete User from Group / Delete Group
+        try {
+            $groupName  = $this->groupRecord->getName();
+            $userRecord = $this->userService->getUserById($userId);
+
+            $this->noteService->deleteUserFromGroupNotes(
+                $userRecord, $this->groupRecord
+            );
+            $this->groupService->removeUserFromGroup($userRecord, $this->groupRecord);
+
+            $this->flashMessenger()->addSuccessMessage(
+                sprintf(
+                    $this->translator->translate('User "%s" was successfully removed from group "%s"'),
+                    $userRecord->getDisplayName(),
+                    $groupName
+                )
+            );
+            return $this->redirect()->toRoute('secretery/group', array(
+                'action' => 'members', 'id' => $this->groupRecord->getId()
+            ));
+        } catch (\Exception $e) {
+            $this->flashMessenger()->addErrorMessage('An error occurred: ' . $e->getMessage());
+            return $this->redirect()->toRoute('secretery/group', array(
+                'action' => 'members', 'id' => $this->groupRecord->getId()
+            ));
+        }
     }
 
 }

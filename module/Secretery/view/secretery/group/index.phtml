@@ -57,7 +57,21 @@
             <ul>
             <?php foreach ($this->groupRecord->getUsers() as $user): ?>
                 <li>
-                    <?php echo sprintf('%s (%s)', $user->getDisplayName(), $user->getEmail()) ?>
+                    <span>
+                        <?php echo sprintf('%s (%s)', $user->getDisplayName(), $user->getEmail()) ?>
+                    </span>
+                    <?php
+                        if ($this->zfcuseridentity()->getId() == $this->groupRecord->getOwner() &&
+                            $user->getId() != $this->groupRecord->getOwner()):
+
+                            $removeUrl = $this->url('secretery/group', array(
+                                'action' => 'remove', 'id' => $this->groupRecord->getId()
+                            ));
+                    ?>
+                    <a class="remove" href="<?php echo sprintf('%s?user=%s', $removeUrl, $user->getId()); ?>">
+                        <i class="icon-trash" title="<?php echo $this->translate('remove member') ?>"></i>
+                    </a>
+                    <?php endif; ?>
                 </li>
             <?php endforeach; ?>
             </ul>
@@ -89,5 +103,23 @@
             <?php endif; ?>
 
         <?php endif; ?>
+    </div>
+
+    <div id="removeModal" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel"><?php echo $this->translate('Do you really want to remove this user?') ?></h3>
+        </div>
+        <div class="modal-body">
+            <p>&hellip;</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">
+                <?php echo ucfirst($this->translate('no')) ?>
+            </button>
+            <button class="btn btn-primary">
+                <?php echo ucfirst($this->translate('yes')) ?>
+            </button>
+        </div>
     </div>
 </div>
