@@ -43,8 +43,7 @@ class User extends Base
      */
     public function saveUserRole(\Zend\EventManager\Event $e)
     {
-        $roleRecord = $this->em->getRepository('Secretery\Entity\Role')
-            ->findOneBy(array('roleId' => 'user'));
+        $roleRecord = $this->getRoleRepository()->findOneBy(array('roleId' => 'user'));
         if (empty($roleRecord)) {
             throw new \LogicException('Roles are missing, please configure them');
         }
@@ -62,8 +61,7 @@ class User extends Base
      */
     public function updateUserToKeyRole(UserEntity $user)
     {
-        $roleRecord = $this->em->getRepository('Secretery\Entity\Role')
-            ->findOneBy(array('roleId' => 'keyuser'));
+        $roleRecord = $this->getRoleRepository()->findOneBy(array('roleId' => 'keyuser'));
         if (empty($roleRecord)) {
             throw new \LogicException('Roles are missing, please configure them');
         }
@@ -73,7 +71,6 @@ class User extends Base
         $this->em->flush();
         return;
     }
-}
 
     /**
      * @return \Doctrine\ORM\EntityRepository
