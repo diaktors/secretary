@@ -28,6 +28,7 @@ use Secretery\Entity\Group as GroupEntity;
 use Secretery\Mvc\Controller\ActionController;
 use Secretery\Service\Group as GroupService;
 use Secretery\Service\Note as NoteService;
+use Secretery\Service\User as UserService;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 
@@ -74,6 +75,11 @@ class GroupController extends ActionController
     protected $noteService;
 
     /**
+     * @var \Secretery\Service\User
+     */
+    protected $userService;
+
+    /**
      * @var array
      */
     protected $msg;
@@ -115,6 +121,16 @@ class GroupController extends ActionController
     public function setNoteService(NoteService $noteService)
     {
         $this->noteService = $noteService;
+        return $this;
+    }
+
+    /**
+     * @param  \Secretery\Service\User $userService
+     * @return self
+     */
+    public function setUserService(UserService $userService)
+    {
+        $this->userService = $userService;
         return $this;
     }
 
@@ -173,6 +189,14 @@ class GroupController extends ActionController
     public function getNoteService()
     {
         return $this->noteService;
+    }
+
+    /**
+     * @return \Secretery\Service\User
+     */
+    public function getUserService()
+    {
+        return $this->userService;
     }
 
     /**
