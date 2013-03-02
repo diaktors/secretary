@@ -38,38 +38,27 @@ class Module implements BootstrapListenerInterface,
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        // Set Doctrine PersistentObject
         $this->setDoctrinePersistentObject($e);
 
         // Add translation for Validators
-        /* @var $translator \Zend\I18n\Translator\Translator */
-        $translator = $e->getApplication()->getServiceManager()->get('translator');
-        $translator->addTranslationFile(
-            'phpArray',
-            __DIR__ . '/../../vendor/zendframework/zendframework/resources/languages/de/Zend_Validate.php',
-            'default',
-            $translator->getLocale()
-        );
-        \Zend\Validator\AbstractValidator::setDefaultTranslator($translator);
+        $this->initTranslation($e);
 
-        // Attach to ZfcUser register.post event to create user role
-        /* @var $zfcServiceEvents \Zend\EventManager\EventManager */
-        $zfcServiceEvents = $e->getApplication()->getServiceManager()
-            ->get('zfcuser_user_service')->getEventManager();
-        $userService = $e->getApplication()->getServiceManager()->get('user-service');
-        $zfcServiceEvents->attach('register.post', array($userService, 'saveUserRole'));
+        // Attach to ZfcUser register.post event to create user role, logging/email
+        $this->initUserRegistrationHook($e);
+
+        // Attach Logging Events
+        $this->initLogger($e);
     }
 
+    /**
+     * @param  \Zend\ModuleManager\ModuleManagerInterface $moduleManager
+     * @return void
+     */
     public function init(ModuleManagerInterface $moduleManager)
     {
-        /*$sharedEvents = $moduleManager->getEventManager()->getSharedManager();
-        $sharedEvents->attach(__NAMESPACE__, 'dispatch', function($e) {
-            $controller = $e->getTarget();
-            $route      = $controller->getEvent()->getRouteMatch();
-            $controller->getEvent()->getViewModel()->setVariables(array(
-                'controller' => $route->getParam('controller'),
-                'action'     => $route->getParam('action'),
-            ));
-        }, 100);*/
+
     }
 
     /**
@@ -136,6 +125,9 @@ class Module implements BootstrapListenerInterface,
         );
     }
 
+    /**
+     * @return array
+     */
     public function getFormElementConfig()
     {
         return array(
@@ -147,6 +139,72 @@ class Module implements BootstrapListenerInterface,
                 return $form;
             })
         );
+    }
+
+    /**
+     * @param  \Zend\EventManager\EventInterface $e
+     * @return void
+     */
+    protected function initLogger(EventInterface $e)
+    {
+        $loggerService = $e->getApplication()->getServiceManager()->get('logger-service');
+        /* @var \Zend\EventManager\SharedEventManager $sharedEvents */
+        $sharedEvents  = $e->getApplication()->getEventManager()->getSharedManager();
+        $identifier    = array(
+            'Zend\Mvc\Controller\AbstractActionController',
+            'Secretery\Service\Base'
+        );
+        $sharedEvents->attach($identifier, 'logError', function ($e) use ($loggerService) {
+            $message = $e->getParam('message', 'No message provided');
+            $target  = $e->getTarget();
+            $message = sprintf('%s - %s', $target, $message);
+            $loggerService->logError($message);
+        });
+        $sharedEvents->attach($identifier, 'logViolation', function ($e) use ($loggerService) {
+            $message = $e->getParam('message', 'No message provided');
+            $target  = $e->getTarget();
+            $message = sprintf('%s - %s', $target, $message);
+            $loggerService->logViolation($message);
+        });
+        $sharedEvents->attach($identifier, 'logInfo', function ($e) use ($loggerService) {
+            $message = $e->getParam('message', 'No message provided');
+            $target  = $e->getTarget();
+            $message = sprintf('%s - %s', $target, $message);
+            $loggerService->logInfo($message);
+        });
+        return;
+    }
+
+    /**
+     * @param  \Zend\EventManager\EventInterface $e
+     * @return void
+     */
+    protected function initTranslation(EventInterface $e)
+    {
+        /* @var $translator \Zend\I18n\Translator\Translator */
+        $translator = $e->getApplication()->getServiceManager()->get('translator');
+        $translator->addTranslationFile(
+            'phpArray',
+            __DIR__ . '/../../vendor/zendframework/zendframework/resources/languages/de/Zend_Validate.php',
+            'default',
+            $translator->getLocale()
+        );
+        \Zend\Validator\AbstractValidator::setDefaultTranslator($translator);
+        return;
+    }
+
+    /**
+     * @param  \Zend\EventManager\EventInterface $e
+     * @return void
+     */
+    protected function initUserRegistrationHook(EventInterface $e)
+    {
+        /* @var $zfcServiceEvents \Zend\EventManager\EventManager */
+        $zfcServiceEvents = $e->getApplication()->getServiceManager()
+            ->get('zfcuser_user_service')->getEventManager();
+        $userService = $e->getApplication()->getServiceManager()->get('user-service');
+        $zfcServiceEvents->attach('register.post', array($userService, 'saveUserRole'));
+        return;
     }
 
     /**
