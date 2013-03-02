@@ -518,6 +518,13 @@ class Note extends Base
             /* @var $user \Secretery\Entity\User */
             $user = $this->getUserRepository()->find((int) $member);
             if (false === $user->getGroups()->contains($group)) {
+                $this->events->trigger('logViolation', __METHOD__ . '::l42', array(
+                    'message' => sprintf('User: %s wants to add user: %s to group: %s',
+                        $this->identity->getEmail(),
+                        $user->getEmail(),
+                        $group->getName()
+                    )
+                ));
                 throw new \LogicException('User does not belong to selected group');
             }
             if (empty($user)) {
