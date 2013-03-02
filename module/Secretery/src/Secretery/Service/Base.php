@@ -23,6 +23,8 @@
 namespace Secretery\Service;
 
 use Doctrine\ORM\EntityManager;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerInterface;
 
 /**
  * Base for Service classes
@@ -34,7 +36,7 @@ use Doctrine\ORM\EntityManager;
  * @version  Release: @package_version@
  * @link     http://www.wesrc.com
  */
-class Base
+class Base implements EventManagerAwareInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -42,11 +44,40 @@ class Base
     protected $em;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $em
+     * @var string
+     */
+    protected $eventIdentifier = __CLASS__;
+
+    /**
+     * @var \Zend\EventManager\EventManagerInterface
+     */
+    protected $evm;
+
+    /**
+     * @var \Zend\EventManager\EventManagerInterface
+     */
+    protected $events;
+
+    /**
+     * @param  \Doctrine\ORM\EntityManager $em
+     * @return self
      */
     public function setEntityManager(EntityManager $em)
     {
         $this->em = $em;
+        return $this;
+    }
+
+    /**
+     * @param  EventManagerInterface $eventManager
+     * @return self
+     */
+    public function setEventManager(EventManagerInterface $eventManager)
+    {
+        $eventManager->setIdentifiers(array($this->eventIdentifier));
+        $this->evm    = $eventManager;
+        $this->events = $eventManager;
+        return $this;
     }
 
     /**
@@ -56,4 +87,13 @@ class Base
     {
         return $this->em;
     }
+
+    /**
+     * @return EventManagerInterface
+     */
+    public function getEventManager()
+    {
+        return $this->evm;
+    }
+
 }
