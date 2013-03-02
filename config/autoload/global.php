@@ -26,5 +26,10 @@ return array(
                 'filters'           => array()
             )
         )
-    )
+    ),
+
+    'logger' => array(
+        'writer'        => 'Stream',
+        'writerOptions' => __DIR__ . '/../../data/log/app.log'
+    ),
 );

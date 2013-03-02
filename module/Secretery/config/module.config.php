@@ -14,6 +14,7 @@ use Secretery\Controller\NoteController;
 use Secretery\Controller\GroupController;
 use Secretery\Service\Group as GroupService;
 use Secretery\Service\Key as KeyService;
+use Secretery\Service\Logger as LoggerService;
 use Secretery\Service\Note as NoteService;
 use Secretery\Service\User as UserService;
 use Secretery\Service\Encryption as EncryptionService;
@@ -186,6 +187,15 @@ return array(
                 /* @var $em EntityManager */
                 $em = $sm->get('doctrine.entitymanager.orm_default');
                 $service->setEntityManager($em);
+                return $service;
+            },
+            'logger-service' => function(ServiceManager $sm) {
+                $config      = $sm->get('config');
+                $writerClass = '\\Zend\\Log\Writer\\' . $config['logger']['writer'];
+                $writer      = new $writerClass($config['logger']['writerOptions']);
+                $logger      = new \Zend\Log\Logger();
+                $logger->addWriter($writer);
+                $service = new LoggerService($logger);
                 return $service;
             },
         ),
