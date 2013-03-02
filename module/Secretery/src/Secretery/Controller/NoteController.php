@@ -179,7 +179,12 @@ class NoteController extends ActionController
                         $groupId, $this->identity->getId()
                     );
                     if (false === $groupMemberCheck) {
-                        // @todo log stuff here?
+                        $this->events->trigger('logViolation', __METHOD__ . '::l42', array(
+                            'message' => sprintf('User: %s wants to add note for GroupID: %s',
+                                $this->identity->getEmail(),
+                                $groupId
+                            )
+                        ));
                         return new ViewModel($viewVars);
                     }
                 }
@@ -363,6 +368,13 @@ class NoteController extends ActionController
                 $group = $this->getRequest()->getPost('group');
                 if (!empty($group)) {
                     if ($group != $noteRecord->getGroup()->getId()) {
+                        $this->events->trigger('logViolation', __METHOD__ . '::l42', array(
+                            'message' => sprintf('User: %s wants to change GroupID from: %s to: %s',
+                                $this->identity->getEmail(),
+                                $noteRecord->getGroup()->getId(),
+                                $group
+                            )
+                        ));
                         $viewVars['msg'] = array('error', 'You cannot change the group');
                         return new ViewModel($viewVars);
                     }
@@ -411,7 +423,12 @@ class NoteController extends ActionController
             $id
         );
         if (false === $permissionCheck) {
-            // @todo log stuff here?
+            $this->events->trigger('logViolation', __METHOD__ . '::l42', array(
+                'message' => sprintf('User: %s wants to delete note: %s',
+                    $this->identity->getEmail(),
+                    $id
+                )
+            ));
             return $this->redirect()->toRoute('secretery/note');
         }
 
