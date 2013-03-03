@@ -90,6 +90,16 @@ return array(
                     ),
                 ),
             ),
+            'user-settings' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/user/settings',
+                    'defaults' => array(
+                        'controller' => 'Secretery\Controller\User',
+                        'action'     => 'settings',
+                    ),
+                ),
+            ),
             'secretery' => array(
                 'type'    => 'Literal',
                 'options' => array(
