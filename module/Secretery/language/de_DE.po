@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-03-03 04:06+0100\n"
+"PO-Revision-Date: 2013-03-03 22:04+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
 "Language: de_DE\n"
@@ -75,7 +75,7 @@ msgstr "Übersicht"
 
 #: ../view/layout/layout.phtml:31
 msgid "Manage Key"
-msgstr "Schlüsselverwaltung"
+msgstr "Schlüssel"
 
 #: ../view/layout/layout.phtml:31
 msgid "Manage Notes"
