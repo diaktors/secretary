@@ -11,11 +11,15 @@ Using Composer to install
 1. pull the repository
 2. cd into checkout folder
 3. php composer.phar install
-4. php vendor/bin/doctrine-module orm:schema-tool:create --dump-sql
-5. load docs/sql/roles.sql into you db 
-6. change config/autoload/local.php db values
-7. create Apache/Nginx host for project with SSL(!)
-8. run https://your-secretery.com/user/register and register your first account
+4. create /config/autoload/local.php from local.php.dist and change the settings to needed values
+5. php vendor/bin/doctrine-module orm:schema-tool:create --dump-sql
+6. load docs/sql/roles.sql into you db
+7. change config/autoload/local.php db values
+8. create Apache/Nginx host for project with SSL(!)
+9. create /data/log/app.log and chmod 777 it
+10. chmod -R 777 /data/Secretery/Entity/Proxy if your are Array Proxy setting
+
+run https://your-secretery.com/user/register and register your first account
 
 Tests
 -----

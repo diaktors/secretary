@@ -10,7 +10,7 @@ And while laughing at people sending fax messages: What is *your* preferred way 
 
 I tried encrypted emails, with GNUPG and smime. Do all the people you want to share sensitive information with have a smime cert, a gnupg key? No, they don't. And I won't be the person training all these people out there to create smime certs for money or getting them into GNUPG and the theory behind.
 
-We have dropbox, icloud and many other cloud services where we can share files. Most of them tell you, that content is encrypted, but some tell you, that they need to have a way, to get to your data.
+We have Dropbox, iCloud and many other cloud services where we can share files. Most of them tell you, that content is encrypted, but some tell you, that they need to have a way, to get to your data.
 
 And if you try to sync an encrypted DiskImage with Dropbox with other people, you definitely will have fun with sync conflicts.
 
@@ -22,7 +22,7 @@ But four weeks later we got that problem again and were sending passwords by ema
 
 > But there must be a fine way of doing this
 
-Many Thanks to my partner Leander, he was definitly getting me into the right direction. You want to have a key. 
+Many Thanks to my partner Leander, he was definitely getting me into the right direction. You want to have a key.
 
 `Secretery` is made for making it easy to share sensitive information in a secure way. Inside groups, with a key, but in a way I could tell my father how to do this. It's not as comfortable as having plaintext around. You need to get permission again and again. But perhaps better and even slightly more secure than fax?
 
@@ -30,7 +30,7 @@ Open Source & Help needed
 -------------------------
 If you don't want to rely on trusting some cloud app - Please consider to take a look. This code is open source and license will be MIT or something similar. (I need to talk to people who are more into license stuff than me.)
 
-So you can install this on you own server, you have your data in your hands (but encrypted!). You will need SSL for using this app. (YOU DONT WANT TO RUN THIS THROGH NORMAL HTTP)
+So you can install this on you own server, you have your data in your hands (but encrypted!). You will need SSL for using this app. (YOU DONT WANT TO RUN THIS WITH NORMAL HTTP)
 
 Help with getting this app even better is much appreciated. There are many places where things could be done better: testing, more features, more elegant encryption handling (as far as secure possible (Browser PlugIns for key insertion?)). Would love seeing help.
 
