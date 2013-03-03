@@ -54,6 +54,9 @@ class Module implements BootstrapListenerInterface,
         // Attach Mail Events
         $this->initMail($e);
 
+        // Set User Locale
+        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'selectUserLocale'));
+
         return;
     }
 
@@ -144,6 +147,29 @@ class Module implements BootstrapListenerInterface,
                 return $form;
             })
         );
+    }
+
+    /**
+     * Select the admin layout based on route name
+     *
+     * @param  MvcEvent $e
+     * @return void
+     */
+    public function selectUserLocale(MvcEvent $e)
+    {
+        $app         = $e->getParam('application');
+        $sm          = $app->getServiceManager();
+        $zfcUserAuth = $sm->get('controllerPluginManager')->get('zfcUserAuthentication');
+
+        if (!$zfcUserAuth->hasIdentity()) {
+            return;
+        }
+
+        $identity = $zfcUserAuth->getIdentity();
+        $identity->getLanguage();
+
+        $sm->get('translator')->setLocale($identity->getLanguage());
+        return;
     }
 
     /**
