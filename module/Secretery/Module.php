@@ -50,6 +50,9 @@ class Module implements BootstrapListenerInterface,
 
         // Attach Logging Events
         $this->initLogger($e);
+
+        // Attach Mail Events
+        $this->initMail($e);
     }
 
     /**
@@ -180,6 +183,29 @@ class Module implements BootstrapListenerInterface,
      * @param  \Zend\EventManager\EventInterface $e
      * @return void
      */
+    protected function initMail(EventInterface $e)
+    {
+        /* @var \Secretery\Service\Mail $mailService */
+        $mailService = $e->getApplication()->getServiceManager()->get('mail-service');
+        /* @var \Zend\EventManager\SharedEventManager $sharedEvents */
+        $sharedEvents  = $e->getApplication()->getEventManager()->getSharedManager();
+        $identifier    = array(
+            'Zend\Mvc\Controller\AbstractActionController',
+            'Secretery\Service\Base'
+        );
+        $sharedEvents->attach($identifier, 'sendMail', function ($e) use ($mailService) {
+            $target      = $e->getTarget();
+            $mailOptions = $e->getParams();
+            $mailService->send($mailOptions, $target);
+        });
+        $sharedEvents->attach('Zend\Mvc\Application', 'dispatch.error', function ($e) use ($mailService) {
+            $exception = $e->getParam('exception');
+            if (empty($exception)) {
+                return;
+            }
+            $mailService->send(array('exception' => $exception), 'error');
+        });
+    }
 
     /**
      * @param  \Zend\EventManager\EventInterface $e
