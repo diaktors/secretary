@@ -1,23 +1,32 @@
 <?php
 /**
- * Wesrc Copyright 2013
- * Modifying, copying, of code contained herein that is not specifically
- * authorized by Wesrc UG ("Company") is strictly prohibited.
- * Violators will be prosecuted.
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
  *
- * This restriction applies to proprietary code developed by WsSrc. Code from
- * third-parties or open source projects may be subject to other licensing
- * restrictions by their respective owners.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
- * Additional terms can be found at http://www.wesrc.com/company/terms
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
  *
  * PHP Version 5
  *
  * @category Factory
  * @package  Secretery
  * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.wesrc.com/company/terms Terms of Service
- * @link     http://www.wesrc.com
+ * @license  http://www.opensource.org/licenses/mit-license.html MIT License
+ * @version  GIT: <git_id>
+ * @link     https://github.com/wesrc/secretery
  */
 
 namespace Secretery\Service\Factory;
@@ -32,9 +41,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @category Factory
  * @package  Secretery
  * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.wesrc.com/company/terms Terms of Service
- * @version  Release: @package_version@
- * @link     http://www.wesrc.com
+ * @license  http://www.opensource.org/licenses/mit-license.html MIT License
+ * @version  GIT: <git_id>
+ * @link     https://github.com/wesrc/secretery
  */
 class UserFactory implements FactoryInterface
 {
