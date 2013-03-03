@@ -24,7 +24,6 @@ namespace Secretery\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-//use Doctrine\Common\Persistence\PersistentObject;
 
 /**
  * Key Entity
@@ -39,7 +38,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user2note")
  * @ORM\Entity(repositoryClass="Secretery\Entity\Repository\User2Note")
  */
-class User2Note //extends PersistentObject //implements InputFilterAwareInterface
+class User2Note //implements InputFilterAwareInterface
 {
     /**
      * @ORM\Column(name="user_id", type="integer")

@@ -25,7 +25,6 @@ namespace Secretery\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Persistence\PersistentObject;
-//use Doctrine\Common\Collections\ArrayCollection;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;

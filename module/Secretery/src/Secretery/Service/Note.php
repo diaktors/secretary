@@ -22,7 +22,7 @@
 
 namespace Secretery\Service;
 
-use \Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\ArrayCollection;
 use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Secretery\Entity\Note as NoteEntity;

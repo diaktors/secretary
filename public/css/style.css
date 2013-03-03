@@ -6,6 +6,15 @@ body {
     color: #0b1d53;
 }
 
+legend {
+    margin-bottom: 0;
+}
+
+fieldset form {
+    padding-top: 20px;
+}
+
+
 div.container a.brand {
     background: url("../images/key/key_32.png") no-repeat scroll 0 4px transparent;
     margin-left: 0;
