@@ -176,6 +176,16 @@ class Module implements BootstrapListenerInterface,
             $message = sprintf('%s - %s', $target, $message);
             $loggerService->logInfo($message);
         });
+        $sharedEvents->attach('Zend\Mvc\Application', 'dispatch.error', function ($e) use ($loggerService) {
+            $exception = $e->getParam('exception');
+            if (empty($exception)) {
+                return;
+            }
+            $message = $exception->getMessage();
+            $target  = get_class($e->getTarget()) . '::l' . $exception->getLine();
+            $message = sprintf('%s - %s', $target, $message);
+            $loggerService->logError($message);
+        });
         return;
     }
 
