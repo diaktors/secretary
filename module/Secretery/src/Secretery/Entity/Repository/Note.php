@@ -83,33 +83,33 @@ class Note extends EntityRepository
 
     /**
      * @param  int $userId
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return \Doctrine\ORM\QueryBuilder
      */
     public function fetchUserNotes($userId)
     {
         $qb = $this->createQueryBuilder('n');
-        $qb->select(array('n.id', 'n.title', 'n.content', 'n.private', 'n.dateCreated', 'n.dateUpdated'))
+        $qb->select(array('n.id', 'n.title', 'n.private', 'n.dateCreated', 'n.dateUpdated'))
             ->addSelect(array('u2n.owner', 'u2n.readPermission', 'u2n.writePermission'))
             ->leftJoin('n.user2note', 'u2n')
             ->leftJoin('u2n.user', 'u')
             ->where('u2n.userId = :userId')
             ->andWhere('u.id = :userId')
             ->andWhere('n.private = :private')
-            ->addOrderBy('n.title', 'ASC')
             ->setParameter('userId', $userId)
             ->setParameter('private', 1);
 
-        return $qb->getQuery()->getArrayResult();
+        return $qb;
     }
 
     /**
      * @param  int $userId
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @param  int $groupId
+     * @return \Doctrine\ORM\QueryBuilder
      */
-    public function fetchGroupNotes($userId, $groupId = null, $fetchMode = AbstractQuery::HYDRATE_ARRAY)
+    public function fetchGroupNotes($userId, $groupId = null)
     {
         $qb = $this->createQueryBuilder('n');
-        $qb->select(array('n.id', 'n.title', 'n.content', 'n.private', 'n.dateCreated', 'n.dateUpdated'))
+        $qb->select(array('n.id', 'n.title', 'n.private', 'n.dateCreated', 'n.dateUpdated'))
             ->addSelect(array('u2n.owner', 'u2n.readPermission', 'u2n.writePermission'))
             ->addSelect(array('g.name as groupName', 'g.id as groupId'))
             ->leftJoin('n.user2note', 'u2n')
@@ -127,6 +127,6 @@ class Note extends EntityRepository
                 ->setParameter('groupId', $groupId);
         }
 
-        return $qb->getQuery()->getResult($fetchMode);
+        return $qb;
     }
 }

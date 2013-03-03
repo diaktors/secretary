@@ -3,7 +3,14 @@ body {
     padding-bottom: 40px;
 }
 .sec-color {
-    color: #0b1d53;
+    color: #1d6aa3;
+}
+
+a {
+    color: #1d6aa3;
+}
+a:hover {
+    color: #184e7f;
 }
 
 legend {
@@ -41,6 +48,48 @@ div.container footer {
 
 div.container p.backBtn {
     margin-top: 30px;
+}
+
+/**
+ * Home
+ */
+div.container div.home {
+    position: relative;
+}
+div.container div.home h2 {
+    font-size: 20px;
+    line-height: 28px;
+    margin-top: 25px;
+}
+div.container div.home div.addNote {
+    position: absolute;
+    right: 0;
+    top: -7px;
+}
+div.container div.home div.well ul {
+    list-style: none;
+    margin: 0;
+}
+div.container div.home div.well ul li {
+    margin: 5px 0 10px;
+}
+div.container div.home div.well ul li a {
+    font-size: 16px;
+    line-height: 22px;
+}
+div.container div.home div.well ul li span.group {
+    font-size: 12px;
+    font-style: italic;
+    line-height: 18px;
+}
+div.container div.home div.well ul li span.group a {
+    font-size: 12px;
+    font-style: italic;
+    line-height: 18px;
+}
+div.container div.home div.well ul li span.date {
+    font-size: 12px;
+    line-height: 18px;
 }
 
 /**

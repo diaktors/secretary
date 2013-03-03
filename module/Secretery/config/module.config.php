@@ -11,6 +11,7 @@ namespace Secretery;
 
 use Secretery\Controller\GroupController;
 use Secretery\Controller\KeyController;
+use Secretery\Controller\IndexController;
 use Secretery\Controller\NoteController;
 use Secretery\Controller\UserController;
 use Zend\Mvc\Controller\ControllerManager;
@@ -190,9 +191,14 @@ return array(
     // Controllers
     'controllers' => array(
         'invokables' => array(
-            'Secretery\Controller\Index' => 'Secretery\Controller\IndexController',
+            //'Secretery\Controller\Index' => 'Secretery\Controller\IndexController',
         ),
         'factories' => array(
+            'Secretery\Controller\Index'  => function(ControllerManager $cm) {
+                $controller = new IndexController();
+                $controller->setNoteService($cm->getServiceLocator()->get('note-service'));
+                return $controller;
+            },
             'Secretery\Controller\Key' => function(ControllerManager $cm) {
                 $controller = new KeyController();
                 $controller->setKeyService($cm->getServiceLocator()->get('key-service'))

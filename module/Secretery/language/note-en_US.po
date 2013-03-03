@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-02-19 03:47+0100\n"
+"PO-Revision-Date: 2013-03-03 22:00+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
 "Language: de_DE\n"
@@ -141,4 +141,12 @@ msgstr ""
 
 #: ../view/secretery/note/edit.phtml:22
 msgid "Selected Group"
+msgstr ""
+
+#: ../view/secretery/index/index.phtml:39
+msgid "Last Private Notes"
+msgstr ""
+
+#: ../view/secretery/index/index.phtml:61
+msgid "Last Group Notes"
 msgstr ""

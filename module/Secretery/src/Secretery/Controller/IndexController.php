@@ -32,6 +32,7 @@
 namespace Secretery\Controller;
 
 use Secretery\Mvc\Controller\ActionController;
+use Secretery\Service\Note as NoteService;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -46,10 +47,53 @@ use Zend\View\Model\ViewModel;
  */
 class IndexController extends ActionController
 {
+    /**
+     * @var \Secretery\Service\Note
+     */
+    protected $noteService;
+
+    /**
+     * @return \Secretery\Service\Note
+     */
+    public function getNoteService()
+    {
+        return $this->noteService;
+    }
+
+    /**
+     * @param  \Secretery\Service\Note $noteService
+     * @return \Secretery\Service\Note
+     */
+    public function setNoteService(NoteService $noteService)
+    {
+        $this->noteService = $noteService;
+        return $this;
+    }
+
+    /**
+     * @return \Zend\View\Model\ViewModel
+     */
     public function indexAction()
     {
+        if (!$this->zfcUserAuthentication()->hasIdentity()) {
+            return new ViewModel();
+        }
+
+        $userArray = $this->identity->toArray();
+        if ($this->zfcUserAuthentication()->hasIdentity() && $userArray['role'] == 'user') {
+            return new ViewModel();
+        }
+
+        $this->translator->addTranslationFilePattern(
+            'gettext', __DIR__ . '/../../../language', 'note-%s.mo'
+        );
+
+        $privateNotes = $this->noteService->fetchUserNotesDashboard($this->identity->getId());
+        $groupNotes   = $this->noteService->fetchGroupNotesDashboard($this->identity->getId());
+
         return new ViewModel(array(
-            'routeName' => $this->event->getParam('route-match')->getMatchedRouteName()
+            'privateNotes' => $privateNotes,
+            'groupNotes'   => $groupNotes
         ));
     }
 }
