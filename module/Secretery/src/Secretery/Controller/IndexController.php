@@ -32,6 +32,7 @@
 namespace Secretery\Controller;
 
 use Secretery\Mvc\Controller\ActionController;
+use Secretery\Service\Note as NoteService;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -46,6 +47,28 @@ use Zend\View\Model\ViewModel;
  */
 class IndexController extends ActionController
 {
+    /**
+     * @var \Secretery\Service\Note
+     */
+    protected $noteService;
+
+    /**
+     * @return \Secretery\Service\Note
+     */
+    public function getNoteService()
+    {
+        return $this->noteService;
+    }
+
+    /**
+     * @param  \Secretery\Service\Note $noteService
+     * @return \Secretery\Service\Note
+     */
+    public function setNoteService(NoteService $noteService)
+    {
+        $this->noteService = $noteService;
+        return $this;
+    }
     public function indexAction()
     {
         return new ViewModel(array(
