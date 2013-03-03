@@ -25,6 +25,7 @@ return array(
                 array('route' => 'zfcuser/login', 'roles' => array('guest')),
                 array('route' => 'zfcuser/register', 'roles' => array('guest')),
                 array('route' => 'home', 'roles' => array('guest', 'user')),
+                array('route' => 'user-settings', 'roles' => array('user')),
                 array('route' => 'secretery/default', 'roles' => array('user')),
                 array('route' => 'secretery/note', 'roles' => array('keyuser')),
                 array('route' => 'secretery/group', 'roles' => array('keyuser')),

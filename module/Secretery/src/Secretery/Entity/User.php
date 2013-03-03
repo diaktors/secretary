@@ -83,6 +83,16 @@ class User implements UserInterface, ProviderInterface
     protected $state;
 
     /**
+     * @ORM\Column(name="language", type="string", length=5)
+     */
+    protected $language = 'en_US';
+
+    /**
+     * @ORM\Column(name="notifications", type="boolean")
+     */
+    protected $notifications = true;
+
+    /**
      * @ORM\OneToOne(targetEntity="Key", mappedBy="user")
      */
     protected $key;
@@ -141,7 +151,7 @@ class User implements UserInterface, ProviderInterface
      * Set id.
      *
      * @param int $id
-     * @return UserInterface
+     * @return self
      */
     public function setId($id)
     {
@@ -163,7 +173,7 @@ class User implements UserInterface, ProviderInterface
      * Set username.
      *
      * @param string $username
-     * @return UserInterface
+     * @return self
      */
     public function setUsername($username)
     {
@@ -185,7 +195,7 @@ class User implements UserInterface, ProviderInterface
      * Set email.
      *
      * @param string $email
-     * @return UserInterface
+     * @return self
      */
     public function setEmail($email)
     {
@@ -207,7 +217,7 @@ class User implements UserInterface, ProviderInterface
      * Set displayName.
      *
      * @param  string $displayName
-     * @return UserInterface
+     * @return self
      */
     public function setDisplayName($displayName)
     {
@@ -229,7 +239,7 @@ class User implements UserInterface, ProviderInterface
      * Set password.
      *
      * @param string $password
-     * @return UserInterface
+     * @return self
      */
     public function setPassword($password)
     {
@@ -251,11 +261,55 @@ class User implements UserInterface, ProviderInterface
      * Set state.
      *
      * @param  int $state
-     * @return UserInterface
+     * @return self
      */
     public function setState($state)
     {
         $this->state = $state;
+        return $this;
+    }
+
+    /**
+     * Get language.
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * Set language.
+     *
+     * @param  string $language
+     * @return self
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+        return $this;
+    }
+
+    /**
+     * Get notifications.
+     *
+     * @return bool
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
+
+    /**
+     * Set notifications.
+     *
+     * @param  bbol $notifications
+     * @return self
+     */
+    public function setNotifications($notifications)
+    {
+        $this->notifications = (bool) $notifications;
         return $this;
     }
 

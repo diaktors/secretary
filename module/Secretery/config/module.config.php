@@ -9,9 +9,10 @@
 
 namespace Secretery;
 
+use Secretery\Controller\GroupController;
 use Secretery\Controller\KeyController;
 use Secretery\Controller\NoteController;
-use Secretery\Controller\GroupController;
+use Secretery\Controller\UserController;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\ServiceManager;
 
@@ -86,6 +87,16 @@ return array(
                     'defaults' => array(
                         'controller' => 'Secretery\Controller\Index',
                         'action'     => 'index',
+                    ),
+                ),
+            ),
+            'user-settings' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/user/settings',
+                    'defaults' => array(
+                        'controller' => 'Secretery\Controller\User',
+                        'action'     => 'settings',
                     ),
                 ),
             ),
@@ -200,6 +211,11 @@ return array(
                 $controller->setGroupService($cm->getServiceLocator()->get('group-service'))
                     ->setNoteService($cm->getServiceLocator()->get('note-service'))
                     ->setUserService($cm->getServiceLocator()->get('user-service'));
+                return $controller;
+            },
+            'Secretery\Controller\User' => function(ControllerManager $cm) {
+                $controller = new UserController();
+                $controller->setUserService($cm->getServiceLocator()->get('user-service'));
                 return $controller;
             },
         )

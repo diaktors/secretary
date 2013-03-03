@@ -1,0 +1,17 @@
+<fieldset>
+    <legend><?php echo $this->translate('Change Settings') ?></legend>
+    <?php
+        if (!empty($this->msg)) {
+            echo $this->ztbAlert($this->translate($this->msg[1]), false, 'alert-' . $this->msg[0]);
+        }
+
+        echo $this->form()->openTag($this->userForm);
+        echo $this->ztbFormElement($this->userForm->get('display_name'));
+        echo $this->ztbFormElement($this->userForm->get('language'));
+        echo $this->ztbFormElement($this->userForm->get('notifications'));
+        echo '<div class="form-actions">';
+        echo $this->formElement($this->userForm->get('submit'));
+        echo '</div>';
+        echo $this->form()->closeTag();
+    ?>
+</fieldset>

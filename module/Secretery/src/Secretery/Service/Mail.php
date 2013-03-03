@@ -270,7 +270,7 @@ class Mail
          * @var \Secretery\Entity\User $owner
          */
         foreach ($users as $user) {
-            if ($user->getId() != $owner->getId()) {
+            if ($user->getId() != $owner->getId() && true === $user->getNotifications()) {
                 $content = new ViewModel();
                 $content->setTemplate('mail/note.phtml')
                     ->setVariable('title', $title)
