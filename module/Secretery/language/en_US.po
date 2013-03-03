@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 22:17-0700\n"
-"PO-Revision-Date: 2013-02-18 10:45+0100\n"
+"PO-Revision-Date: 2013-03-03 04:06+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: ZF Contibutors <zf-devteam@zend.com>\n"
 "Language: en_US\n"
@@ -52,6 +52,12 @@ msgstr "Title"
 msgid "date"
 msgstr "Date"
 
+msgid "german"
+msgstr "German"
+
+msgid "english"
+msgstr "English"
+
 msgid "Back to overview"
 msgstr ""
 
@@ -92,18 +98,22 @@ msgid "View Details"
 msgstr ""
 
 #: ../view/layout/layout.phtml:56
-msgid "Change Email"
+msgid "Change Settings"
 msgstr ""
 
 #: ../view/layout/layout.phtml:61
-msgid "Change Password"
+msgid "Change Email"
 msgstr ""
 
 #: ../view/layout/layout.phtml:66
+msgid "Change Password"
+msgstr ""
+
+#: ../view/layout/layout.phtml:71
 msgid "Logout"
 msgstr ""
 
-#: ../view/layout/layout.phtml:95
+#: ../view/layout/layout.phtml:85
 msgid "All rights reserved."
 msgstr ""
 
