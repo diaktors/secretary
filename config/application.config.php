@@ -8,6 +8,7 @@ return array(
         'ZfcUser',
         'ZfcUserDoctrineORM',
         'BjyAuthorize',
+        'SxMail',
         'ZfcAdmin',
         'ZfcTwitterBootstrap',
         //'WdevMarkdown',

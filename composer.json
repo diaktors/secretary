@@ -14,6 +14,7 @@
         "bjyoungblood/bjy-authorize": "1.1.1",
         "mwillbanks/zfc-twitter-bootstrap": "dev-master",
         "dflydev/markdown": "1.0.2",
+        "rwoverdijk/sxmail": "1.3.3",
         "sensiolabs/security-checker": "1.1"
     },
     "scripts": {
