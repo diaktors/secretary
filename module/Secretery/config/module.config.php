@@ -15,9 +15,11 @@ use Secretery\Controller\GroupController;
 use Secretery\Service\Group as GroupService;
 use Secretery\Service\Key as KeyService;
 use Secretery\Service\Logger as LoggerService;
+use Secretery\Service\Mail as MailService;
 use Secretery\Service\Note as NoteService;
 use Secretery\Service\User as UserService;
 use Secretery\Service\Encryption as EncryptionService;
+use SxMail\SxMail;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\ServiceManager;
 use Doctrine\ORM\EntityManager;
@@ -195,8 +197,19 @@ return array(
                 $writer      = new $writerClass($config['logger']['writerOptions']);
                 $logger      = new \Zend\Log\Logger();
                 $logger->addWriter($writer);
-                $service = new LoggerService($logger);
-                return $service;
+                return new LoggerService($logger);
+            },
+            'mail-service' => function(ServiceManager $sm) {
+                $config       = $sm->get('config');
+                $translator   = $sm->get('translator');
+                $transport    = $config['mail']['transport'];
+                $host         = $config['mail']['domain_url'];
+                $defaultEmail = $config['mail']['default_email'];
+                $defaultFrom  = $config['mail']['default_from'];
+                $SxMail       = new SxMail(
+                    $sm->get('view_manager')->getRenderer(), array('transport' => $transport)
+                );
+                return new MailService($SxMail, $translator, $host, $defaultFrom, $defaultEmail);
             },
         ),
         'invokables' => array(
