@@ -294,7 +294,21 @@ class Note extends Base
      */
     public function fetchUserNotes($userId)
     {
-        return $this->getNoteRepository()->fetchUserNotes($userId);
+        $notesQb = $this->getNoteRepository()->fetchUserNotes($userId);
+        $notesQb->addOrderBy('n.title', 'ASC');
+        return $notesQb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @param  int $userId
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function fetchUserNotesDashboard($userId)
+    {
+        $notesQb = $this->getNoteRepository()->fetchUserNotes($userId);
+        $notesQb->addOrderBy('n.dateUpdated', 'DESC')
+            ->setMaxResults(5);
+        return $notesQb->getQuery()->getArrayResult();
     }
 
     /**
@@ -304,7 +318,21 @@ class Note extends Base
      */
     public function fetchGroupNotes($userId, $groupId = null)
     {
-        return $this->getNoteRepository()->fetchGroupNotes($userId, $groupId);
+        $notesQb = $this->getNoteRepository()->fetchGroupNotes($userId, $groupId);
+        $notesQb->addOrderBy('n.title', 'ASC');
+        return $notesQb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @param  int $userId
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function fetchGroupNotesDashboard($userId)
+    {
+        $notesQb = $this->getNoteRepository()->fetchGroupNotes($userId);
+        $notesQb->addOrderBy('n.dateUpdated', 'DESC')
+            ->setMaxResults(5);
+        return $notesQb->getQuery()->getArrayResult();
     }
 
     /**
@@ -314,9 +342,13 @@ class Note extends Base
      */
     public function deleteUserFromGroupNotes(UserEntity $user, GroupEntity $group)
     {
-        $groupNotes = $this->getNoteRepository()->fetchGroupNotes(
-            $user->getId(), $group->getId(), \Doctrine\ORM\AbstractQuery::HYDRATE_OBJECT
+        $groupNotesQb = $this->getNoteRepository()->fetchGroupNotes(
+            $user->getId(), $group->getId()
         );
+        $groupNotesQb->addOrderBy('n.title', 'ASC');
+        $groupNotes = $groupNotesQb->getQuery()
+            ->getResult(\Doctrine\ORM\AbstractQuery::HYDRATE_OBJECT);
+
         if (empty($groupNotes)) {
             return;
         }
