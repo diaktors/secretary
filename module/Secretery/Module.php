@@ -147,6 +147,7 @@ class Module implements BootstrapListenerInterface,
      */
     protected function initLogger(EventInterface $e)
     {
+        /* @var \Secretery\Service\Logger $loggerService */
         $loggerService = $e->getApplication()->getServiceManager()->get('logger-service');
         /* @var \Zend\EventManager\SharedEventManager $sharedEvents */
         $sharedEvents  = $e->getApplication()->getEventManager()->getSharedManager();
@@ -174,6 +175,11 @@ class Module implements BootstrapListenerInterface,
         });
         return;
     }
+
+    /**
+     * @param  \Zend\EventManager\EventInterface $e
+     * @return void
+     */
 
     /**
      * @param  \Zend\EventManager\EventInterface $e
