@@ -50,14 +50,22 @@ class User extends Base
      * @return void
      * @throws \LogicException If needed role can not be found
      */
-    public function saveUserRole(\Zend\EventManager\Event $e)
+    public function saveUserRoleAndLocale(\Zend\EventManager\Event $e)
     {
         $roleRecord = $this->getRoleRepository()->findOneBy(array('roleId' => 'user'));
         if (empty($roleRecord)) {
             throw new \LogicException('Roles are missing, please configure them');
         }
+
+        /* @var \Secretery\Entity\User $user */
         $user = $e->getParam('user');
         $user->addRole($roleRecord);
+
+        /* @var \Zend\I18n\Translator\Translator $translator */
+        $translator = $e->getTarget()->getServiceManager()->get('translator');
+        $locale     = $translator->getLocale();
+        $user->setLanguage($locale);
+
         $this->em->persist($user);
         $this->em->flush();
 
