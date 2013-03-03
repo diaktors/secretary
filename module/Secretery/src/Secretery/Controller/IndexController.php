@@ -69,10 +69,31 @@ class IndexController extends ActionController
         $this->noteService = $noteService;
         return $this;
     }
+
+    /**
+     * @return \Zend\View\Model\ViewModel
+     */
     public function indexAction()
     {
+        if (!$this->zfcUserAuthentication()->hasIdentity()) {
+            return new ViewModel();
+        }
+
+        $userArray = $this->identity->toArray();
+        if ($this->zfcUserAuthentication()->hasIdentity() && $userArray['role'] == 'user') {
+            return new ViewModel();
+        }
+
+        $this->translator->addTranslationFilePattern(
+            'gettext', __DIR__ . '/../../../language', 'note-%s.mo'
+        );
+
+        $privateNotes = $this->noteService->fetchUserNotesDashboard($this->identity->getId());
+        $groupNotes   = $this->noteService->fetchGroupNotesDashboard($this->identity->getId());
+
         return new ViewModel(array(
-            'routeName' => $this->event->getParam('route-match')->getMatchedRouteName()
+            'privateNotes' => $privateNotes,
+            'groupNotes'   => $groupNotes
         ));
     }
 }
