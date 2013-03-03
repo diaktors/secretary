@@ -82,6 +82,11 @@ div.container div.home div.well ul li span.group {
     font-style: italic;
     line-height: 18px;
 }
+div.container div.home div.well ul li span.group a {
+    font-size: 12px;
+    font-style: italic;
+    line-height: 18px;
+}
 div.container div.home div.well ul li span.date {
     font-size: 12px;
     line-height: 18px;

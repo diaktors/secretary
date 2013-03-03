@@ -68,7 +68,8 @@
                         <?php echo $this->escapeHtml($note['title']); ?>
                     </a><br />
                     <span class="group">
-                        <?php echo $this->translate('Note group') . ': ' . $this->escapeHtml($note['groupName']); ?>
+                        <?php echo $this->translate('Note group') ?>:
+                        <a href="<?php echo sprintf('%s?group=%s', $this->url('secretery/note'), $note['groupId']) ?>"><?php echo $this->escapeHtml($note['groupName']) ?></a>
                     </span>
                      |
                     <span class="date">
