@@ -347,7 +347,15 @@ class Note extends Base
         $this->em->persist($note);
         $this->em->flush();
 
-        return $this->saveUser2NoteRelations($users, $note, $owner, $encryptData);
+        $note = $this->saveUser2NoteRelations($users, $note, $owner, $encryptData);
+
+        $this->events->trigger('sendMail', 'note-add', array(
+            'note'  => $note,
+            'owner' => $owner,
+            'users' => $users
+        ));
+
+        return $note;
     }
 
     /**
@@ -379,7 +387,15 @@ class Note extends Base
         $this->em->persist($note);
         $this->em->flush();
 
-        return $this->saveUser2NoteRelations($users, $note, $owner, $encryptData);
+        $note = $this->saveUser2NoteRelations($users, $note, $owner, $encryptData);
+
+        $this->events->trigger('sendMail', 'note-edit', array(
+            'note'  => $note,
+            'owner' => $owner,
+            'users' => $users
+        ));
+
+        return $note;
     }
 
     /**
