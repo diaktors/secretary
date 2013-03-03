@@ -9,9 +9,10 @@
 
 namespace Secretery;
 
+use Secretery\Controller\GroupController;
 use Secretery\Controller\KeyController;
 use Secretery\Controller\NoteController;
-use Secretery\Controller\GroupController;
+use Secretery\Controller\UserController;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\ServiceManager;
 
