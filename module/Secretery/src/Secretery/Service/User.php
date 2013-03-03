@@ -60,6 +60,13 @@ class User extends Base
         $user->addRole($roleRecord);
         $this->em->persist($user);
         $this->em->flush();
+
+        $this->events->trigger('logInfo', 'Registration', array(
+            'message' => sprintf('User: %s', $user->getEmail())
+        ));
+        $this->events->trigger('sendMail', 'Registration', array(
+            'user' => $user
+        ));
         return;
     }
 

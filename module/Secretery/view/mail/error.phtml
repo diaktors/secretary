@@ -1,0 +1,37 @@
+<h2><?php echo $this->translate('An error occurred') ?></h2>
+<?php
+    /* @var \Exception $exception */
+    $exception = $this->exception;
+?>
+<table>
+    <tr>
+        <td style="padding: 3px 3px 3px 0; vertical-align: top;">
+            <strong><?php echo $this->translate('Message') ?>:</strong>
+        </td>
+        <td><?php echo $this->escapeHtml($exception->getMessage())  ?></td>
+    </tr>
+    <tr>
+        <td style="padding: 3px 3px 3px 0; vertical-align: top;">
+            <strong><?php echo $this->translate('Code') ?>:</strong>
+        </td>
+        <td><?php echo $this->escapeHtml($exception->getCode())  ?></td>
+    </tr>
+    <tr>
+        <td style="padding: 3px 3px 3px 0; vertical-align: top;">
+            <strong><?php echo $this->translate('File') ?>:</strong>
+        </td>
+        <td><?php echo $this->escapeHtml($exception->getFile())  ?></td>
+    </tr>
+    <tr>
+        <td style="padding: 3px 3px 3px 0; vertical-align: top;">
+            <strong><?php echo $this->translate('Line') ?>:</strong>
+        </td>
+        <td><?php echo $this->escapeHtml($exception->getLine())  ?></td>
+    </tr>
+    <tr>
+        <td style="padding: 3px 3px 3px 0; vertical-align: top;">
+            <strong><?php echo $this->translate('Trace') ?>:</strong>
+        </td>
+        <td><?php echo $this->escapeHtml($exception->getTraceAsString())  ?></td>
+    </tr>
+</table>

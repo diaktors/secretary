@@ -26,6 +26,29 @@ return array(
                 'filters'           => array()
             )
         )
-    )
+    ),
+
+    'logger' => array(
+        'writer'        => 'Stream',
+        'writerOptions' => __DIR__ . '/../../data/log/app.log'
+    ),
+
+    'mail' => array(
+        'default_email' => 'xyz@abc.com',
+        'default_from'  => 'noreply@abc.com',
+        'domain_url'    => 'http://abc.com/',
+        'transport' => array(
+            'type'      => 'smtp',
+            'options'   => array(
+                'name'              => 'my localhost',
+                'host'              => 'localhost',
+                'connection_class'  => 'login',
+                'connection_config' => array(
+                    'username' => 'xyz@abc.com',
+                    'password' => '123',
+                ),
+            ),
+        ),
+    ),
 
 );

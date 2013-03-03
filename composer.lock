@@ -1,5 +1,5 @@
 {
-    "hash": "d25abe716c4981ca037c5ed3888fc740",
+    "hash": "0b26be2a8b873f4075126db544a36c52",
     "packages": [
         {
             "name": "bjyoungblood/bjy-authorize",
@@ -559,19 +559,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mwillbanks/ZfcTwitterBootstrap.git",
-                "reference": "a23b9b2bcfabf124da2caf86335e3bfdd9290a13"
+                "reference": "fb2fc5ddaf57083845f8e4e36e5eccea0bfff94e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mwillbanks/ZfcTwitterBootstrap/zipball/a23b9b2bcfabf124da2caf86335e3bfdd9290a13",
-                "reference": "a23b9b2bcfabf124da2caf86335e3bfdd9290a13",
+                "url": "https://api.github.com/repos/mwillbanks/ZfcTwitterBootstrap/zipball/fb2fc5ddaf57083845f8e4e36e5eccea0bfff94e",
+                "reference": "fb2fc5ddaf57083845f8e4e36e5eccea0bfff94e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
                 "zendframework/zendframework": "2.*"
             },
-            "time": "2013-02-07 18:55:00",
+            "time": "2013-03-01 15:22:19",
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -594,6 +594,51 @@
             "keywords": [
                 "twBootstrap",
                 "twitter bootstrap",
+                "zf2"
+            ]
+        },
+        {
+            "name": "rwoverdijk/sxmail",
+            "version": "1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RWOverdijk/SxMail.git",
+                "reference": "1.3.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RWOverdijk/SxMail/zipball/1.3.3",
+                "reference": "1.3.3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "zendframework/zendframework": "2.*"
+            },
+            "time": "2013-02-22 16:43:41",
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "SxMail": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Wesley Overdijk",
+                    "email": "r.w.overdijk@gmail.com",
+                    "homepage": "http://blog.spoonx.nl/"
+                }
+            ],
+            "description": "A simple mail module for Zend Framework 2.",
+            "homepage": "https://github.com/RWOverdijk/SxMail",
+            "keywords": [
+                "Sx",
+                "mail",
+                "zend framework 2",
                 "zf2"
             ]
         },
@@ -643,27 +688,32 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.1.7",
+            "version": "v2.2.0",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Console",
-                "reference": "v2.1.7"
+                "url": "https://github.com/symfony/Console.git",
+                "reference": "v2.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/archive/v2.1.7.zip",
-                "reference": "v2.1.7",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.2.0",
+                "reference": "v2.2.0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-01-17 15:20:05",
+            "time": "2013-03-01 06:43:14",
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\Console": ""
+                    "Symfony\\Component\\Console\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -855,13 +905,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ZF-Commons/ZfcAdmin",
-                "reference": "a42d266149d9444d27528e3c3253295d80d59bf6"
+                "url": "https://github.com/ZF-Commons/ZfcAdmin.git",
+                "reference": "e41eac0cd73c810eef89e968aa010d227c1b165a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/ZF-Commons/ZfcAdmin/archive/a42d266149d9444d27528e3c3253295d80d59bf6.zip",
-                "reference": "a42d266149d9444d27528e3c3253295d80d59bf6",
+                "url": "https://api.github.com/repos/ZF-Commons/ZfcAdmin/zipball/e41eac0cd73c810eef89e968aa010d227c1b165a",
+                "reference": "e41eac0cd73c810eef89e968aa010d227c1b165a",
                 "shasum": ""
             },
             "require": {
@@ -871,7 +921,7 @@
             "suggest": {
                 "bjyoungblood/bjy-authorize": "Access control to protect ZfcAdmin against unauthorized users"
             },
-            "time": "2012-10-30 07:58:51",
+            "time": "2013-02-25 20:00:32",
             "type": "library",
             "autoload": {
                 "psr-0": {
