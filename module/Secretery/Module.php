@@ -53,6 +53,8 @@ class Module implements BootstrapListenerInterface,
 
         // Attach Mail Events
         $this->initMail($e);
+
+        return;
     }
 
     /**
@@ -257,6 +259,7 @@ class Module implements BootstrapListenerInterface,
         $em = $e->getApplication()->getServiceManager()
             ->get('doctrine.entitymanager.orm_default');
         PersistentObject::setObjectManager($em);
+        return;
     }
 
 }

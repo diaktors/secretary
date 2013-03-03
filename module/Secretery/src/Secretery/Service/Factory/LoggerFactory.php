@@ -13,67 +13,42 @@
  *
  * PHP Version 5
  *
- * @category Service
+ * @category Factory
  * @package  Secretery
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.wesrc.com/company/terms Terms of Service
  * @link     http://www.wesrc.com
  */
 
-namespace Secretery\Service;
+namespace Secretery\Service\Factory;
 
-use \Zend\Log\LoggerInterface;
+use Secretery\Service\Logger;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Logger Service
+ * LoggerFactory
  *
- * @category Service
+ * @category Factory
  * @package  Secretery
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.wesrc.com/company/terms Terms of Service
  * @version  Release: @package_version@
  * @link     http://www.wesrc.com
  */
-class Logger
+class LoggerFactory implements FactoryInterface
 {
     /**
-     * @var \Zend\Log\Logger
+     * @param  \Zend\ServiceManager\ServiceLocatorInterface $sl
+     * @return \Secretery\Service\Logger
      */
-    protected $logger;
-
-    /**
-     * @param \Zend\Log\LoggerInterface $logger
-     */
-    public function __construct(LoggerInterface $logger)
+    public function createService(ServiceLocatorInterface $sl)
     {
-        $this->logger = $logger;
+        $config      = $sl->get('config');
+        $writerClass = 'Zend\Log\Writer\\' . $config['logger']['writer'];
+        $writer      = new $writerClass($config['logger']['writerOptions']);
+        $logger      = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        return new Logger($logger);
     }
-
-    /**
-     * @param  string $msg
-     * @return \Zend\Log\Logger
-     */
-    public function logError($msg)
-    {
-        return $this->logger->err($msg);
-    }
-
-    /**
-     * @param  string $msg
-     * @return \Zend\Log\Logger
-     */
-    public function logInfo($msg)
-    {
-        return $this->logger->info($msg);
-    }
-
-    /**
-     * @param  string $msg
-     * @return \Zend\Log\Logger
-     */
-    public function logViolation($msg)
-    {
-        return $this->logger->crit($msg);
-    }
-
 }

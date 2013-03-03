@@ -13,7 +13,7 @@
  *
  * PHP Version 5
  *
- * @category Mapper
+ * @category Service
  * @package  Secretery
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.wesrc.com/company/terms Terms of Service

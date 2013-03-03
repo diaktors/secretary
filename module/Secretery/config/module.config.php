@@ -12,17 +12,8 @@ namespace Secretery;
 use Secretery\Controller\KeyController;
 use Secretery\Controller\NoteController;
 use Secretery\Controller\GroupController;
-use Secretery\Service\Group as GroupService;
-use Secretery\Service\Key as KeyService;
-use Secretery\Service\Logger as LoggerService;
-use Secretery\Service\Mail as MailService;
-use Secretery\Service\Note as NoteService;
-use Secretery\Service\User as UserService;
-use Secretery\Service\Encryption as EncryptionService;
-use SxMail\SxMail;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\ServiceManager;
-use Doctrine\ORM\EntityManager;
 
 return array(
 
@@ -158,59 +149,14 @@ return array(
     // Service Manager
     'service_manager' => array(
         'factories' => array(
-            'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
-            'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
-            'key-service' => function(ServiceManager $sm) {
-                $service = new KeyService();
-                /* @var $em EntityManager */
-                $em = $sm->get('doctrine.entitymanager.orm_default');
-                $service->setEntityManager($em);
-                return $service;
-            },
-            'note-service' => function(ServiceManager $sm) {
-                $service = new NoteService();
-                /* @var $em EntityManager */
-                $em = $sm->get('doctrine.entitymanager.orm_default');
-                /* @var $encService EncryptionService */
-                $encService = $sm->get('encryption-service');
-                $service->setEntityManager($em);
-                $service->setEncryptionService($encService);
-                return $service;
-            },
-            'user-service' => function(ServiceManager $sm) {
-                $service = new UserService();
-                /* @var $em EntityManager */
-                $em = $sm->get('doctrine.entitymanager.orm_default');
-                $service->setEntityManager($em);
-                return $service;
-            },
-            'group-service' => function(ServiceManager $sm) {
-                $service = new GroupService();
-                /* @var $em EntityManager */
-                $em = $sm->get('doctrine.entitymanager.orm_default');
-                $service->setEntityManager($em);
-                return $service;
-            },
-            'logger-service' => function(ServiceManager $sm) {
-                $config      = $sm->get('config');
-                $writerClass = '\\Zend\\Log\Writer\\' . $config['logger']['writer'];
-                $writer      = new $writerClass($config['logger']['writerOptions']);
-                $logger      = new \Zend\Log\Logger();
-                $logger->addWriter($writer);
-                return new LoggerService($logger);
-            },
-            'mail-service' => function(ServiceManager $sm) {
-                $config       = $sm->get('config');
-                $translator   = $sm->get('translator');
-                $transport    = $config['mail']['transport'];
-                $host         = $config['mail']['domain_url'];
-                $defaultEmail = $config['mail']['default_email'];
-                $defaultFrom  = $config['mail']['default_from'];
-                $SxMail       = new SxMail(
-                    $sm->get('view_manager')->getRenderer(), array('transport' => $transport)
-                );
-                return new MailService($SxMail, $translator, $host, $defaultFrom, $defaultEmail);
-            },
+            'translator'     => 'Zend\I18n\Translator\TranslatorServiceFactory',
+            'Navigation'     => 'Zend\Navigation\Service\DefaultNavigationFactory',
+            'key-service'    => 'Secretery\Service\Factory\KeyFactory',
+            'note-service'   => 'Secretery\Service\Factory\NoteFactory',
+            'user-service'   => 'Secretery\Service\Factory\UserFactory',
+            'group-service'  => 'Secretery\Service\Factory\GroupFactory',
+            'logger-service' => 'Secretery\Service\Factory\LoggerFactory',
+            'mail-service'   => 'Secretery\Service\Factory\MailFactory',
         ),
         'invokables' => array(
             'encryption-service' => 'Secretery\Service\Encryption',

@@ -13,67 +13,45 @@
  *
  * PHP Version 5
  *
- * @category Service
+ * @category Factory
  * @package  Secretery
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.wesrc.com/company/terms Terms of Service
  * @link     http://www.wesrc.com
  */
 
-namespace Secretery\Service;
+namespace Secretery\Service\Factory;
 
-use \Zend\Log\LoggerInterface;
+use Secretery\Service\Note;
+use Secretery\Service\Encryption;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Logger Service
+ * NoteFactory
  *
- * @category Service
+ * @category Factory
  * @package  Secretery
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.wesrc.com/company/terms Terms of Service
  * @version  Release: @package_version@
  * @link     http://www.wesrc.com
  */
-class Logger
+class NoteFactory implements FactoryInterface
 {
     /**
-     * @var \Zend\Log\Logger
+     * @param  \Zend\ServiceManager\ServiceLocatorInterface $sl
+     * @return \Secretery\Service\Note
      */
-    protected $logger;
-
-    /**
-     * @param \Zend\Log\LoggerInterface $logger
-     */
-    public function __construct(LoggerInterface $logger)
+    public function createService(ServiceLocatorInterface $sl)
     {
-        $this->logger = $logger;
+        $service = new Note();
+        /* @var \Doctrine\Orm\EntityManager $em */
+        $em = $sl->get('doctrine.entitymanager.orm_default');
+        /* @var \Secretery\Service\Encryption $encService */
+        $encService = $sl->get('encryption-service');
+        $service->setEntityManager($em);
+        $service->setEncryptionService($encService);
+        return $service;
     }
-
-    /**
-     * @param  string $msg
-     * @return \Zend\Log\Logger
-     */
-    public function logError($msg)
-    {
-        return $this->logger->err($msg);
-    }
-
-    /**
-     * @param  string $msg
-     * @return \Zend\Log\Logger
-     */
-    public function logInfo($msg)
-    {
-        return $this->logger->info($msg);
-    }
-
-    /**
-     * @param  string $msg
-     * @return \Zend\Log\Logger
-     */
-    public function logViolation($msg)
-    {
-        return $this->logger->crit($msg);
-    }
-
 }
