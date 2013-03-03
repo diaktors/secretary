@@ -304,7 +304,7 @@ class Module implements BootstrapListenerInterface,
         $zfcServiceEvents = $e->getApplication()->getServiceManager()
             ->get('zfcuser_user_service')->getEventManager();
         $userService = $e->getApplication()->getServiceManager()->get('user-service');
-        $zfcServiceEvents->attach('register.post', array($userService, 'saveUserRole'));
+        $zfcServiceEvents->attach('register.post', array($userService, 'saveUserRoleAndLocale'));
         return;
     }
 

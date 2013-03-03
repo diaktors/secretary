@@ -28,6 +28,10 @@ return array(
         )
     ),
 
+    'translator' => array(
+        'locale' => 'de_DE',
+    ),
+
     'logger' => array(
         'writer'        => 'Stream',
         'writerOptions' => __DIR__ . '/../../data/log/app.log'
