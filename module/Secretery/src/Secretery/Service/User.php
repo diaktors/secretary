@@ -72,6 +72,21 @@ class User extends Base
 
     /**
      * @param  \Secretery\Entity\User $user
+     * @param  array                  $values
+     * @return \Secretery\Entity\User
+     */
+    public function updateUserSettings(UserEntity $user, array $values)
+    {
+        $user->setDisplayName($values['display_name'])
+            ->setLanguage($values['language'])
+            ->setNotifications($values['notifications']);
+        $this->em->persist($user);
+        $this->em->flush();
+        return $user;
+    }
+
+    /**
+     * @param  \Secretery\Entity\User $user
      * @return void
      * @throws \LogicException If needed role can not be found
      */
