@@ -27,7 +27,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use ZfcUser\Entity\UserInterface;
 use BjyAuthorize\Provider\Role\ProviderInterface;
-//use Doctrine\Common\Persistence\PersistentObject;
 
 /**
  * User Entity

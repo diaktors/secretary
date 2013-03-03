@@ -22,9 +22,6 @@
 
 namespace Secretery\Service;
 
-use Doctrine\ORM\EntityManager;
-use \Doctrine\Common\Persistence\PersistentObject;
-
 /**
  * Encryption Service
  *

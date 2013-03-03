@@ -23,7 +23,6 @@
 namespace Secretery\Controller;
 
 use Secretery\Entity\Note as NoteEntity;
-use Secretery\Form\GroupSelect as GroupSelectForm;
 use Secretery\Mvc\Controller\ActionController;
 use Secretery\Service\Note as NoteService;
 use Secretery\Service\Group as GroupService;
