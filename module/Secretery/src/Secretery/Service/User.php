@@ -64,6 +64,9 @@ class User extends Base
         $this->events->trigger('logInfo', 'Registration', array(
             'message' => sprintf('User: %s', $user->getEmail())
         ));
+        $this->events->trigger('sendMail', 'Registration', array(
+            'user' => $user
+        ));
         return;
     }
 
