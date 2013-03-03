@@ -213,6 +213,11 @@ return array(
                     ->setUserService($cm->getServiceLocator()->get('user-service'));
                 return $controller;
             },
+            'Secretery\Controller\User' => function(ControllerManager $cm) {
+                $controller = new UserController();
+                $controller->setUserService($cm->getServiceLocator()->get('user-service'));
+                return $controller;
+            },
         )
     ),
 
