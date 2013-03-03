@@ -181,9 +181,8 @@ class Module implements BootstrapListenerInterface,
             if (empty($exception)) {
                 return;
             }
-            $message = $exception->getMessage();
             $target  = get_class($e->getTarget()) . '::l' . $exception->getLine();
-            $message = sprintf('%s - %s', $target, $message);
+            $message = sprintf('%s - %s', $target, $exception->getMessage());
             $loggerService->logError($message);
         });
         return;
