@@ -117,6 +117,30 @@ class User extends \Secretary\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         return parent::setState($state);
     }
 
+    public function getLanguage()
+    {
+        $this->__load();
+        return parent::getLanguage();
+    }
+
+    public function setLanguage($language)
+    {
+        $this->__load();
+        return parent::setLanguage($language);
+    }
+
+    public function getNotifications()
+    {
+        $this->__load();
+        return parent::getNotifications();
+    }
+
+    public function setNotifications($notifications)
+    {
+        $this->__load();
+        return parent::setNotifications($notifications);
+    }
+
     public function getDateCreated()
     {
         $this->__load();
@@ -180,7 +204,7 @@ class User extends \Secretary\Entity\User implements \Doctrine\ORM\Proxy\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'username', 'email', 'displayName', 'password', 'state', 'dateCreated', 'dateUpdated', 'key', 'roles', 'user2note', 'groups');
+        return array('__isInitialized__', 'id', 'username', 'email', 'displayName', 'password', 'state', 'language', 'notifications', 'dateCreated', 'dateUpdated', 'key', 'roles', 'user2note', 'groups');
     }
 
     public function __clone()
