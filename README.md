@@ -30,7 +30,7 @@ Many Thanks to my partner Leander, he was definitely getting me into the right d
 
 Open Source & Help needed
 -------------------------
-If you don't want to rely on trusting some cloud app - Please consider to take a look. This code is open source and license will be MIT or something similar. (I need to talk to people who are more into license stuff than me.)
+If you don't want to rely on trusting some cloud app - Please consider to take a look. This code is open source and license is MIT-License (see MIT-LICENSE.txt for more info).
 
 So you can install this on you own server, you have your data in your hands (but encrypted!). You will need SSL for using this app. (YOU DONT WANT TO RUN THIS WITH NORMAL HTTP)
 
