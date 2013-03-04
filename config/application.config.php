@@ -11,7 +11,6 @@ return array(
         'SxMail',
         'ZfcAdmin',
         'ZfcTwitterBootstrap',
-        //'WdevMarkdown',
         'ZendDeveloperTools'
     ),
     'module_listener_options' => array(
