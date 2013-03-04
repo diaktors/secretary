@@ -220,7 +220,7 @@ class Mail
             throw new \InvalidArgumentException('Owner param is missing');
         }
 
-        $subject = $this->translator->translate('Secretary - New group note');
+        $subject = 'Secretary - New group note';
         $title   = 'A new note was added';
         $this->sendNoteGroupMail(
             $mailOptions['note'],
@@ -250,7 +250,7 @@ class Mail
             throw new \InvalidArgumentException('Owner param is missing');
         }
 
-        $subject = $this->translator->translate('Secretary - Group note edited');
+        $subject = 'Secretary - Group note edited';
         $title   = 'Note was edited';
         $this->sendNoteGroupMail(
             $mailOptions['note'],
@@ -280,6 +280,8 @@ class Mail
          */
         foreach ($users as $user) {
             if ($user->getId() != $owner->getId() && true === $user->getNotifications()) {
+                $this->translator->setLocale($user->getLanguage());
+                $subject = $this->translator->translate($subject);
                 $content = new ViewModel();
                 $content->setTemplate('mail/note.phtml')
                     ->setVariable('title', $title)
@@ -293,6 +295,8 @@ class Mail
                 $this->SxMail->send($message);
             }
         }
+        // @todo this will only work, as long owner is the only one with edit permissions
+        $this->translator->setLocale($owner->getLanguage());
         return;
     }
 
