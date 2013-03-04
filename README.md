@@ -1,4 +1,4 @@
-Secretery [![Build Status](https://travis-ci.org/wesrc/secretery.png)](https://travis-ci.org/wesrc/secretery)
+Secretary [![Build Status](https://travis-ci.org/wesrc/secretary.png)](https://travis-ci.org/wesrc/secretary)
 =========
 A secure place for shared infos.
 
@@ -24,7 +24,7 @@ But four weeks later we got that problem again and were sending passwords by ema
 
 Many Thanks to my partner Leander, he was definitely getting me into the right direction. You want to have a key.
 
-`Secretery` is made for making it easy to share sensitive information in a secure way. Inside groups, with a key, but in a way I could tell my father how to do this. It's not as comfortable as having plaintext around. You need to get permission again and again. But perhaps better and even slightly more secure than fax?
+`Secretary` is made for making it easy to share sensitive information in a secure way. Inside groups, with a key, but in a way I could tell my father how to do this. It's not as comfortable as having plaintext around. You need to get permission again and again. But perhaps better and even slightly more secure than fax?
 
 Open Source & Help needed
 -------------------------

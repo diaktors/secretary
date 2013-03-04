@@ -1,0 +1,257 @@
+<?php
+/**
+ * Secretary Module config
+ *
+ * @link      http://github.com/wesrc/Secretary
+ * @copyright Wesrc (c) 2013 Wesrc UG (http://www.wesrc.com)
+ * @license
+ */
+
+namespace Secretary;
+
+use Secretary\Controller\GroupController;
+use Secretary\Controller\KeyController;
+use Secretary\Controller\IndexController;
+use Secretary\Controller\NoteController;
+use Secretary\Controller\UserController;
+use Zend\Mvc\Controller\ControllerManager;
+use Zend\ServiceManager\ServiceManager;
+
+return array(
+
+    // Doctrine config
+    'doctrine' => array(
+        'driver' => array(
+            __NAMESPACE__ . '_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
+                )
+            ),
+        ),
+        'eventmanager' => array(
+            'orm_default' => array(
+                'subscribers' => array('Gedmo\Timestampable\TimestampableListener', 'Gedmo\Sluggable\SluggableListener')
+            )
+        ),
+    ),
+
+    // Navigation
+    'navigation' => array(
+        'default' => array(
+            'dashboard' => array(
+                'label' => 'Dashboard',
+                'route' => 'home',
+                'module' => 'secretary',
+                'controller' => 'Secretary\Controller\Index',
+                'action' => 'index',
+                'resource' => 'dashboard',
+                'privilege' => 'use'
+            ),
+            'key' => array(
+                'label' => 'Manage Key',
+                'route' => 'secretary/default',
+                'module' => 'secretary',
+                'controller' => 'key',
+                'action' => 'index',
+                'resource' => 'key',
+                'privilege' => 'use'
+            ),
+            'notes' => array(
+                'label' => 'Manage Notes',
+                'route' => 'secretary/note',
+                'module' => 'secretary',
+                'resource' => 'notes',
+                'privilege' => 'use'
+            ),
+            'groups' => array(
+                'label' => 'Manage Groups',
+                'route' => 'secretary/group',
+                'module' => 'secretary',
+                'resource' => 'groups',
+                'privilege' => 'use'
+            ),
+        ),
+    ),
+
+    // Router config
+    'router' => array(
+        'routes' => array(
+            'home' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/',
+                    'defaults' => array(
+                        'controller' => 'Secretary\Controller\Index',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'user-settings' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/user/settings',
+                    'defaults' => array(
+                        'controller' => 'Secretary\Controller\User',
+                        'action'     => 'settings',
+                    ),
+                ),
+            ),
+            'secretary' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/secretary',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Secretary\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:controller[/:action]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                    'note' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/note[/:action[/:id]]',
+                            'constraints' => array(
+                                'action'  => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'      => '[0-9]*',
+                            ),
+                            'defaults' => array(
+                                'controller'    => 'Note',
+                                'action'        => 'index',
+                            ),
+                        ),
+                    ),
+                    'group' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/group[/:action[/:id]]',
+                            'constraints' => array(
+                                'action'  => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'      => '[0-9]*',
+                            ),
+                            'defaults' => array(
+                                'controller'    => 'Group',
+                                'action'        => 'index',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ),
+
+    // Service Manager
+    'service_manager' => array(
+        'factories' => array(
+            'translator'     => 'Zend\I18n\Translator\TranslatorServiceFactory',
+            'Navigation'     => 'Zend\Navigation\Service\DefaultNavigationFactory',
+            'key-service'    => 'Secretary\Service\Factory\KeyFactory',
+            'note-service'   => 'Secretary\Service\Factory\NoteFactory',
+            'user-service'   => 'Secretary\Service\Factory\UserFactory',
+            'group-service'  => 'Secretary\Service\Factory\GroupFactory',
+            'logger-service' => 'Secretary\Service\Factory\LoggerFactory',
+            'mail-service'   => 'Secretary\Service\Factory\MailFactory',
+        ),
+        'invokables' => array(
+            'encryption-service' => 'Secretary\Service\Encryption',
+            'groupMember-form'   => 'Secretary\Form\GroupMember',
+        ),
+    ),
+
+    // Translator
+    'translator' => array(
+        'locale' => 'de_DE',
+        'translation_file_patterns' => array(
+            array(
+                'type'     => 'gettext',
+                'base_dir' => __DIR__ . '/../language',
+                'pattern'  => '%s.mo',
+            ),
+        ),
+    ),
+
+    // Controllers
+    'controllers' => array(
+        'invokables' => array(
+            //'Secretary\Controller\Index' => 'Secretary\Controller\IndexController',
+        ),
+        'factories' => array(
+            'Secretary\Controller\Index'  => function(ControllerManager $cm) {
+                $controller = new IndexController();
+                $controller->setNoteService($cm->getServiceLocator()->get('note-service'));
+                return $controller;
+            },
+            'Secretary\Controller\Key' => function(ControllerManager $cm) {
+                $controller = new KeyController();
+                $controller->setKeyService($cm->getServiceLocator()->get('key-service'))
+                    ->setEncryptionService($cm->getServiceLocator()->get('encryption-service'))
+                    ->setUserService($cm->getServiceLocator()->get('user-service'));
+                return $controller;
+            },
+            'Secretary\Controller\Note' => function(ControllerManager $cm) {
+                $controller = new NoteController();
+                $controller->setNoteService($cm->getServiceLocator()->get('note-service'));
+                $controller->setGroupService($cm->getServiceLocator()->get('group-service'));
+                return $controller;
+            },
+            'Secretary\Controller\Group' => function(ControllerManager $cm) {
+                $controller = new GroupController();
+                $controller->setGroupService($cm->getServiceLocator()->get('group-service'))
+                    ->setNoteService($cm->getServiceLocator()->get('note-service'))
+                    ->setUserService($cm->getServiceLocator()->get('user-service'));
+                return $controller;
+            },
+            'Secretary\Controller\User' => function(ControllerManager $cm) {
+                $controller = new UserController();
+                $controller->setUserService($cm->getServiceLocator()->get('user-service'));
+                return $controller;
+            },
+        )
+    ),
+
+    // View
+    'view_manager' => array(
+        'display_not_found_reason' => true,
+        'display_exceptions'       => true,
+        'doctype'                  => 'HTML5',
+        'not_found_template'       => 'error/404',
+        'exception_template'       => 'error/index',
+        'template_map' => array(
+            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'secretary/index/index'   => __DIR__ . '/../view/secretary/index/index.phtml',
+            'secretary/key/index'     => __DIR__ . '/../view/secretary/key/index.phtml',
+            'secretary/key/success'   => __DIR__ . '/../view/secretary/key/success.phtml',
+            'secretary/note/index'    => __DIR__ . '/../view/secretary/note/index.phtml',
+            'secretary/note/add'      => __DIR__ . '/../view/secretary/note/add.phtml',
+            'zfc-user/user/login'     => __DIR__ . '/../view/zfc-user/login.phtml',
+            'zfc-user/user/register'  => __DIR__ . '/../view/zfc-user/register.phtml',
+            'error/403'               => __DIR__ . '/../view/error/403.phtml',
+            'error/404'               => __DIR__ . '/../view/error/404.phtml',
+            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+        ),
+        'template_path_stack' => array(
+            __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+            'ViewJsonStrategy',
+        ),
+    ),
+);

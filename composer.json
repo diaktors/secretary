@@ -1,8 +1,8 @@
 {
-    "name": "wesrc/secretery",
-    "description": "Your personal secretery - A secure place for shared infos",
+    "name": "wesrc/secretary",
+    "description": "Your personal secretary - A secure place for shared infos",
     "license": "MIT",
-    "homepage": "http://secretery.github.com/",
+    "homepage": "http://secretary.github.com/",
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.1.2",

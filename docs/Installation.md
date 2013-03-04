@@ -17,13 +17,13 @@ Using Composer to install
 7. change config/autoload/local.php db values
 8. create Apache/Nginx host for project with SSL(!)
 9. create /data/log/app.log and chmod 777 it
-10. chmod -R 777 /data/Secretery/Entity/Proxy if your are Array Proxy setting
+10. chmod -R 777 /data/Secretary/Entity/Proxy if your are Array Proxy setting
 
-run https://your-secretery.com/user/register and register your first account
+run https://your-secretary.com/user/register and register your first account
 
 Tests
 -----
 Only a small amount of tests are there right now.
 
-- cd into modules/Secretery/test
+- cd into modules/Secretary/test
 - phpunit

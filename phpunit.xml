@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="module/Secretery/test/Bootstrap.php" colors="true">
+<phpunit bootstrap="module/Secretary/test/Bootstrap.php" colors="true">
     <testsuites>
-        <testsuite name="secretery">
-            <directory>./module/Secretery/test/SecreteryTest</directory>
+        <testsuite name="secretary">
+            <directory>./module/Secretary/test/SecretaryTest</directory>
         </testsuite>
     </testsuites>
 </phpunit>

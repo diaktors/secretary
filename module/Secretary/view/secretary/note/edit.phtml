@@ -1,0 +1,58 @@
+<div class="row notes">
+    <div class="span12"><?php
+        if (!empty($this->msg) && $this->msg[0] == 'error') {
+            echo $this->ztbAlert($this->translate($this->msg[1]), false, 'alert-error');
+        }
+    ?></div>
+
+    <div class="span6">
+        <h2><?php echo $this->translate('Edit Note') ?></h2>
+        <?php
+            if (true === $this->showKeyRequestForm) {
+                echo $this->render('secretary/note/_decryptForm.phtml');
+            } else {
+                echo $this->render('secretary/note/_noteForm.phtml');
+            }
+        ?>
+    </div>
+    <?php if (false === $this->showKeyRequestForm && false === $this->noteRecord->getPrivate()): ?>
+    <div class="span6" id="shareNote">
+        <h2><?php echo $this->translate('Manage Note Members') ?></h2>
+        <h3><?php echo sprintf(
+                '%s: %s', $this->translate('Selected Group'), $this->noteRecord->getGroup()->getName())
+        ?></h3>
+        <h4><?php echo $this->translate('Group Members') ?></h4>
+        <div class="well" id="groupMembers">
+            <ul>
+            <?php foreach ($this->groupMembersUnselected as $user): ?>
+                <li class="<?php echo $user['id']; ?>">
+                    <i class="icon-user"></i> <?php echo $user['displayName']; ?>
+                    (<?php echo $user['email']; ?>)
+                    <i class="icon-thumbs-up"></i>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+        </div>
+        <h4><?php echo $this->translate('Selected Group Members') ?></h4>
+        <div class="well" id="selectedGroupMembers">
+            <ul>
+            <?php foreach ($this->groupMembers as $user): ?>
+                <li class="<?php echo $user['id']; ?>">
+                    <i class="icon-user"></i> <?php echo $user['displayName']; ?>
+                    (<?php echo $user['email']; ?>)
+                    <i class="icon-thumbs-down"></i>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <div class="span12">
+        <p class="backBtn">
+            <a href="<?php echo $this->url('secretary/note'); ?>" class="btn btn-small">
+                <i class="icon-arrow-left"></i> <?php echo $this->translate('Back to overview') ?>
+            </a>
+        </p>
+    </div>
+</div>

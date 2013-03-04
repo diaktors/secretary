@@ -1,0 +1,11 @@
+<h2><?php echo $this->translate('A new Secretary user') ?></h2>
+<table>
+    <tr>
+        <td style="padding: 3px 3px 3px 0;"><strong><?php echo $this->translate('Display Name') ?>:</strong></td>
+        <td><?php echo $this->escapeHtml($this->user->getDisplayName())  ?></td>
+    </tr>
+    <tr>
+        <td style="padding: 3px 3px 3px 0;"><strong><?php echo $this->translate('Email') ?>:</strong></td>
+        <td><?php echo $this->escapeHtml($this->user->getEmail())  ?></td>
+    </tr>
+</table>
