@@ -21,8 +21,8 @@ return array(
                 'result_cache'      => 'apc',
                 'driver'            => 'orm_default',
                 'generate_proxies'  => false,
-                'proxy_dir'         => 'data/Secretery/Entity/Proxy',
-                'proxy_namespace'   => 'Secretery\Entity\Proxy',
+                'proxy_dir'         => 'data/Secretary/Entity/Proxy',
+                'proxy_namespace'   => 'Secretary\Entity\Proxy',
                 'filters'           => array()
             )
         )

@@ -13,7 +13,7 @@ return array(
         'unauthorized_strategy' => 'BjyAuthorize\View\UnauthorizedStrategy',
         'role_providers'        => array(
             'BjyAuthorize\Provider\Role\DoctrineEntity' => array(
-                'role_entity_class' => 'Secretery\Entity\Role'
+                'role_entity_class' => 'Secretary\Entity\Role'
             ),
         ),
         'guards' => array(
@@ -26,9 +26,9 @@ return array(
                 array('route' => 'zfcuser/register', 'roles' => array('guest')),
                 array('route' => 'home', 'roles' => array('guest', 'user')),
                 array('route' => 'user-settings', 'roles' => array('user')),
-                array('route' => 'secretery/default', 'roles' => array('user')),
-                array('route' => 'secretery/note', 'roles' => array('keyuser')),
-                array('route' => 'secretery/group', 'roles' => array('keyuser')),
+                array('route' => 'secretary/default', 'roles' => array('user')),
+                array('route' => 'secretary/note', 'roles' => array('keyuser')),
+                array('route' => 'secretary/group', 'roles' => array('keyuser')),
             ),
         ),
         'resource_providers' => array(
@@ -54,7 +54,7 @@ return array(
     ),
     'view_manager' => array(
         'template_map' => array(
-            'error/403' => __DIR__ . '/../../module/Secretery/view/error/403.phtml',
+            'error/403' => __DIR__ . '/../../module/Secretary/view/error/403.phtml',
         ),
     ),
 );

@@ -1,0 +1,88 @@
+<div class="hero-unit">
+    <h1><?php echo sprintf($this->translate('Welcome to %sSecretary%s'), '<span class="sec-color">', '</span>') ?></h1>
+    <p><?php echo $this->translate('A secure place for shared infos') ?>.</p>
+    <div class="pic"></div>
+</div>
+
+
+<?php if (!$this->zfcUserIdentity()): ?>
+<div class="row">
+    <div class="span12">
+        <div class="homeLogin">
+            <?php echo $this->zfcUserLoginWidget(array('redirect' => '/')); ?>
+        </div>
+    </div>
+</div>
+<?php elseif ('user' == $this->zfcUserIdentity()->getRoles()->first()->getRoleId()): ?>
+<div class="row">
+    <div class="span12">
+        <?php
+            $text  = $this->translate('Please create your private key to be able to add notes');
+            $text .= '<br />';
+            $text .= '<a href="' . $this->url('secretary/default', array('controller' => 'key')) . '">';
+            $text .= ' &raquo; ' . $this->translate('Manage Key');
+            $text .= '</a>';
+            echo $this->ztbAlert($text, true, 'alert-error');
+        ?>
+    </div>
+</div>
+<?php else: ?>
+<div class="row home">
+
+    <div class="addNote">
+        <a href="<?php echo $this->url('secretary/default', array('controller' => 'note', 'action' => 'add')); ?>" class="btn btn-primary">
+            <?php echo $this->translate('Add Note') ?>
+        </a>
+    </div>
+
+    <div class="span6">
+        <h2><?php echo $this->translate('Last Private Notes') ?></h2>
+        <div class="well">
+        <?php if (!empty($this->privateNotes)): ?>
+            <ul>
+            <?php foreach ($this->privateNotes as $note): ?>
+                <li>
+                    <a href="<?php echo $this->url('secretary/note', array('action' => 'view', 'id' => $note['id'])) ?>">
+                        <?php echo $this->escapeHtml($note['title']); ?>
+                    </a><br />
+                    <span class="date">
+                        <?php echo $this->escapeHtml($note['dateCreated']->format('Y-m-d H:i:s')); ?>
+                    </span>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+        <?php else:  ?>
+            <?php echo $this->ztbAlert($this->translate('No notes found'), false, 'alert-error'); ?>
+        <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="span6">
+        <h2><?php echo $this->translate('Last Group Notes') ?></h2>
+        <div class="well">
+            <?php if (!empty($this->groupNotes)): ?>
+            <ul>
+                <?php foreach ($this->groupNotes as $note): ?>
+                <li>
+                    <a href="<?php echo $this->url('secretary/note', array('action' => 'view', 'id' => $note['id'])) ?>">
+                        <?php echo $this->escapeHtml($note['title']); ?>
+                    </a><br />
+                    <span class="group">
+                        <?php echo $this->translate('Note group') ?>:
+                        <a href="<?php echo sprintf('%s?group=%s', $this->url('secretary/note'), $note['groupId']) ?>"><?php echo $this->escapeHtml($note['groupName']) ?></a>
+                    </span>
+                     |
+                    <span class="date">
+                        <?php echo $this->escapeHtml($note['dateCreated']->format('Y-m-d H:i:s')); ?>
+                    </span>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+            <?php else:  ?>
+            <?php echo $this->ztbAlert($this->translate('No notes found'), false, 'alert-error'); ?>
+            <?php endif; ?>
+        </div>
+    </div>
+
+</div>
+<?php endif; ?>
