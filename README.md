@@ -2,6 +2,8 @@ Secretary [![Build Status](https://travis-ci.org/wesrc/secretary.png)](https://t
 =========
 A secure place for shared infos.
 
+![mockup](https://www.dropbox.com/s/u6aqiwkwscnr5tg/secretary_dashboard.png?m)
+
 Idea behind
 -----------
 This app tries to solve a common problem: Saving sensitive information inside a db you don't own and (in most cases) will be saved unencrypted. We are all using email, IM, chats, online apps (even github) to share passwords, credentials and other stuff. And we all know while doing it, that this is wrong. Definitely! We never ever want people, who do not have the given permission by us, to *read* or *use* that information.
