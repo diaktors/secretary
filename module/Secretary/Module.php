@@ -182,8 +182,6 @@ class Module implements BootstrapListenerInterface,
     }
 
     /**
-     * Select the admin layout based on route name
-     *
      * @param  MvcEvent $e
      * @return void
      */
