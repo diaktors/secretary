@@ -1,0 +1,48 @@
+#!/usr/bin/env php
+<?php
+$root = dirname(__DIR__);
+
+require $root . '/vendor/autoload.php';
+
+$config = require $root . '/config/application.config.php';
+$app    = Zend\Mvc\Application::init($config);
+$sm     = $app->getServiceManager(); // best variable name ever
+
+$entityManager = $sm->get('doctrine.entitymanager.ormdefault');
+
+$tool = new Doctrine\ORM\Tools\SchemaTool($entityManager);
+
+$entities = array();
+$base     = '/module/Secretary/src';
+foreach (glob($root . $base . '/Secretary/Entity/*.php') as $entity) {
+    $file  = str_replace($root . $base . '/', '', $entity);
+    $class = str_replace('/', '\\', substr($file, 0, -4));
+
+    $entities[] = $entityManager->getClassMetaData($class);
+}
+
+$tool->createSchema($entities);
+
+// role setup
+
+$guest = new Secretary\Entity\Role();
+$guest->setId(1)->setRoleId('guest')->setDefault(1);
+
+$entityManager->persist($guest);
+
+$user = new Secretary\Entity\Role();
+$user->setId(2)->setRoleId('user')->setDefault(0);
+
+$entityManager->persist($user);
+
+$keyuser = new Secretary\Entity\Role();
+$keyuser->setId(3)->setParent($user)->setRoleId('keyuser');
+
+$entityManager->persist($keyuser);
+
+$admin = new Secretary\Entity\Role();
+$admin->setId(4)->setParent($keyuser)->setRoleId('admin');
+
+$entityManager->persist($admin);
+
+$entityManager->flush();
