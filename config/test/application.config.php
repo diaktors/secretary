@@ -10,7 +10,6 @@ return array(
         'BjyAuthorize',
         'ZfcAdmin',
         'ZfcTwitterBootstrap',
-        //'WdevMarkdown',
     ),
     'module_listener_options' => array(
         'config_glob_paths'    => array(
