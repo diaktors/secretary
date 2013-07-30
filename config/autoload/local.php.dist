@@ -8,9 +8,9 @@ return array(
                 'params' => array(
                     'host'     => 'localhost',
                     'port'     => '3306',
-                    'user'     => 'xyz',
-                    'dbname'   => 'wesrc',
-                    'password' => 'abc'
+                    'user'     => 'root',
+                    'dbname'   => 'secretary',
+                    'password' => ''
                 )
             )
         ),
@@ -33,7 +33,7 @@ return array(
     ),
 
     'logger' => array(
-        'activate'      => true,
+        'activate'      => false,
         'writer'        => 'Stream',
         'writerOptions' => __DIR__ . '/../../data/log/app.log'
     ),
