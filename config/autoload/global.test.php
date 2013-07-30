@@ -27,5 +27,17 @@ return array(
                 'filters'           => array()
             )
         )
-    )
+    ),
+
+    'translator' => array(
+        'locale' => 'en_US',
+    ),
+
+    'logger' => array(
+        'activate' => false,
+    ),
+
+    'mail' => array(
+        'activate' => false,
+    ),
 );
