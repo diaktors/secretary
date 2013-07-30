@@ -1,15 +1,15 @@
 <?php
 return array(
     'modules' => array(
-        'Secretary',
-        'DoctrineModule',
-        'DoctrineORMModule',
         'ZfcBase',
         'ZfcUser',
+        'DoctrineModule',
+        'DoctrineORMModule',
         'ZfcUserDoctrineORM',
         'BjyAuthorize',
         'ZfcAdmin',
         'ZfcTwitterBootstrap',
+        'Secretary',
     ),
     'module_listener_options' => array(
         'config_glob_paths'    => array(
