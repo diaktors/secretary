@@ -9,10 +9,11 @@
 return array(
     'bjyauthorize' => array(
         'default_role'          => 'guest',
-        'identity_provider'     => 'BjyAuthorize\Provider\Identity\AuthenticationDoctrineEntity',
+        'identity_provider'     => 'BjyAuthorize\Provider\Identity\AuthenticationIdentityProvider',
         'unauthorized_strategy' => 'BjyAuthorize\View\UnauthorizedStrategy',
         'role_providers'        => array(
-            'BjyAuthorize\Provider\Role\DoctrineEntity' => array(
+            'BjyAuthorize\Provider\Role\ObjectRepositoryProvider' => array(
+                'object_manager'    => 'doctrine.entitymanager.orm_default',
                 'role_entity_class' => 'Secretary\Entity\Role'
             ),
         ),
