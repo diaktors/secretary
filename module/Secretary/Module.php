@@ -208,6 +208,11 @@ class Module implements BootstrapListenerInterface,
      */
     protected function initLogger(EventInterface $e)
     {
+        $config = $e->getApplication()->getConfig();
+        if ($config['logger']['activate'] === false) {
+            return;
+        }
+
         /* @var \Secretary\Service\Logger $loggerService */
         $loggerService = $e->getApplication()->getServiceManager()->get('logger-service');
         /* @var \Zend\EventManager\SharedEventManager $sharedEvents */
@@ -252,6 +257,11 @@ class Module implements BootstrapListenerInterface,
      */
     protected function initMail(EventInterface $e)
     {
+        $config = $e->getApplication()->getConfig();
+        if ($config['mail']['activate'] === false) {
+            return;
+        }
+
         /* @var \Secretary\Service\Mail $mailService */
         $mailService = $e->getApplication()->getServiceManager()->get('mail-service');
         /* @var \Zend\EventManager\SharedEventManager $sharedEvents */

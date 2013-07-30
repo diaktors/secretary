@@ -33,11 +33,13 @@ return array(
     ),
 
     'logger' => array(
+        'activate'      => false,
         'writer'        => 'Stream',
         'writerOptions' => __DIR__ . '/../../data/log/app.log'
     ),
 
     'mail' => array(
+        'activate'      => false,
         'default_email' => 'xyz@abc.com',
         'default_from'  => 'noreply@abc.com',
         'domain_url'    => 'http://abc.com/',
