@@ -143,8 +143,8 @@ class Module implements BootstrapListenerInterface,
                         ->getIdentityProvider()
                         ->getIdentityRoles();
 
-                    if (is_array($role) && isset($role[0])) {
-                        $role = $role[0];
+                    if (isset($role[0]) && $role[0] instanceof \Secretary\Entity\Role) {
+                        $role = $role[0]->getRoleId();
                     } else {
                         $role = 'guest';
                     }
@@ -198,7 +198,7 @@ class Module implements BootstrapListenerInterface,
         $identity = $zfcUserAuth->getIdentity();
         $identity->getLanguage();
 
-        $sm->get('translator')->setLocale($identity->getLanguage());
+        $sm->get('MvcTranslator')->setLocale($identity->getLanguage());
         return;
     }
 
@@ -281,7 +281,7 @@ class Module implements BootstrapListenerInterface,
     protected function initTranslation(EventInterface $e)
     {
         /* @var $translator \Zend\I18n\Translator\Translator */
-        $translator = $e->getApplication()->getServiceManager()->get('translator');
+        $translator = $e->getApplication()->getServiceManager()->get('MvcTranslator');
         $translator->addTranslationFile(
             'phpArray',
             __DIR__ . '/../../vendor/zendframework/zendframework/resources/languages/de/Zend_Validate.php',

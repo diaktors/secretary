@@ -193,7 +193,6 @@ return array(
     // Service Manager
     'service_manager' => array(
         'factories' => array(
-            'translator'     => 'Zend\I18n\Translator\TranslatorServiceFactory',
             'Navigation'     => 'Zend\Navigation\Service\DefaultNavigationFactory',
             'key-service'    => 'Secretary\Service\Factory\KeyFactory',
             'note-service'   => 'Secretary\Service\Factory\NoteFactory',
@@ -205,6 +204,9 @@ return array(
         'invokables' => array(
             'encryption-service' => 'Secretary\Service\Encryption',
             'groupMember-form'   => 'Secretary\Form\GroupMember',
+        ),
+        'aliases' => array(
+            'translator' => 'MvcTranslator',
         ),
     ),
 
