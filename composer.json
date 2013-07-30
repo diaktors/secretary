@@ -5,17 +5,17 @@
     "homepage": "http://secretary.github.com/",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.1.2",
-        "zendframework/zend-developer-tools": "dev-master",
+        "zendframework/zendframework": "2.2.2",
+        "zendframework/zend-developer-tools": "0.0.2",
         "doctrine/doctrine-orm-module": "0.7.0",
         "zf-commons/zfc-user-doctrine-orm": "0.1.1",
-        "zf-commons/zfc-admin": "dev-master",
-        "gedmo/doctrine-extensions": "2.3.4",
-        "bjyoungblood/bjy-authorize": "1.1.1",
-        "mwillbanks/zfc-twitter-bootstrap": "dev-master",
+        "zf-commons/zfc-admin": "0.1.1",
+        "gedmo/doctrine-extensions": "2.3.6",
+        "bjyoungblood/bjy-authorize": "1.4.0",
+        "mwillbanks/zfc-twitter-bootstrap": "0.3.0",
         "dflydev/markdown": "1.0.2",
-        "rwoverdijk/sxmail": "1.3.3",
-        "sensiolabs/security-checker": "1.1"
+        "rwoverdijk/sxmail": "1.3.4",
+        "sensiolabs/security-checker": "1.2"
     },
     "scripts": {
         "post-install-cmd": [
