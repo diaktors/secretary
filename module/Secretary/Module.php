@@ -281,7 +281,7 @@ class Module implements BootstrapListenerInterface,
     protected function initTranslation(EventInterface $e)
     {
         /* @var $translator \Zend\I18n\Translator\Translator */
-        $translator = $e->getApplication()->getServiceManager()->get('translator');
+        $translator = $e->getApplication()->getServiceManager()->get('MvcTranslator');
         $translator->addTranslationFile(
             'phpArray',
             __DIR__ . '/../../vendor/zendframework/zendframework/resources/languages/de/Zend_Validate.php',
