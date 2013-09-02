@@ -45,28 +45,98 @@ use Zend\Form\Form;
  */
 class Key extends Form
 {
+    /**
+     * @var string
+     */
+    protected $mode = 'create';
+
+    /**
+     * @param string $action
+     */
     public function __construct($action = '#')
     {
         parent::__construct('keyForm');
         $this->setAttribute('method', 'post')
             ->setAttribute('action', $action);
-        $this->add(array(
-            'name' => 'passphrase',
-            'attributes' => array(
-                'type'   => 'text',
-                'required' => 'required'
-            ),
-            'options'    => array(
-                'label'  => 'Passphrase',
-            ),
-        ));
-        $this->add(array(
-            'name' => 'submit',
-            'attributes' => array(
-                'type'   => 'submit',
-                'value'  => 'Create Key',
-                'class'  => 'btn btn-primary'
-            ),
-        ));
+    }
+
+    /**
+     * @param string $mode
+     */
+    public function setMode($mode = 'create')
+    {
+        $this->mode = $mode;
+
+        if ($this->mode == 'create') {
+            $this->add(
+                array(
+                    'name' => 'passphrase',
+                    'attributes' => array(
+                        'type'   => 'text',
+                        'required' => 'required'
+                    ),
+                    'options'    => array(
+                        'label'  => 'Passphrase',
+                    ),
+                )
+            );
+        } elseif ($this->mode == 'add') {
+            $this->add(
+                array(
+                    'name' => 'public_key',
+                    'attributes' => array(
+                        'type'   => 'textarea',
+                        'required' => 'required'
+                    ),
+                    'options'    => array(
+                        'label'  => 'Public Key',
+                    ),
+                )
+            );
+        }
+
+        $this->addHiddenModeField();
+        $this->addSubmitButton();
+
+        return;
+    }
+
+    /**
+     * @return void
+     */
+    protected function addSubmitButton()
+    {
+        $value = 'Create Key';
+        if ($this->mode == 'add') {
+            $value = 'Add own Key';
+        }
+        $this->add(
+            array(
+                'name' => 'submit',
+                'attributes' => array(
+                    'type'   => 'submit',
+                    'value'  => $value,
+                    'class'  => 'btn btn-primary'
+                ),
+            )
+        );
+        return;
+    }
+
+    /**
+     * @return void
+     */
+    protected function addHiddenModeField()
+    {
+        $this->add(
+            array(
+                'name' => 'mode',
+                'attributes' => array(
+                    'type'   => 'hidden',
+                    'value'  => $this->mode,
+                ),
+            )
+        );
+        return;
     }
 }
