@@ -53,6 +53,11 @@ use Zend\View\Model\ViewModel;
 class KeyController extends ActionController
 {
     /**
+     * @var array
+     */
+    protected $availableActions = array('create', 'add');
+
+    /**
      * @var KeyForm
      */
     protected $keyForm;
@@ -172,12 +177,19 @@ class KeyController extends ActionController
     {
         $keyRecord = $this->getKeyService()->fetchKey($this->identity->getId());
         $keyForm   = false;
+        $action    = false;
         if (empty($keyRecord)) {
+            $action = $this->params()->fromQuery('action', 'create');
+            if (!in_array($action, $this->availableActions)) {
+                $action = 'create';
+            }
             $keyForm = $this->getKeyForm();
+            $keyForm->setMode($action);
         }
         return new ViewModel(array(
-            'keyRecord' => $keyRecord,
-            'keyForm'   => $keyForm
+            'keyRecord'  => $keyRecord,
+            'keyForm'    => $keyForm,
+            'activeMode' => $action
         ));
     }
 
@@ -196,29 +208,62 @@ class KeyController extends ActionController
                 'action'     => 'index'
             ));
         }
-        $form      = $this->getKeyForm();
+
+        $action = $this->params()->fromPost('mode', 'create');
+        if (!in_array($action, $this->availableActions)) {
+            $action = 'create';
+        }
+
+        $form = $this->getKeyForm();
+        $form->setMode($action);
+
         $viewModel = new ViewModel();
         $msg       = array('error', 'An error occurred');
         $viewVars  = array(
-            'keyRecord' => $keyRecord,
-            'keyForm'   => $form,
-            'msg'       => $msg
+            'keyRecord'  => $keyRecord,
+            'keyForm'    => $form,
+            'msg'        => $msg,
+            'activeMode' => $action
         );
 
         if ($this->getRequest()->isPost()) {
             $newKeyRecord = new KeyEntity();
-            $form->setInputFilter($newKeyRecord->getInputFilter());
+            if ($action == 'create') {
+                $form->setInputFilter($newKeyRecord->getInputFilter());
+            }
             $form->setData($this->getRequest()->getPost());
 
             if ($form->isValid()) {
-                $values     = $form->getData();
-                $passphrase = $values['passphrase'];
+                $values = $form->getData();
 
                 // Generate Keys
-                try {
-                    $keys = $this->getEncryptionService()->createPrivateKey($passphrase);
-                } catch (\Exception $e) {
-                    throw new \LogicException($e->getMessage(), 0, $e);
+                if ($action == 'create') {
+                    $passphrase = $values['passphrase'];
+                    try {
+                        $keys = $this->getEncryptionService()->createPrivateKey($passphrase);
+                    } catch (\Exception $e) {
+                        throw new \LogicException($e->getMessage(), 0, $e);
+                    }
+                    $viewVars['privKey'] = $keys['priv'];
+                    $successText = 'Your key was created successfully';
+                }
+                // Add own key
+                elseif ($action == 'add') {
+                    try {
+                        $this->getEncryptionService()->validatePublicKey($values['public_key']);
+                    } catch (\Exception $e) {
+                        // Error
+                        $viewVars['msg'] = array(
+                            'error',
+                            $this->translator->translate('Validation of provided key failed!')
+                        );
+                        $viewModel->setVariables($viewVars);
+                        $viewModel->setTemplate('secretary/key/index');
+                        return $viewModel;
+                    }
+                    $keys = array();
+                    $keys['pub'] = $values['public_key'];
+                    $successText = 'Your key was added successfully';
                 }
 
                 // Save Data
@@ -234,9 +279,9 @@ class KeyController extends ActionController
                 // Success
                 $viewVars['msg'] = array(
                     'success',
-                    $this->translator->translate('Your key was created successfully')
+                    $this->translator->translate($successText)
                 );
-                $viewVars['privKey'] = $keys['priv'];
+
                 $viewModel->setVariables($viewVars);
                 $viewModel->setTemplate('secretary/key/success');
                 return $viewModel;
