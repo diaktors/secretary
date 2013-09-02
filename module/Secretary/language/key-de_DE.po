@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Secretary\n"
 "Report-Msgid-Bugs-To: Michael Scholl <michael@wesrc.com>\n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-03-04 00:44+0100\n"
+"PO-Revision-Date: 2013-09-02 21:54+0100\n"
 "Last-Translator: Michael Scholl <michael@wesrc.com>\n"
 "Language-Team: Michael Scholl <michael@wesrc.com>\n"
 "Language: de_DE\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../view/secretary/key/index.phtml:6
@@ -31,21 +31,49 @@ msgstr "Wähle bitte eine sicheres Passwort für den Schlüssel!"
 msgid "Backup your key carefully (different places are a good idea)"
 msgstr "Und backupe den Schlüssel auf einem anderen/mehreren Backupmedien."
 
-#: ../view/secretary/key/index.phtml:20 ../src/Secretary/Form/Key.php:56
+#: ../view/secretary/key/index.phtml:45
+msgid "Public key can only added once"
+msgstr "Du kannst deinen öffentlichen Schlüssel nur einmal hinzufügen"
+
+#: ../view/secretary/key/index.phtml:47
+msgid "Please generate the key by using following command:"
+msgstr "Bitte erzeuge deinen privaten Schlüssel mit folgenden Befehl:"
+
+#: ../view/secretary/key/index.phtml:54
+msgid "Save public key by using:"
+msgstr "Sichere den öffentlichen Schlüssel mit folgenden Befehl:"
+
+#: ../view/secretary/key/index.phtml:23 ../src/Secretary/Form/Key.php:56
 msgid "Create Key"
 msgstr "Schlüssel erzeugen"
+
+#: ../view/secretary/key/index.phtml:39 ../src/Secretary/Form/Key.php:56
+msgid "Add own Key"
+msgstr "Schlüssel importieren"
 
 #: ../view/secretary/key/index.phtml:24
 msgid "You already created a private key"
 msgstr "Du hast bereits einen Schlüssel erzeugt!"
 
-#: ../src/Secretary/Form/Key.php:49
+#: ../src/Secretary/Form/Key.php:79
 msgid "Passphrase"
 msgstr "Passwort"
 
-#: ../src/Secretary/Controller/KeyController.php:184
+#: ../src/Secretary/Form/Key.php:92
+msgid "Public Key"
+msgstr "Öffentlicher Schlüssel"
+
+#: ../src/Secretary/Controller/KeyController.php:248
 msgid "Your key was created successfully"
 msgstr "Dein Schlüssel wurde erfolgreich erzeugt."
+
+#: ../src/Secretary/Controller/KeyController.php:258
+msgid "Validation of provided key failed!"
+msgstr "Die Validierung des Schlüssels schlug fehl!"
+
+#: ../src/Secretary/Controller/KeyController.php:266
+msgid "Your key was added successfully"
+msgstr "Dein Schlüssel wurde erfolgreich importiert."
 
 #: ../view/secretary/key/success.phtml:10
 msgid "The passphrase will be needed again to use the key - so save it!"
