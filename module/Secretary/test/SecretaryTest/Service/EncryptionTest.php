@@ -1,6 +1,6 @@
 <?php
 
-namespace SecretaryTest\Controller;
+namespace SecretaryTest\Service;
 
 use Secretary\Service\Encryption as EncryptionService;
 

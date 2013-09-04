@@ -200,4 +200,29 @@ class Encryption
         openssl_free_key($pk);
         return true;
     }
+
+    /**
+     * Validate (private) key
+     *
+     * @param  string $key
+     * @return true
+     * @throws \InvalidArgumentException If key is empty
+     * @throws \LogicException           If key is not readable as key
+     */
+    public function validatePublicKey($key)
+    {
+        if (empty($key)) {
+            throw new \InvalidArgumentException('Key canot be empty');
+        }
+        $pk = openssl_pkey_get_public($key);
+        if (false === $pk) {
+            throw new \LogicException('Key is not readable');
+        }
+        $check = openssl_pkey_get_details($pk);
+        if ($check['bits'] != 2048) {
+            throw new \LogicException('Provided key is not 2048 bit');
+        }
+        openssl_free_key($pk);
+        return true;
+    }
 }

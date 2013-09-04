@@ -2,6 +2,7 @@
     <div class="span12">
         <h1><?php echo $this->translate('Key Management') ?></h1>
         <?php echo $this->ztbAlert($this->translate($this->msg[1]), false, 'alert-' . $this->msg[0]) ?>
+        <?php if ($this->activeMode == 'create') : ?>
         <div class="alert alert-block alert-error">
             <h4><?php echo $this->translate('Warning') ?></h4>
             <br />
@@ -14,5 +15,6 @@
             <?php echo $this->translate('Copy the key to file and name it "something.pem"') ?>
         </h2>
         <pre><?php echo $this->escapeHtml($this->privKey) ?></pre>
+        <?php endif; ?>
     </div>
 </div>

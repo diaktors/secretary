@@ -2,24 +2,67 @@
     <div class="span12">
         <h1><?php echo $this->translate('Manage Key') ?></h1>
         <?php if (empty($this->keyRecord)): ?>
-            <div class="alert alert-block alert-error">
-                <h4><?php echo $this->translate('Warning') ?></h4>
-                <br />
-                <ul>
-                    <li><?php echo $this->translate('Private Key can only be generated once') ?></li>
-                    <li><?php echo $this->translate('Please choose a secure passphrase for your key') ?></li>
-                    <li><?php echo $this->translate('Backup your key carefully (different places are a good idea)') ?></li>
-                </ul>
-            </div>
-
             <?php if (!empty($this->msg) && $this->msg[0] == 'error') {
                 echo $this->ztbAlert($this->translate($this->msg[1]), false, 'alert-error');
             } ?>
+            <ul class="nav nav-tabs">
+                <li<?php if ($this->activeMode == 'create') echo ' class="active"' ?>>
+                    <a href="<?php echo $this->url('secretary/default', array('controller' => 'key')) ?>?action=create">
+                        <?php echo $this->translate('Create Key') ?>
+                    </a>
+                </li>
+                <li<?php if ($this->activeMode == 'add') echo ' class="active"' ?>>
+                    <a href="<?php echo $this->url('secretary/default', array('controller' => 'key')) ?>?action=add">
+                        <?php echo $this->translate('Add own Key') ?>
+                    </a>
+                </li>
+            </ul>
 
+            <?php if ($this->activeMode == 'create') : ?>
             <fieldset>
                 <legend><?php echo $this->translate('Create Key') ?></legend>
+
+                <div class="alert alert-block alert-error">
+                    <h4><?php echo $this->translate('Warning') ?></h4>
+                    <br />
+                    <ul>
+                        <li><?php echo $this->translate('Private Key can only be generated once') ?></li>
+                        <li><?php echo $this->translate('Please choose a secure passphrase for your key') ?></li>
+                        <li><?php echo $this->translate('Backup your key carefully (different places are a good idea)') ?></li>
+                    </ul>
+                </div>
+
                 <?php echo $this->ztbForm($this->keyForm); ?>
             </fieldset>
+            <?php elseif ($this->activeMode == 'add') : ?>
+            <fieldset>
+                <legend><?php echo $this->translate('Add own Key') ?></legend>
+
+                <div class="alert alert-block alert-error">
+                    <h4><?php echo $this->translate('Warning') ?></h4>
+                    <br />
+                    <ul>
+                        <li><?php echo $this->translate('Public key can only added once') ?></li>
+                        <li>
+                            <?php echo $this->translate('Please generate the key by using following command:') ?>
+                            <br />
+                            <code>
+                                <?php echo 'openssl genrsa -des3 -out mykey.pem 2048' ?>
+                            </code>
+                        </li>
+                        <li>
+                            <?php echo $this->translate('Save public key by using:') ?>
+                            <br />
+                            <code>
+                                <?php echo 'openssl rsa -in privkey.pem -pubout > mykey.pub' ?>
+                            </code>
+                        </li>
+                    </ul>
+                </div>
+
+                <?php echo $this->ztbForm($this->keyForm); ?>
+            </fieldset>
+            <?php endif; ?>
         <?php else: ?>
             <?php echo $this->ztbAlert($this->translate('You already created a private key'), false, 'success') ?>
             <pre><?php echo $this->escapeHtml($this->keyRecord->getPubKey()) ?></pre>

@@ -8,7 +8,7 @@ chdir(dirname(__DIR__));
 define('REQUEST_MICROTIME', microtime(true));
 
 // Setup autoloading
-require 'init_autoloader.php';
+include 'vendor/autoload.php';
 
 // Run the application!
 Zend\Mvc\Application::init(require 'config/application.config.php')->run();
