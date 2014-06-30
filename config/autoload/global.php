@@ -56,4 +56,18 @@ return array(
             ),
         ),
     ),
+
+    'zf-mvc-auth' => array(
+        'authentication' => array(
+            'http' => array(
+                'accept_schemes' => array(
+                    0 => 'digest',
+                ),
+                'htdigest' => 'data/htdigest',
+                'realm' => 'Secretary',
+                'digest_domains' => '/api/user /api/note /api/key',
+                'nonce_timeout' => '3600',
+            ),
+        ),
+    ),
 );
