@@ -3,19 +3,43 @@
     "description": "Your personal secretary - A secure place for shared infos",
     "license": "MIT",
     "homepage": "http://secretary.github.com/",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/wesrc/secretarycrypt.git"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Secretary": "module/Secretary/src"
+        },
+        "classmap": []
+    },
     "require": {
-        "php": ">=5.3.3",
-        "zendframework/zendframework": "2.2.2",
-        "zendframework/zend-developer-tools": "0.0.2",
-        "doctrine/doctrine-orm-module": "0.7.0",
-        "zf-commons/zfc-user-doctrine-orm": "0.1.1",
-        "zf-commons/zfc-admin": "0.1.1",
-        "gedmo/doctrine-extensions": "2.3.6",
+        "php": ">=5.3.23",
+        "wesrc/secretarycrypt" : "~0.1",
+        "zendframework/zendframework": "~2.3",
+        "zfcampus/zf-apigility": "~1.0",
+        "zfcampus/zf-apigility-documentation": "~1.0",
+        "zfcampus/zf-development-mode": "~2.0",
+        "zfcampus/zf-apigility-doctrine": "dev-master",
+        "doctrine/doctrine-orm-module": "0.8.0",
+        "zf-commons/zfc-user-doctrine-orm": "~1.0.0",
+        "zf-commons/zfc-admin": "v0.1.3",
+        "gedmo/doctrine-extensions": "v2.3.9",
         "bjyoungblood/bjy-authorize": "1.4.0",
         "mwillbanks/zfc-twitter-bootstrap": "0.3.0",
-        "dflydev/markdown": "1.0.2",
+        "dflydev/markdown": "v1.0.3",
         "rwoverdijk/sxmail": "1.3.4",
-        "sensiolabs/security-checker": "1.2"
+        "sensiolabs/security-checker": "v1.3.3"
+    },
+    "require-dev": {
+        "zendframework/zftool": "dev-master",
+        "zendframework/zend-developer-tools": "dev-master",
+        "zfcampus/zf-apigility-admin": "~1.0",
+        "zfcampus/zf-deploy": "~1.0",
+        "phpunit/phpunit": "~3.7.0"
+
     },
     "scripts": {
         "post-install-cmd": [
