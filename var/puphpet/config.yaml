@@ -132,6 +132,7 @@ php:
         php:
             - cli
             - intl
+            - curl
             - mcrypt
         pear: {  }
         pecl:
