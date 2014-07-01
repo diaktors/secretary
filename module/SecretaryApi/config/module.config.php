@@ -29,7 +29,7 @@ return array(
             'secretaryapi.rest.doctrine.note' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/note[/:note_id/user/:user_id]',
+                    'route' => '/api/note[/:note_id]',
                     'defaults' => array(
                         'controller' => 'SecretaryApi\\V1\\Rest\\Note\\Controller',
                     ),
