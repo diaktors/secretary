@@ -11,7 +11,8 @@
     ],
     "autoload": {
         "psr-0": {
-            "Secretary": "module/Secretary/src"
+            "Secretary": "module/Secretary/src",
+            "SecretaryTest": "module/Secretary/test"
         },
         "classmap": []
     },
