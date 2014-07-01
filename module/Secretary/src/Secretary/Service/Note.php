@@ -31,6 +31,7 @@
 namespace Secretary\Service;
 
 use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\QueryBuilder;
 use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Secretary\Entity;
@@ -304,6 +305,23 @@ class Note extends Base
         $notesQb->addOrderBy('n.title', 'ASC');
 
         return $notesQb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @param QueryBuilder $queryBuilder
+     * @param Entity\User $user
+     * @return QueryBuilder
+     */
+    public function createUserNotesJoinQuery(QueryBuilder $queryBuilder, Entity\User $user)
+    {
+        return $queryBuilder->addSelect(array('u2n.owner', 'u2n.readPermission', 'u2n.writePermission'))
+            ->leftJoin('row.user2note', 'u2n')
+            ->leftJoin('u2n.user', 'u')
+            ->where('u2n.userId = :userId')
+            ->andWhere('u.id = :userId')
+            ->andWhere('row.private = :private')
+            ->setParameter('userId', $user->getId())
+            ->setParameter('private', 1);
     }
 
     /**
