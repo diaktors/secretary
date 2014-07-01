@@ -82,13 +82,9 @@ return array(
             'collection_name' => 'group',
             'entity_http_methods' => array(
                 0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
-                1 => 'POST',
             ),
             'collection_query_whitelist' => array(
                 0 => 'query',
@@ -107,13 +103,9 @@ return array(
             'collection_name' => 'user',
             'entity_http_methods' => array(
                 0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
-                1 => 'POST',
             ),
             'collection_query_whitelist' => array(
                 0 => 'query',
@@ -132,9 +124,6 @@ return array(
             'collection_name' => 'note',
             'entity_http_methods' => array(
                 0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
@@ -157,9 +146,6 @@ return array(
             'collection_name' => 'user2_note',
             'entity_http_methods' => array(
                 0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
@@ -182,14 +168,8 @@ return array(
             'collection_name' => 'key',
             'entity_http_methods' => array(
                 0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
             ),
-            'collection_http_methods' => array(
-                0 => 'GET',
-                1 => 'POST',
-            ),
+            'collection_http_methods' => array(),
             'collection_query_whitelist' => array(
                 0 => 'query',
                 1 => 'orderBy',
@@ -217,12 +197,33 @@ return array(
                 0 => 'application/json',
                 1 => 'application/*+json',
             ),
+            'SecretaryApi\\V1\\Rest\\Group\\Controller' => array(
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ),
+            'SecretaryApi\\V1\\Rest\\User\\Controller' => array(
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ),
+            'SecretaryApi\\V1\\Rest\\Note\\Controller' => array(
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ),
         ),
         'content_type_whitelist' => array(
             'SecretaryApi\\V1\\Rest\\User2Note\\Controller' => array(
                 0 => 'application/json',
             ),
             'SecretaryApi\\V1\\Rest\\Key\\Controller' => array(
+                0 => 'application/json',
+            ),
+            'SecretaryApi\\V1\\Rest\\Group\\Controller' => array(
+                0 => 'application/json',
+            ),
+            'SecretaryApi\\V1\\Rest\\User\\Controller' => array(
+                0 => 'application/json',
+            ),
+            'SecretaryApi\\V1\\Rest\\Note\\Controller' => array(
                 0 => 'application/json',
             ),
         ),
@@ -365,7 +366,7 @@ return array(
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => false,
             'strategies' => array(
-                'users' => 'DoctrineHydrationModule\Strategy\ODM\MongoDB\ReferencedCollection',
+                'users' => 'DoctrineHydrationModule\\Strategy\\ODM\\MongoDB\\ReferencedCollection',
                 'notes' => 'ZF\\Apigility\\Doctrine\\Server\\Hydrator\\Strategy\\CollectionLink',
             ),
             'use_generated_hydrator' => true,
@@ -375,11 +376,10 @@ return array(
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => null,
             'strategies' => array(
-                'groups' => 'DoctrineHydrationModule\Strategy\ODM\MongoDB\ReferencedCollection',
-                'roles' => 'DoctrineHydrationModule\Strategy\ODM\MongoDB\ReferencedCollection',
+                'groups' => 'DoctrineHydrationModule\\Strategy\\ODM\\MongoDB\\ReferencedCollection',
+                'roles' => 'DoctrineHydrationModule\\Strategy\\ODM\\MongoDB\\ReferencedCollection',
                 'user2note' => 'ZF\\Apigility\\Doctrine\\Server\\Hydrator\\Strategy\\CollectionLink',
                 'key' => 'ZF\\Apigility\\Doctrine\\Server\\Hydrator\\Strategy\\CollectionLink',
-                //'key' => 'DoctrineHydrationModule\Strategy\ODM\MongoDB\ReferencedField',
             ),
             'use_generated_hydrator' => null,
         ),
