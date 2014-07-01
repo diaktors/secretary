@@ -34,9 +34,10 @@ namespace Secretary\Controller;
 use Secretary\Entity\Key as KeyEntity;
 use Secretary\Form\Key as KeyForm;
 use Secretary\Mvc\Controller\ActionController;
-use Secretary\Service\Encryption as EncryptionService;
+use SecretaryCrypt\Crypt as CryptService;
 use Secretary\Service\Key as KeyService;
 use Secretary\Service\User as UserService;
+use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 
@@ -49,6 +50,8 @@ use Zend\View\Model\ViewModel;
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
+ *
+ * @method Request getRequest()
  */
 class KeyController extends ActionController
 {
@@ -63,9 +66,9 @@ class KeyController extends ActionController
     protected $keyForm;
 
     /**
-     * @var EncryptionService
+     * @var CryptService
      */
-    protected $encryptionService;
+    protected $cryptService;
 
     /**
      * @var KeyService
@@ -84,6 +87,7 @@ class KeyController extends ActionController
     public function setKeyForm(KeyForm $keyForm)
     {
         $this->keyForm = $keyForm;
+
         return $this;
     }
 
@@ -94,6 +98,7 @@ class KeyController extends ActionController
     public function setKeyService(KeyService $keyService)
     {
         $this->keyService = $keyService;
+
         return $this;
     }
 
@@ -104,16 +109,18 @@ class KeyController extends ActionController
     public function setUserService(UserService $userService)
     {
         $this->userService = $userService;
+
         return $this;
     }
 
     /**
-     * @param  EncryptionService $encryptionService
+     * @param  CryptService $cryptService
      * @return self
      */
-    public function setEncryptionService(EncryptionService $encryptionService)
+    public function setCryptService(CryptService $cryptService)
     {
-        $this->encryptionService = $encryptionService;
+        $this->cryptService = $cryptService;
+
         return $this;
     }
 
@@ -129,15 +136,16 @@ class KeyController extends ActionController
             ));
             $this->keyForm = new KeyForm($url);
         }
+
         return $this->keyForm;
     }
 
     /**
-     * @return EncryptionService
+     * @return CryptService
      */
-    public function getEncryptionService()
+    public function getCryptService()
     {
-        return $this->encryptionService;
+        return $this->cryptService;
     }
 
     /**
@@ -237,10 +245,12 @@ class KeyController extends ActionController
                 $values = $form->getData();
 
                 // Generate Keys
+                $successText = '';
+                $keys = array();
                 if ($action == 'create') {
                     $passphrase = $values['passphrase'];
                     try {
-                        $keys = $this->getEncryptionService()->createPrivateKey($passphrase);
+                        $keys = $this->getCryptService()->createPrivateKey($passphrase);
                     } catch (\Exception $e) {
                         throw new \LogicException($e->getMessage(), 0, $e);
                     }
@@ -250,7 +260,7 @@ class KeyController extends ActionController
                 // Add own key
                 elseif ($action == 'add') {
                     try {
-                        $this->getEncryptionService()->validatePublicKey($values['public_key']);
+                        $this->getCryptService()->validatePublicKey($values['public_key']);
                     } catch (\Exception $e) {
                         // Error
                         $viewVars['msg'] = array(
@@ -261,7 +271,6 @@ class KeyController extends ActionController
                         $viewModel->setTemplate('secretary/key/index');
                         return $viewModel;
                     }
-                    $keys = array();
                     $keys['pub'] = $values['public_key'];
                     $successText = 'Your key was added successfully';
                 }

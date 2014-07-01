@@ -32,7 +32,7 @@
 namespace Secretary\Service\Factory;
 
 use Secretary\Service\Note;
-use Secretary\Service\Encryption;
+use SecretaryCrypt\Crypt;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -57,10 +57,11 @@ class NoteFactory implements FactoryInterface
         $service = new Note();
         /* @var \Doctrine\Orm\EntityManager $em */
         $em = $sl->get('doctrine.entitymanager.orm_default');
-        /* @var \Secretary\Service\Encryption $encService */
-        $encService = $sl->get('encryption-service');
+        /* @var Crypt $cryptService */
+        $cryptService = $sl->get('crypt-service');
         $service->setEntityManager($em);
-        $service->setEncryptionService($encService);
+        $service->setCryptService($cryptService);
+
         return $service;
     }
 }
