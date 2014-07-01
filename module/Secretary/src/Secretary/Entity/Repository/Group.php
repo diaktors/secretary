@@ -25,7 +25,6 @@
  * @package  Secretary
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
  */
 
@@ -36,13 +35,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Group Repository
- *
- * @category Repository
- * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
- * @link     https://github.com/wesrc/secretary
  */
 class Group extends EntityRepository
 {

@@ -12,7 +12,7 @@ use BjyAuthorize\Acl\HierarchicalRoleInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * An example entity that represents a role.
+ * Role Entity
  *
  * @ORM\Entity
  * @ORM\Table(name="role")
@@ -104,7 +104,7 @@ class Role implements HierarchicalRoleInterface
     /**
      * Set the parent role.
      *
-     * @param  Role $role
+     * @param  Role $parent
      * @return self
      */
     public function setParent(Role $parent)

@@ -25,7 +25,6 @@
  * @package  Secretary
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
  */
 
@@ -41,13 +40,6 @@ use Zend\InputFilter\InputFilterInterface;
 
 /**
  * Group Entity
- *
- * @category Entity
- * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
- * @link     https://github.com/wesrc/secretary
  *
  * @ORM\Table(name="groups")
  * @ORM\Entity(repositoryClass="Secretary\Entity\Repository\Group")
@@ -169,7 +161,7 @@ class Group implements InputFilterAwareInterface
     /**
      * Add user relation
      *
-     * @param  User $user2note
+     * @param  User $user
      * @return self
      */
     public function addUser(User $user)
@@ -186,6 +178,16 @@ class Group implements InputFilterAwareInterface
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Get note collection
+     *
+     * @return ArrayCollection
+     */
+    public function getNotes()
+    {
+        return $this->notes;
     }
 
     /**
@@ -220,8 +222,8 @@ class Group implements InputFilterAwareInterface
     public function toArray()
     {
         $array                = get_object_vars($this);
-        $array['dateCreated'] = $array['dateCreated']->format('Y-m-d H:i:s');
-        $array['dateUpdated'] = $array['dateUpdated']->format('Y-m-d H:i:s');
+        $array['dateCreated'] = $this->getDateCreated()->format('Y-m-d H:i:s');
+        $array['dateUpdated'] = $this->getDateUpdated()->format('Y-m-d H:i:s');
         unset($array['users']);
         return $array;
     }

@@ -25,7 +25,6 @@
  * @package  Secretary
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
  */
 
@@ -35,13 +34,6 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  * User2Note Repository
- *
- * @category Repository
- * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
- * @link     https://github.com/wesrc/secretary
  */
 class User2Note extends EntityRepository
 {
@@ -118,5 +110,4 @@ class User2Note extends EntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
-
 }

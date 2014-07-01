@@ -25,7 +25,6 @@
  * @package  Secretary
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
  */
 
@@ -41,13 +40,6 @@ use Zend\InputFilter\InputFilterInterface;
 
 /**
  * Key Entity
- *
- * @category Entity
- * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
- * @link     https://github.com/wesrc/secretary
  *
  * @ORM\Table(name="`key`")
  * @ORM\Entity()
@@ -147,8 +139,8 @@ class Key extends PersistentObject implements InputFilterAwareInterface
     public function toArray()
     {
         $array                = get_object_vars($this);
-        $array['dateCreated'] = $array['dateCreated']->format('Y-m-d H:i:s');
-        $array['dateUpdated'] = $array['dateUpdated']->format('Y-m-d H:i:s');
+        $array['dateCreated'] = $this->getDateCreated()->format('Y-m-d H:i:s');
+        $array['dateUpdated'] = $this->getDateUpdated()->format('Y-m-d H:i:s');
         unset($array['user']);
         return $array;
     }
