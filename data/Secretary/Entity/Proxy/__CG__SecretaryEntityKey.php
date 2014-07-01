@@ -187,6 +187,65 @@ class Key extends \Secretary\Entity\Key implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getUserId()
+    {
+        if ($this->__isInitialized__ === false) {
+            return (int)  parent::getUserId();
+        }
+
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUserId', array());
+
+        return parent::getUserId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPubKey()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPubKey', array());
+
+        return parent::getPubKey();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUser()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', array());
+
+        return parent::getUser();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDateCreated()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDateCreated', array());
+
+        return parent::getDateCreated();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDateUpdated()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDateUpdated', array());
+
+        return parent::getDateUpdated();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
 
