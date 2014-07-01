@@ -78,11 +78,19 @@ class Base extends \PHPUnit_Framework_TestCase
         $keyUserRole = new \Secretary\Entity\Role();
         $keyUserRole->setId(3)
             ->setDefault(false)
+            ->setParent($userRole)
             ->setRoleId('keyuser');
+
+        $adminUserRole = new \Secretary\Entity\Role();
+        $adminUserRole->setId(4)
+            ->setDefault(false)
+            ->setParent($keyUserRole)
+            ->setRoleId('admin');
 
         $em->persist($guestRole);
         $em->persist($userRole);
         $em->persist($keyUserRole);
+        $em->persist($adminUserRole);
         $em->flush();
     }
 

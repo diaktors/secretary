@@ -18,6 +18,9 @@ class NoteResource extends DoctrineResource
     {
         $data = (array) $data;
 
+        $noteService = $this->getServiceManager()->get('note-service');
+
+
         $note = new Entity\Note;
         $hydrator = $this->getHydrator();
         $hydrator->hydrate($data, $note);
