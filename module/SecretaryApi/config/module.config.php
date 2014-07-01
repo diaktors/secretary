@@ -9,6 +9,9 @@ return array(
                     'defaults' => array(
                         'controller' => 'SecretaryApi\\V1\\Rest\\Group\\Controller',
                     ),
+                    'constraints' => array(
+                        'group_id' => '[0-9]*',
+                    ),
                 ),
             ),
             'secretaryapi.rest.doctrine.user' => array(
@@ -18,6 +21,9 @@ return array(
                     'defaults' => array(
                         'controller' => 'SecretaryApi\\V1\\Rest\\User\\Controller',
                     ),
+                    'constraints' => array(
+                        'user_id' => '[0-9]*',
+                    ),
                 ),
             ),
             'secretaryapi.rest.doctrine.note' => array(
@@ -26,6 +32,9 @@ return array(
                     'route' => '/api/note[/:note_id/user/:user_id]',
                     'defaults' => array(
                         'controller' => 'SecretaryApi\\V1\\Rest\\Note\\Controller',
+                    ),
+                    'constraints' => array(
+                        'note_id' => '[0-9]*',
                     ),
                 ),
             ),
@@ -44,6 +53,9 @@ return array(
                     'route' => '/api/key[/:key_id]',
                     'defaults' => array(
                         'controller' => 'SecretaryApi\\V1\\Rest\\Key\\Controller',
+                    ),
+                    'constraints' => array(
+                        'key_id' => '[0-9]*',
                     ),
                 ),
             ),
