@@ -314,10 +314,14 @@ class Note extends Base
      */
     public function createUserNotesJoinQuery(QueryBuilder $queryBuilder, Entity\User $user)
     {
-        return $queryBuilder->addSelect(array('u2n.owner', 'u2n.readPermission', 'u2n.writePermission'))
+        return $queryBuilder
+            ->addSelect(
+                array('row.id', 'row.title', 'row.content', 'row.private', 'row.dateCreated', 'row.dateUpdated')
+            )
+            ->addSelect(array('u2n.owner', 'u2n.readPermission', 'u2n.writePermission'))
             ->leftJoin('row.user2note', 'u2n')
             ->leftJoin('u2n.user', 'u')
-            ->where('u2n.userId = :userId')
+            ->andWhere('u2n.userId = :userId')
             ->andWhere('u.id = :userId')
             ->andWhere('row.private = :private')
             ->setParameter('userId', $user->getId())
