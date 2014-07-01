@@ -353,7 +353,8 @@ return array(
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => false,
             'strategies' => array(
-                'users' => 'ZF\\Apigility\\Doctrine\\Server\\Hydrator\\Strategy\\CollectionLink',
+                'users' => 'DoctrineHydrationModule\Strategy\ODM\MongoDB\ReferencedCollection',
+                'notes' => 'ZF\\Apigility\\Doctrine\\Server\\Hydrator\\Strategy\\CollectionLink',
             ),
             'use_generated_hydrator' => true,
         ),
@@ -362,7 +363,11 @@ return array(
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => null,
             'strategies' => array(
-                'groups' => 'ZF\\Apigility\\Doctrine\\Server\\Hydrator\\Strategy\\CollectionLink',
+                'groups' => 'DoctrineHydrationModule\Strategy\ODM\MongoDB\ReferencedCollection',
+                'roles' => 'DoctrineHydrationModule\Strategy\ODM\MongoDB\ReferencedCollection',
+                'user2note' => 'ZF\\Apigility\\Doctrine\\Server\\Hydrator\\Strategy\\CollectionLink',
+                'key' => 'ZF\\Apigility\\Doctrine\\Server\\Hydrator\\Strategy\\CollectionLink',
+                //'key' => 'DoctrineHydrationModule\Strategy\ODM\MongoDB\ReferencedField',
             ),
             'use_generated_hydrator' => null,
         ),
