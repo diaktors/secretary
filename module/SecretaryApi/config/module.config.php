@@ -462,4 +462,88 @@ return array(
             ),
         ),
     ),
+    'zf-mvc-auth' => array(
+        'authorization' => array(
+            'SecretaryApi\\V1\\Rest\\Group\\Controller' => array(
+                'entity' => array(
+                    'GET' => true,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+                'collection' => array(
+                    'GET' => true,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+            ),
+            'SecretaryApi\\V1\\Rest\\User\\Controller' => array(
+                'entity' => array(
+                    'GET' => true,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+                'collection' => array(
+                    'GET' => true,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+            ),
+            'SecretaryApi\\V1\\Rest\\Note\\Controller' => array(
+                'entity' => array(
+                    'GET' => true,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+                'collection' => array(
+                    'GET' => true,
+                    'POST' => true,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+            ),
+            'SecretaryApi\\V1\\Rest\\User2Note\\Controller' => array(
+                'entity' => array(
+                    'GET' => true,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+                'collection' => array(
+                    'GET' => true,
+                    'POST' => true,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+            ),
+            'SecretaryApi\\V1\\Rest\\Key\\Controller' => array(
+                'entity' => array(
+                    'GET' => true,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+                'collection' => array(
+                    'GET' => false,
+                    'POST' => false,
+                    'PATCH' => false,
+                    'PUT' => false,
+                    'DELETE' => false,
+                ),
+            ),
+        ),
+    ),
 );
