@@ -54,16 +54,26 @@ class NoteResource extends DoctrineResource
                 throw new \InvalidArgumentException('You are not allowed to add notes to this group.', 403);
             }
 
-            if (empty($data['members'])) {
-                throw new \InvalidArgumentException('Please provide a valid "members" value.', 400);
+            if (empty($data['encryptData'])) {
+                throw new \InvalidArgumentException('Please provide a valid "encryptData" value.', 400);
+            }
+            if (empty($data['users'])) {
+                throw new \InvalidArgumentException('Please provide a valid "users" value.', 400);
             }
 
+            $users = $noteService->getUsersWithKeys($data['users'], $user, $groupId);
+
+            $this->triggerDoctrineEvent(DoctrineResourceEvent::EVENT_CREATE_PRE, $note);
+
+            $this->getObjectManager()->persist($note);
+            $this->getObjectManager()->flush();
+
             // @todo we need to add a param to not enccrypt already encrypted stuff
-            $note = $noteService->saveGroupNote(
-                $user,
+            $note = $noteService->saveUser2NoteRelations(
+                $users['users'],
                 $note,
-                $groupId,
-                $data['members']
+                $user,
+                $data['encryptData']
             );
         } else {
             if (empty($data['eKey'])) {
@@ -115,7 +125,7 @@ class NoteResource extends DoctrineResource
     }
 
     /**
-     * Fetch all avilable notes for given user
+     * Fetch all available notes for given user
      *
      * @param array $data
      * @internal param array|\Zend\Stdlib\Parameter $params
