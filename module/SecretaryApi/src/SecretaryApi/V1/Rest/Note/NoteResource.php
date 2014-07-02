@@ -63,6 +63,9 @@ class NoteResource extends DoctrineResource
 
             $users = $noteService->getUsersWithKeys($data['users'], $user, $groupId);
 
+            $group = $groupService->fetchGroup($groupId);
+            $note->setGroup($group);
+
             $this->triggerDoctrineEvent(DoctrineResourceEvent::EVENT_CREATE_PRE, $note);
 
             $this->getObjectManager()->persist($note);
