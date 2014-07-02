@@ -617,7 +617,7 @@ class Note extends Base
      * @throws \LogicException If given User(Member) has not set key
      * @throws \LogicException If given User(Member) is not member of given group
      */
-    protected function getUsersWithKeys(array $members, Entity\User $owner, $groupId)
+    public function getUsersWithKeys(array $members, Entity\User $owner, $groupId)
     {
         $users = array();
         $keys  = array();
@@ -662,7 +662,7 @@ class Note extends Base
      * @param array $encryptData
      * @return Entity\Note
      */
-    protected function saveUser2NoteRelations(
+    public function saveUser2NoteRelations(
         array $users,
         Entity\Note $note,
         Entity\User $owner,
