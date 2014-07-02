@@ -323,9 +323,7 @@ class Note extends Base
             ->leftJoin('u2n.user', 'u')
             ->andWhere('u2n.userId = :userId')
             ->andWhere('u.id = :userId')
-            ->andWhere('row.private = :private')
-            ->setParameter('userId', $user->getId())
-            ->setParameter('private', 1);
+            ->setParameter('userId', $user->getId());
     }
 
     /**
