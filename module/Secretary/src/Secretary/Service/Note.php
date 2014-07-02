@@ -318,8 +318,10 @@ class Note extends Base
             ->addSelect(
                 array('row.id', 'row.title', 'row.content', 'row.private', 'row.dateCreated', 'row.dateUpdated')
             )
+            ->addSelect(array('g.id as groupId', 'g.name as groupName'))
             ->addSelect(array('u2n.owner', 'u2n.readPermission', 'u2n.writePermission'))
             ->leftJoin('row.user2note', 'u2n')
+            ->leftJoin('row.group', 'g')
             ->leftJoin('u2n.user', 'u')
             ->andWhere('u2n.userId = :userId')
             ->andWhere('u.id = :userId')
