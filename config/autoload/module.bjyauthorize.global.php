@@ -69,7 +69,7 @@ return array(
                 array('route' => 'secretaryapi.rest.doctrine.group', 'roles' => array('guest', 'user')),
                 array('route' => 'secretaryapi.rest.doctrine.user', 'roles' => array('guest', 'user')),
                 array('route' => 'secretaryapi.rest.doctrine.note', 'roles' => array('guest', 'user')),
-                array('route' => 'secretaryapi.rest.doctrine.user2-note', 'roles' => array('guest', 'user')),
+                array('route' => 'secretaryapi.rest.doctrine.user2note', 'roles' => array('guest', 'user')),
                 array('route' => 'secretaryapi.rest.doctrine.key', 'roles' => array('guest', 'user')),
             ),
         ),

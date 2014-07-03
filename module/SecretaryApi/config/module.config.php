@@ -38,12 +38,15 @@ return array(
                     ),
                 ),
             ),
-            'secretaryapi.rest.doctrine.user2-note' => array(
+            'secretaryapi.rest.doctrine.user2note' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/user2note[/:user2note_id]',
+                    'route' => '/api/user2note[/:note_id]',
                     'defaults' => array(
                         'controller' => 'SecretaryApi\\V1\\Rest\\User2Note\\Controller',
+                    ),
+                    'constraints' => array(
+                        'note_id' => '[0-9]*',
                     ),
                 ),
             ),
@@ -66,7 +69,7 @@ return array(
             0 => 'secretaryapi.rest.doctrine.group',
             1 => 'secretaryapi.rest.doctrine.user',
             2 => 'secretaryapi.rest.doctrine.note',
-            3 => 'secretaryapi.rest.doctrine.user2-note',
+            3 => 'secretaryapi.rest.doctrine.user2note',
             4 => 'secretaryapi.rest.doctrine.key',
         ),
     ),
@@ -140,10 +143,10 @@ return array(
         ),
         'SecretaryApi\\V1\\Rest\\User2Note\\Controller' => array(
             'listener' => 'SecretaryApi\\V1\\Rest\\User2Note\\User2NoteResource',
-            'route_name' => 'secretaryapi.rest.doctrine.user2-note',
-            'route_identifier_name' => 'user2note_id',
-            'entity_identifier_name' => 'id',
-            'collection_name' => 'user2_note',
+            'route_name' => 'secretaryapi.rest.doctrine.user2note',
+            'route_identifier_name' => 'note_id',
+            'entity_identifier_name' => 'noteId',
+            'collection_name' => 'user2note',
             'entity_http_methods' => array(
                 0 => 'GET',
             ),
@@ -315,12 +318,12 @@ return array(
             'Secretary\\Entity\\User2Note' => array(
                 'route_identifier_name' => 'user2note_id',
                 'entity_identifier_name' => 'noteId',
-                'route_name' => 'secretaryapi.rest.doctrine.user2-note',
+                'route_name' => 'secretaryapi.rest.doctrine.user2note',
                 'hydrator' => 'SecretaryApi\\V1\\Rest\\User2Note\\User2NoteHydrator',
             ),
             'SecretaryApi\\V1\\Rest\\User2Note\\User2NoteCollection' => array(
                 'entity_identifier_name' => 'noteId',
-                'route_name' => 'secretaryapi.rest.doctrine.user2-note',
+                'route_name' => 'secretaryapi.rest.doctrine.user2note',
                 'is_collection' => true,
             ),
             'Secretary\\Entity\\Key' => array(
