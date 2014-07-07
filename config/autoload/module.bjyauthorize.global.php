@@ -23,7 +23,7 @@ return array(
                 array('route' => 'zfcuser/logout', 'roles' => array('user')),
                 array('route' => 'zfcuser/changepassword', 'roles' => array('user')),
                 array('route' => 'zfcuser/changeemail', 'roles' => array('user')),
-                array('route' => 'zfcuser/login', 'roles' => array('guest')),
+                array('route' => 'zfcuser/login', 'roles' => array('guest', 'user')),
                 array('route' => 'zfcuser/register', 'roles' => array('guest')),
                 array('route' => 'home', 'roles' => array('guest', 'user')),
                 array('route' => 'user-settings', 'roles' => array('user')),
