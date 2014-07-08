@@ -507,7 +507,7 @@ class Note extends Base
             ->setUserId($user->getId())
             ->setNote($note)
             ->setNoteId($note->getId())
-            ->setEkey($eKey)
+            ->setEKey($eKey)
             ->setOwner(true)
             ->setReadPermission(true)
             ->setWritePermission(true);
@@ -540,7 +540,7 @@ class Note extends Base
         $user2Note = $this->getUser2NoteRepository()->findOneBy(
             array('userId' => $user->getId(), 'noteId' => $note->getId())
         );
-        $user2Note->setEkey($encryptData['ekey']);
+        $user2Note->setEKey($encryptData['ekey']);
         $note->addUser2Note($user2Note);
 
         $this->em->persist($note);
@@ -681,7 +681,7 @@ class Note extends Base
                 ->setUserId($user->getId())
                 ->setNote($note)
                 ->setNoteId($note->getId())
-                ->setEkey($encryptData['ekeys'][$i])
+                ->setEKey($encryptData['ekeys'][$i])
                 ->setOwner($ownerCheck)
                 ->setReadPermission(true)
                 ->setWritePermission($ownerCheck);

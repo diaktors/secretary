@@ -171,12 +171,11 @@ class User2Note //implements InputFilterAwareInterface
         return $this->userId;
     }
 
-
     /**
      * @param  string $eKey
      * @return self
      */
-    public function setEkey($eKey)
+    public function setEKey($eKey)
     {
         $this->eKey = $eKey;
         return $this;
@@ -185,7 +184,7 @@ class User2Note //implements InputFilterAwareInterface
     /**
      * @return string
      */
-    public function getEkey()
+    public function getEKey()
     {
         return $this->eKey;
     }
