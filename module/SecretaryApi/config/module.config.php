@@ -632,13 +632,17 @@ return array(
                 'filters' => array(),
                 'validators' => array(),
                 'description' => 'Date note entity was created - will be set automatically',
+                'allow_empty' => false,
+                'continue_if_empty' => false,
             ),
             6 => array(
                 'name' => 'dateUpdated',
-                'required' => true,
+                'required' => false,
                 'filters' => array(),
                 'validators' => array(),
                 'description' => 'Date note entity was updated - will be set automatically',
+                'allow_empty' => false,
+                'continue_if_empty' => false,
             ),
         ),
         'SecretaryApi\\V1\\Rest\\User2Note\\Validator' => array(
