@@ -66,6 +66,8 @@ return array(
                 array('route' => 'zf-apigility/oauth/authorize', 'roles' => array('admin')),
                 array('route' => 'zf-apigility/oauth/resource', 'roles' => array('admin')),
                 array('route' => 'zf-apigility/oauth/code', 'roles' => array('admin')),
+                array('route' => 'zf-apigility/swagger', 'roles' => array('admin')),
+                array('route' => 'zf-apigility/swagger/api', 'roles' => array('admin')),
 
                 array('route' => 'secretaryapi.rest.doctrine.group', 'roles' => array('guest', 'user')),
                 array('route' => 'secretaryapi.rest.doctrine.user', 'roles' => array('guest', 'user')),
