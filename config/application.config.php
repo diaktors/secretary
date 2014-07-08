@@ -7,6 +7,7 @@ return array(
         'Phpro\\DoctrineHydrationModule',
         'ZF\\Apigility\\Doctrine\Server',
         'ZF\\Apigility\\Documentation',
+        'ZF\\Apigility\\Documentation\\Swagger',
         'AssetManager',
         'ZF\\ApiProblem',
         'ZF\\Configuration',
