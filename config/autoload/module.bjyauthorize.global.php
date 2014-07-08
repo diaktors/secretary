@@ -55,6 +55,7 @@ return array(
                 array('route' => 'zf-apigility/api/module/rest-service', 'roles' => array('admin')),
                 array('route' => 'zf-apigility/api/module/rpc-service', 'roles' => array('admin')),
                 array('route' => 'zf-apigility/api/module/rest-service/input-filter', 'roles' => array('admin')),
+                array('route' => 'zf-apigility/api/module/rest-service/doc', 'roles' => array('admin')),
                 array('route' => 'zf-apigility/api/authentication', 'roles' => array('admin')),
                 array('route' => 'zf-apigility/api/authentication/oauth2', 'roles' => array('admin')),
                 array('route' => 'zf-apigility/api/authentication/http-basic', 'roles' => array('admin')),
