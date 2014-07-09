@@ -7,12 +7,46 @@ use Zend\EventManager\StaticEventManager;
 use Zend\Stdlib\ArrayUtils;
 use ZF\Apigility\Doctrine\Server\Event\DoctrineResourceEvent;
 use ZF\Apigility\Doctrine\Server\Resource\DoctrineResource;
+use ZF\ApiProblem\ApiProblem;
 
 /**
  * Class NoteResource
  */
 class NoteResource extends DoctrineResource
 {
+
+    /**
+     * Delete a resource
+     *
+     * @param mixed $id
+     * @return ApiProblem|bool
+     */
+    public function delete($id)
+    {
+        $entity = $this->getObjectManager()->find($this->getEntityClass(), $id);
+        if (!$entity) {
+            return new ApiProblem(404, 'Note with id ' . $id . ' was not found');
+        }
+
+        /** @var Service\User $userService */
+        $userService = $this->getServiceManager()->get('user-service');
+        /** @var Service\Note $noteService */
+        $noteService = $this->getServiceManager()->get('note-service');
+        $user = $userService->getUserByMail($this->getIdentity()->getName());
+
+        $editCheck = $noteService->checkNoteEditPermission($user->getId(), $id);
+        if ($editCheck === false) {
+            return new ApiProblem(403, 'User is not allowed to edit note');
+        }
+
+        $this->triggerDoctrineEvent(DoctrineResourceEvent::EVENT_DELETE_PRE, $entity);
+        $this->getObjectManager()->remove($entity);
+        $this->getObjectManager()->flush();
+        $this->triggerDoctrineEvent(DoctrineResourceEvent::EVENT_DELETE_POST, $entity);
+
+        return true;
+    }
+
     /**
      * Fetch a note
      *
@@ -31,12 +65,12 @@ class NoteResource extends DoctrineResource
 
         $noteCheck = $noteService->fetchNote($noteId);
         if ($noteCheck === null) {
-            throw new \InvalidArgumentException('Note does not exists.', 404);
+            return new ApiProblem(404, 'Note does not exists.');
         }
 
         $data = $noteService->fetchNoteWithUserData($noteId, $user->getId());
         if (empty($data)) {
-            throw new \InvalidArgumentException('You are not allowed to view this note.', 403);
+            return new ApiProblem(403, 'You are not allowed to view this note.');
         }
 
         $this->triggerDoctrineEvent(DoctrineResourceEvent::EVENT_FETCH_POST, $data);

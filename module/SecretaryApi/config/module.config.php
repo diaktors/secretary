@@ -131,6 +131,7 @@ return array(
             'entity_http_methods' => array(
                 0 => 'GET',
                 1 => 'PATCH',
+                2 => 'DELETE',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
@@ -808,7 +809,7 @@ return array(
                     'POST' => false,
                     'PATCH' => true,
                     'PUT' => false,
-                    'DELETE' => false,
+                    'DELETE' => true,
                 ),
                 'collection' => array(
                     'GET' => true,
