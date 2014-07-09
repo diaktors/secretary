@@ -130,6 +130,7 @@ return array(
             'collection_name' => 'note',
             'entity_http_methods' => array(
                 0 => 'GET',
+                1 => 'PATCH',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
@@ -153,9 +154,11 @@ return array(
             'collection_name' => 'user2note',
             'entity_http_methods' => array(
                 0 => 'GET',
+                1 => 'PATCH',
             ),
             'collection_http_methods' => array(
                 0 => 'POST',
+                1 => 'GET',
             ),
             'collection_query_whitelist' => array(
                 0 => 'query',
@@ -395,7 +398,7 @@ return array(
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => null,
             'strategies' => array(
-                'user2note' => 'ZF\\Apigility\\Doctrine\\Server\\Hydrator\\Strategy\\CollectionLink',
+                'user2note' => 'DoctrineHydrationModule\\Strategy\\ODM\\MongoDB\\ReferencedCollection',
             ),
             'use_generated_hydrator' => null,
         ),
@@ -803,7 +806,7 @@ return array(
                 'entity' => array(
                     'GET' => true,
                     'POST' => false,
-                    'PATCH' => false,
+                    'PATCH' => true,
                     'PUT' => false,
                     'DELETE' => false,
                 ),
@@ -819,14 +822,14 @@ return array(
                 'entity' => array(
                     'GET' => true,
                     'POST' => false,
-                    'PATCH' => false,
+                    'PATCH' => true,
                     'PUT' => false,
                     'DELETE' => false,
                 ),
                 'collection' => array(
                     'GET' => true,
                     'POST' => true,
-                    'PATCH' => false,
+                    'PATCH' => true,
                     'PUT' => false,
                     'DELETE' => false,
                 ),
