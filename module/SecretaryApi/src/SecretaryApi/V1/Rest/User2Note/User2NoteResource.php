@@ -5,6 +5,7 @@ use Secretary\Entity;
 use Secretary\Service;
 use ZF\Apigility\Doctrine\Server\Event\DoctrineResourceEvent;
 use ZF\Apigility\Doctrine\Server\Resource\DoctrineResource;
+use ZF\ApiProblem\ApiProblem;
 
 class User2NoteResource extends DoctrineResource
 {
@@ -78,6 +79,53 @@ class User2NoteResource extends DoctrineResource
         $this->triggerDoctrineEvent(DoctrineResourceEvent::EVENT_CREATE_POST, $user2Note);
 
         return $user2Note;
+    }
+
+    /**
+     * Patch (partial in-place update) a resource
+     *
+     * @param  mixed            $id
+     * @param  mixed            $data
+     * @return ApiProblem|mixed
+     */
+    public function patch($id, $data)
+    {
+        if (empty($data->userId) || !is_numeric($data->userId)) {
+            return new ApiProblem(422, 'userId value missing');
+        }
+
+        /** @var Service\User $userService */
+        $userService = $this->getServiceManager()->get('user-service');
+        /** @var Service\Note $noteService */
+        $noteService = $this->getServiceManager()->get('note-service');
+        $user = $userService->getUserByMail($this->getIdentity()->getName());
+
+        $editCheck = $noteService->checkNoteEditPermission($user->getId(), $id);
+        if ($editCheck === false) {
+            return new ApiProblem(403, 'User is not allowed to edit entity');
+        }
+
+        $entity = $this->getObjectManager()->getRepository($this->getEntityClass())
+            ->findOneBy(['userId' => $data->userId, 'noteId' => $id]);
+        if (!$entity) {
+            // @codeCoverageIgnoreStart
+            return new ApiProblem(404, 'Entity with id ' . $id . ' was not found');
+        }
+        // @codeCoverageIgnoreEnd
+
+        // Load full data:
+        $hydrator = $this->getHydrator();
+        $originalData = $hydrator->extract($entity);
+        $patchedData = array_merge($originalData, (array) $data);
+
+        // Hydrate entity
+        $hydrator->hydrate($patchedData, $entity);
+
+        $this->triggerDoctrineEvent(DoctrineResourceEvent::EVENT_PATCH_PRE, $entity);
+        $this->getObjectManager()->flush();
+        $this->triggerDoctrineEvent(DoctrineResourceEvent::EVENT_PATCH_POST, $entity);
+
+        return $entity;
     }
 
     /**
