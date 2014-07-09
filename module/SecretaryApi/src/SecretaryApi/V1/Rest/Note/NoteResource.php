@@ -101,4 +101,27 @@ class NoteResource extends DoctrineResource
 
         return $collection;
     }
+
+    /**
+     * Patch (partial in-place update) a resource
+     *
+     * @param  mixed            $id
+     * @param  mixed            $data
+     * @return ApiProblem|mixed
+     */
+    public function patch($id, $data)
+    {
+        /** @var Service\User $userService */
+        $userService = $this->getServiceManager()->get('user-service');
+        /** @var Service\Note $noteService */
+        $noteService = $this->getServiceManager()->get('note-service');
+        $user = $userService->getUserByMail($this->getIdentity()->getName());
+
+        $editCheck = $noteService->checkNoteEditPermission($user->getId(), $id);
+        if ($editCheck === false) {
+            return new ApiProblem(403, 'User is not allowed to edit entity');
+        }
+
+        return parent::patch($id, $data);
+    }
 }
