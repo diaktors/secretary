@@ -25,7 +25,6 @@
  * @package  Secretary
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
  */
 
@@ -36,13 +35,6 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  * Note Repository
- *
- * @category Repository
- * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
- * @link     https://github.com/wesrc/secretary
  */
 class Note extends EntityRepository
 {
@@ -69,9 +61,13 @@ class Note extends EntityRepository
     public function fetchNoteWithUserData($noteId, $userId)
     {
         $qb = $this->createQueryBuilder('n');
-        $qb->select(array('n.id', 'n.title', 'n.content', 'n.private', 'n.dateCreated', 'n.dateUpdated'))
+        $qb->select(
+                array('n.id', 'n.title', 'n.content', 'n.private', 'n.dateCreated', 'n.dateUpdated')
+            )
             ->addSelect(array('u2n.owner', 'u2n.readPermission', 'u2n.writePermission', 'u2n.eKey'))
+            ->addSelect(array('g.id as groupId', 'g.name as groupName'))
             ->leftJoin('n.user2note', 'u2n')
+            ->leftJoin('n.group', 'g')
             ->where('n.id = :noteId')
             ->andWhere('u2n.userId = :userId')
             ->andWhere('u2n.noteId = :noteId')

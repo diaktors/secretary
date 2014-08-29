@@ -25,7 +25,6 @@
  * @package  Secretary
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
  */
 
@@ -35,14 +34,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Key Entity
- *
- * @category Entity
- * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
- * @link     https://github.com/wesrc/secretary
+ * User2Note Entity
  *
  * @ORM\Table(name="user2note")
  * @ORM\Entity(repositoryClass="Secretary\Entity\Repository\User2Note")
@@ -179,12 +171,11 @@ class User2Note //implements InputFilterAwareInterface
         return $this->userId;
     }
 
-
     /**
      * @param  string $eKey
      * @return self
      */
-    public function setEkey($eKey)
+    public function setEKey($eKey)
     {
         $this->eKey = $eKey;
         return $this;
@@ -193,7 +184,7 @@ class User2Note //implements InputFilterAwareInterface
     /**
      * @return string
      */
-    public function getEkey()
+    public function getEKey()
     {
         return $this->eKey;
     }
@@ -276,8 +267,8 @@ class User2Note //implements InputFilterAwareInterface
     public function toArray()
     {
         $array                = get_object_vars($this);
-        $array['dateCreated'] = $array['dateCreated']->format('Y-m-d H:i:s');
-        $array['dateUpdated'] = $array['dateUpdated']->format('Y-m-d H:i:s');
+        $array['dateCreated'] = $this->getDateCreated()->format('Y-m-d H:i:s');
+        $array['dateUpdated'] = $this->getDateUpdated()->format('Y-m-d H:i:s');
         unset($array['user']);
         unset($array['note']);
         return $array;

@@ -42,6 +42,11 @@ Installation
 ------------
 see docs/Installation.md
 
+
+API / Apigility
+---------------
+see docs/Apigility.md
+
 ---
 
 Have fun and feel welcome to give feedback,  

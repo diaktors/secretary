@@ -25,29 +25,22 @@
  * @package  Secretary
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
  */
 
 namespace Secretary\Service;
 
-use Secretary\Entity\User as UserEntity;
+use Secretary\Entity;
+use Zend\EventManager\Event;
 
 /**
  * User Service
- *
- * @category Service
- * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
- * @link     https://github.com/wesrc/secretary
  */
 class User extends Base
 {
     /**
      * @param  $id
-     * @return \Secretary\Entity\User
+     * @return Entity\User
      */
     public function getUserById($id)
     {
@@ -55,18 +48,28 @@ class User extends Base
     }
 
     /**
-     * @param  \Zend\EventManager\Event $e
+     * @param string $mail
+     * @return Entity\User
+     */
+    public function getUserByMail($mail)
+    {
+        return $this->getUserRepository()->findOneBy(array('email' => $mail));
+    }
+
+    /**
+     * @param  Event $e
      * @return void
      * @throws \LogicException If needed role can not be found
      */
-    public function saveUserRoleAndLocale(\Zend\EventManager\Event $e)
+    public function saveUserRoleAndLocale(Event $e)
     {
+        /** @var Entity\Role $roleRecord */
         $roleRecord = $this->getRoleRepository()->findOneBy(array('roleId' => 'user'));
         if (empty($roleRecord)) {
             throw new \LogicException('Roles are missing, please configure them');
         }
 
-        /* @var \Secretary\Entity\User $user */
+        /* @var Entity\User $user */
         $user = $e->getParam('user');
         $user->addRole($roleRecord);
 
@@ -88,35 +91,41 @@ class User extends Base
     }
 
     /**
-     * @param  \Secretary\Entity\User $user
-     * @param  array                  $values
-     * @return \Secretary\Entity\User
+     * @param Entity\User $user
+     * @param  array $values
+     * @return Entity\User
      */
-    public function updateUserSettings(UserEntity $user, array $values)
+    public function updateUserSettings(Entity\User $user, array $values)
     {
         $user->setDisplayName($values['display_name'])
             ->setLanguage($values['language'])
             ->setNotifications($values['notifications']);
+
         $this->em->persist($user);
         $this->em->flush();
+
         return $user;
     }
 
     /**
-     * @param  \Secretary\Entity\User $user
+     * @param Entity\User $user
      * @return void
      * @throws \LogicException If needed role can not be found
      */
-    public function updateUserToKeyRole(UserEntity $user)
+    public function updateUserToKeyRole(Entity\User $user)
     {
+        /** @var \Secretary\Entity\Role $roleRecord */
         $roleRecord = $this->getRoleRepository()->findOneBy(array('roleId' => 'keyuser'));
         if (empty($roleRecord)) {
             throw new \LogicException('Roles are missing, please configure them');
         }
+
         $user->getRoles()->clear();
         $user->addRole($roleRecord);
+
         $this->em->persist($user);
         $this->em->flush();
+
         return;
     }
 
@@ -129,7 +138,7 @@ class User extends Base
     }
 
     /**
-     * @return \Secretary\Entity\Repository\User
+     * @return Entity\Repository\User
      */
     protected function getUserRepository()
     {

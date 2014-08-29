@@ -40,4 +40,12 @@ return array(
     'mail' => array(
         'activate' => false,
     ),
+
+    'zf-mvc-auth' => array(
+        'authentication' => array(
+            'http' => array(
+                'htdigest' => '',
+            ),
+        ),
+    ),
 );

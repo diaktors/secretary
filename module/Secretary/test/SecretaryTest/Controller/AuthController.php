@@ -101,11 +101,19 @@ class AuthController extends AbstractHttpControllerTestCase
         $keyUserRole = new \Secretary\Entity\Role();
         $keyUserRole->setId(3)
             ->setDefault(false)
+            ->setParent($userRole)
             ->setRoleId('keyuser');
+
+        $adminUserRole = new \Secretary\Entity\Role();
+        $adminUserRole->setId(4)
+            ->setDefault(false)
+            ->setParent($keyUserRole)
+            ->setRoleId('admin');
 
         $this->em->persist($guestRole);
         $this->em->persist($userRole);
         $this->em->persist($keyUserRole);
+        $this->em->persist($adminUserRole);
         $this->em->flush();
     }
 

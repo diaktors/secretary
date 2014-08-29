@@ -1,6 +1,22 @@
 <?php
 return array(
     'modules' => array(
+        'ZF\\Apigility',
+        'ZF\\Apigility\\Provider',
+        'Phpro\\DoctrineHydrationModule',
+        'ZF\\Apigility\\Doctrine\Server',
+        'ZF\\Apigility\\Documentation',
+        'AssetManager',
+        'ZF\\ApiProblem',
+        'ZF\\Configuration',
+        'ZF\\MvcAuth',
+        'ZF\\OAuth2',
+        'ZF\\Hal',
+        'ZF\\ContentNegotiation',
+        'ZF\\ContentValidation',
+        'ZF\\Rest',
+        'ZF\\Rpc',
+        'ZF\\Versioning',
         'ZfcBase',
         'ZfcUser',
         'DoctrineModule',
@@ -10,6 +26,7 @@ return array(
         'ZfcAdmin',
         'ZfcTwitterBootstrap',
         'Secretary',
+        'SecretaryApi',
     ),
     'module_listener_options' => array(
         'config_glob_paths'    => array(

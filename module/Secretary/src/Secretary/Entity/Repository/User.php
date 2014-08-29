@@ -25,7 +25,6 @@
  * @package  Secretary
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
  */
 
@@ -36,13 +35,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User Repository
- *
- * @category Repository
- * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
- * @link     https://github.com/wesrc/secretary
  */
 class User extends EntityRepository
 {
@@ -111,8 +103,9 @@ class User extends EntityRepository
             ->setParameter('userId', $userId)
             ->setParameter('role', 'keyuser');
         if (!empty($groupId)) {
-            $memberIds = $this->getEntityManager()->getRepository('Secretary\Entity\Group')
-                ->fetchGroupMemberIds($groupId);
+            /** @var Group $groupRepository */
+            $groupRepository = $this->getEntityManager()->getRepository('Secretary\Entity\Group');
+            $memberIds = $groupRepository->fetchGroupMemberIds($groupId);
             $qb->andWhere($qb->expr()->notIn('u.id', $memberIds));
         }
 

@@ -31,8 +31,8 @@
 
 namespace Secretary\Service;
 
-use Secretary\Entity\User as UserEntity;
-use Secretary\Entity\Group as GroupEntity;
+use Doctrine\ORM\QueryBuilder;
+use Secretary\Entity;
 
 /**
  * Group Service
@@ -66,7 +66,7 @@ class Group extends Base
 
     /**
      * @param  int $groupId
-     * @return GroupEntity
+     * @return Entity\Group
      * @throws \InvalidArgumentException If GroupID is invalid
      */
     public function fetchGroup($groupId)
@@ -153,13 +153,26 @@ class Group extends Base
     }
 
     /**
-     * @param  UserEntity $user
-     * @param  string     $groupname
-     * @return GroupEntity
+     * @param QueryBuilder $queryBuilder
+     * @param Entity\User $user
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @throws \InvalidArgumentException
      */
-    public function addUserGroup(UserEntity $user, $groupname)
+    public function fetchUserGroupsApi(QueryBuilder $queryBuilder, Entity\User $user)
     {
-        $groupRecord = new GroupEntity();
+        return $queryBuilder->join('row.users', 'u')
+            ->where('u.id = :userId')
+            ->setParameter('userId', $user->getId());
+    }
+
+    /**
+     * @param  Entity\User $user
+     * @param  string     $groupname
+     * @return Entity\Group
+     */
+    public function addUserGroup(Entity\User $user, $groupname)
+    {
+        $groupRecord = new Entity\Group();
         $groupRecord->setName($groupname)
             ->setOwner($user->getId());
         $user->addGroup($groupRecord);
@@ -170,13 +183,13 @@ class Group extends Base
 
 
     /**
-     * @param  GroupEntity $group
+     * @param  Entity\Group $group
      * @param  int         $userId
-     * @return UserEntity
+     * @return Entity\User
      * @throws \InvalidArgumentException If UserID is invalid
      * @throws \LogicException           If User could not been found
      */
-    public function addGroupMember(GroupEntity $group, $userId)
+    public function addGroupMember(Entity\Group $group, $userId)
     {
         if (empty($userId) || !is_numeric($userId)) {
             throw new \InvalidArgumentException('Please provide a valid UserID');
@@ -192,11 +205,11 @@ class Group extends Base
     }
 
     /**
-     * @param  UserEntity  $user
-     * @param  GroupEntity $group
+     * @param  Entity\User  $user
+     * @param  Entity\Group $group
      * @return User
      */
-    public function deleteUserGroup(UserEntity $user, GroupEntity $group)
+    public function deleteUserGroup(Entity\User $user, Entity\Group $group)
     {
         $user->getGroups()->removeElement($group);
         $this->em->persist($user);
@@ -209,11 +222,11 @@ class Group extends Base
     }
 
     /**
-     * @param  UserEntity  $user
-     * @param  GroupEntity $group
+     * @param  Entity\User  $user
+     * @param  Entity\Group $group
      * @return User
      */
-    public function removeUserFromGroup(UserEntity $user, GroupEntity $group)
+    public function removeUserFromGroup(Entity\User $user, Entity\Group $group)
     {
         $user->getGroups()->removeElement($group);
         $this->em->persist($user);
@@ -222,11 +235,11 @@ class Group extends Base
     }
 
     /**
-     * @param  GroupEntity $group
+     * @param  Entity\Group $group
      * @param  string      $groupname
-     * @return GroupEntity
+     * @return Entity\Group
      */
-    public function updateGroup(GroupEntity $group, $groupname)
+    public function updateGroup(Entity\Group $group, $groupname)
     {
         $group->setName($groupname);
         $this->em->persist($group);

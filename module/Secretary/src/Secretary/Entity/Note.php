@@ -25,7 +25,6 @@
  * @package  Secretary
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
  */
 
@@ -38,21 +37,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Zend\Form\Annotation;
 
 /**
- * Key Entity
- *
- * @category Entity
- * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
- * @link     https://github.com/wesrc/secretary
+ * Note Entity
  *
  * @ORM\Table(name="note")
  * @ORM\Entity(repositoryClass="Secretary\Entity\Repository\Note")
  * @Annotation\Name("noteForm")
  * @Annotation\Attributes({"id":"noteForm"})
  */
-class Note //extends PersistentObject
+class Note
 {
     /**
      * @var int
@@ -315,9 +307,9 @@ class Note //extends PersistentObject
     public function toArray()
     {
         $array                = get_object_vars($this);
-        $array['dateCreated'] = $array['dateCreated']->format('Y-m-d H:i:s');
-        $array['dateUpdated'] = $array['dateUpdated']->format('Y-m-d H:i:s');
-        $array['group']       = $array['group']->getIdentity();
+        $array['dateCreated'] = $this->getDateCreated()->format('Y-m-d H:i:s');
+        $array['dateUpdated'] = $this->getDateUpdated()->format('Y-m-d H:i:s');
+        $array['group']       = $this->getGroup()->getName();
         unset($array['user2note']);
         return $array;
     }

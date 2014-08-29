@@ -25,29 +25,18 @@
  * @package  Secretary
  * @author   Michael Scholl <michael@wesrc.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
  */
 
 namespace Secretary;
 
-use Secretary\Controller\GroupController;
-use Secretary\Controller\KeyController;
-use Secretary\Controller\IndexController;
-use Secretary\Controller\NoteController;
-use Secretary\Controller\UserController;
+use Secretary\Controller;
+use Secretary\Service;
+use SecretaryCrypt\Crypt;
 use Zend\Mvc\Controller\ControllerManager;
-use Zend\ServiceManager\ServiceManager;
 
 /**
  * Module Config
- *
- * @category Module
- * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
- * @link     https://github.com/wesrc/secretary
  */
 return array(
 
@@ -202,8 +191,8 @@ return array(
             'mail-service'   => 'Secretary\Service\Factory\MailFactory',
         ),
         'invokables' => array(
-            'encryption-service' => 'Secretary\Service\Encryption',
-            'groupMember-form'   => 'Secretary\Form\GroupMember',
+            'crypt-service' => 'SecretaryCrypt\Crypt',
+            'groupMember-form' => 'Secretary\Form\GroupMember',
         ),
         'aliases' => array(
             'translator' => 'MvcTranslator',
@@ -229,33 +218,53 @@ return array(
         ),
         'factories' => array(
             'Secretary\Controller\Index'  => function(ControllerManager $cm) {
-                $controller = new IndexController();
-                $controller->setNoteService($cm->getServiceLocator()->get('note-service'));
+                $controller = new Controller\IndexController();
+                /** @var Service\Note $noteService */
+                $noteService = $cm->getServiceLocator()->get('note-service');
+                $controller->setNoteService($noteService);
                 return $controller;
             },
             'Secretary\Controller\Key' => function(ControllerManager $cm) {
-                $controller = new KeyController();
-                $controller->setKeyService($cm->getServiceLocator()->get('key-service'))
-                    ->setEncryptionService($cm->getServiceLocator()->get('encryption-service'))
-                    ->setUserService($cm->getServiceLocator()->get('user-service'));
+                $controller = new Controller\KeyController();
+                /** @var Service\Key $keyService */
+                $keyService = $cm->getServiceLocator()->get('key-service');
+                /** @var Service\User $userService */
+                $userService = $cm->getServiceLocator()->get('user-service');
+                /** @var Crypt $cryptService */
+                $cryptService = $cm->getServiceLocator()->get('crypt-service');
+                $controller->setKeyService($keyService)
+                    ->setCryptService($cryptService)
+                    ->setUserService($userService);
                 return $controller;
             },
             'Secretary\Controller\Note' => function(ControllerManager $cm) {
-                $controller = new NoteController();
-                $controller->setNoteService($cm->getServiceLocator()->get('note-service'));
-                $controller->setGroupService($cm->getServiceLocator()->get('group-service'));
+                $controller = new Controller\NoteController();
+                /** @var Service\Note $noteService */
+                $noteService = $cm->getServiceLocator()->get('note-service');
+                /** @var Service\Group $groupService */
+                $groupService = $cm->getServiceLocator()->get('group-service');
+                $controller->setNoteService($noteService);
+                $controller->setGroupService($groupService);
                 return $controller;
             },
             'Secretary\Controller\Group' => function(ControllerManager $cm) {
-                $controller = new GroupController();
-                $controller->setGroupService($cm->getServiceLocator()->get('group-service'))
-                    ->setNoteService($cm->getServiceLocator()->get('note-service'))
-                    ->setUserService($cm->getServiceLocator()->get('user-service'));
+                $controller = new Controller\GroupController();
+                /** @var Service\Group $groupService */
+                $groupService = $cm->getServiceLocator()->get('group-service');
+                /** @var Service\Note $noteService */
+                $noteService = $cm->getServiceLocator()->get('note-service');
+                /** @var Service\User $userService */
+                $userService = $cm->getServiceLocator()->get('user-service');
+                $controller->setGroupService($groupService)
+                    ->setNoteService($noteService)
+                    ->setUserService($userService);
                 return $controller;
             },
             'Secretary\Controller\User' => function(ControllerManager $cm) {
-                $controller = new UserController();
-                $controller->setUserService($cm->getServiceLocator()->get('user-service'));
+                $controller = new Controller\UserController();
+                /** @var Service\User $userService */
+                $userService = $cm->getServiceLocator()->get('user-service');
+                $controller->setUserService($userService);
                 return $controller;
             },
         )
