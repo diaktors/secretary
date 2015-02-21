@@ -91,9 +91,7 @@ class Note
      * @var Group
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="notes")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
-     * @Annotation\Type("Zend\Form\Element\Hidden")
-     * @Annotation\Attributes({"id":"groupHidden"})
-     * @Annotation\AllowEmpty({"allowEmpty":"false"})
+     * @Annotation\Exclude()
      */
     protected $group;
 
@@ -133,6 +131,14 @@ class Note
      * @Annotation\AllowEmpty({"allowEmpty":"false"})
      */
     protected $members;
+
+
+    /**
+     * @Annotation\Type("\Zend\Form\Element\Hidden")
+     * @Annotation\Attributes({"id":"groupHidden"})
+     * @Annotation\AllowEmpty({"allowEmpty":"false"})
+     */
+    protected $groupHidden;
 
     /**
      * Set Id

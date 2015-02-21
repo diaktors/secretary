@@ -177,7 +177,7 @@ class NoteController extends ActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 if ($this->getRequest()->getPost('private') == 0) {
-                    $groupId = $this->getRequest()->getPost('group');
+                    $groupId = $this->getRequest()->getPost('groupHidden');
                     if (empty($groupId) || !is_numeric($groupId)) {
                         // @todo log stuff here?
                         $viewVars['msg'] = array('error', 'You need to select a group');
@@ -202,6 +202,7 @@ class NoteController extends ActionController
                         $viewVars['msg'] = array('error', 'Please select a group member to share note with');
                         return new ViewModel($viewVars);
                     }
+                    $noteRecord->setGroup($this->groupService->fetchGroup($groupId));
                     $this->noteService->saveGroupNote(
                         $this->identity,
                         $form->getData(),
@@ -373,7 +374,7 @@ class NoteController extends ActionController
         if ($this->getRequest()->getPost('title')) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $group = $this->getRequest()->getPost('group');
+                $group = $this->getRequest()->getPost('groupHidden');
                 if (!empty($group)) {
                     if ($group != $noteRecord->getGroup()->getId()) {
                         $this->events->trigger('logViolation', __METHOD__ . '::l42', array(
