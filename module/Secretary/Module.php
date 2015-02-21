@@ -87,7 +87,7 @@ class Module implements BootstrapListenerInterface,
         $this->initMail($e);
 
         // Set User Locale
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'selectUserLocale'));
+        $eventManager->attach(MvcEvent::EVENT_ROUTE, array($this, 'selectUserLocale'));
 
         return;
     }
