@@ -144,8 +144,12 @@ class Note extends Base
                 $this->noteForm->remove('private');
                 $group         = $note->getGroup();
                 $membersString = $this->getMembersString(array_keys($members));
-                $this->noteForm->get('group')->setValue($group->getId());
+                $this->noteForm->get('groupHidden')->setValue($group->getId());
                 $this->noteForm->get('members')->setValue($membersString);
+                $this->noteForm->getInputFilter()->remove('__initializer__');
+                $this->noteForm->getInputFilter()->remove('__cloner__');
+                $this->noteForm->getInputFilter()->remove('__isInitialized__');
+                $this->noteForm->getInputFilter()->remove('lazyPropertiesDefaults');
             } else {
                 $this->noteForm->get('private')->setAttribute('required', false);
                 $this->noteForm->getInputFilter()->get('private')->setRequired(false);
@@ -406,6 +410,7 @@ class Note extends Base
      */
     public function saveGroupNote(Entity\User $owner, Entity\Note $note, $groupId, $members)
     {
+
         $members   = $this->getMembersArray($members);
         $usersKeys = $this->getUsersWithKeys($members, $owner, $groupId);
         $users     = $usersKeys['users'];

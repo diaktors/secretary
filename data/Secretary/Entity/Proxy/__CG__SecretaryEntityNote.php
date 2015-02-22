@@ -64,10 +64,10 @@ class Note extends \Secretary\Entity\Note implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'id', 'title', 'content', 'private', 'group', 'dateCreated', 'dateUpdated', 'user2note', 'submit', 'members');
+            return array('__isInitialized__', 'id', 'title', 'content', 'private', 'group', 'dateCreated', 'dateUpdated', 'user2note', 'submit', 'members', 'groupHidden');
         }
 
-        return array('__isInitialized__', 'id', 'title', 'content', 'private', 'group', 'dateCreated', 'dateUpdated', 'user2note', 'submit', 'members');
+        return array('__isInitialized__', 'id', 'title', 'content', 'private', 'group', 'dateCreated', 'dateUpdated', 'user2note', 'submit', 'members', 'groupHidden');
     }
 
     /**
