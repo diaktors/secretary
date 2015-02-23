@@ -30,8 +30,8 @@
 
 namespace Secretary\Entity\Repository;
 
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Note Repository
@@ -60,21 +60,33 @@ class Note extends EntityRepository
      */
     public function fetchNoteWithUserData($noteId, $userId)
     {
-        $qb = $this->createQueryBuilder('n');
+        $qb = $this->fetchNoteWithUserDataQuery($noteId, $userId);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param  int $noteId
+     * @param  int $userId
+     * @return QueryBuilder
+     */
+    public function fetchNoteWithUserDataQuery($noteId, $userId)
+    {
+        $qb = $this->createQueryBuilder('row');
         $qb->select(
-                array('n.id', 'n.title', 'n.content', 'n.private', 'n.dateCreated', 'n.dateUpdated')
-            )
+            array('row.id', 'row.title', 'row.content', 'row.private', 'row.dateCreated', 'row.dateUpdated')
+        )
             ->addSelect(array('u2n.owner', 'u2n.readPermission', 'u2n.writePermission', 'u2n.eKey'))
             ->addSelect(array('g.id as groupId', 'g.name as groupName'))
-            ->leftJoin('n.user2note', 'u2n')
-            ->leftJoin('n.group', 'g')
-            ->where('n.id = :noteId')
+            ->leftJoin('row.user2note', 'u2n')
+            ->leftJoin('row.group', 'g')
+            ->where('row.id = :noteId')
             ->andWhere('u2n.userId = :userId')
             ->andWhere('u2n.noteId = :noteId')
             ->setParameter('noteId', $noteId)
             ->setParameter('userId', $userId);
 
-        return $qb->getQuery()->getOneOrNullResult();
+        return $qb;
     }
 
     /**
