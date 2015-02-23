@@ -437,4 +437,14 @@ class User implements UserInterface, ProviderInterface
         unset($array['password']);
         return $array;
     }
+
+    /**
+     * wrapper around toArray() for Hydrator
+     *
+     * @return array
+     */
+    public function getArrayCopy()
+    {
+        return $this->toArray();
+    }
 }

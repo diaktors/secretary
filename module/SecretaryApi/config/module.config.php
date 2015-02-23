@@ -74,7 +74,19 @@ return array(
         ),
     ),
     'service_manager' => array(
-        'factories' => array(),
+        'factories' => array(
+            'group-event-listener' => 'SecretaryApi\\V1\\Rest\\Group\\GroupEventListenerFactory',
+            'note-event-listener' => 'SecretaryApi\\V1\\Rest\\Note\\NoteEventListenerFactory',
+            'user2note-event-listener' => 'SecretaryApi\\V1\\Rest\\User2Note\\User2NoteEventListenerFactory',
+        ),
+    ),
+    'zf-apigility-doctrine-query-provider' => array(
+        'invokables' => array(
+            'user2note_fetch_all' => 'SecretaryApi\\Query\\Provider\\User2Note\\FetchAll',
+            'note_fetch' => 'SecretaryApi\\Query\\Provider\\Note\\Fetch',
+            'note_fetch_all' => 'SecretaryApi\\Query\\Provider\\Note\\FetchAll',
+            'user_fetch_all' => 'SecretaryApi\\Query\\Provider\\User\\FetchAll',
+        ),
     ),
     'zf-rest' => array(
         'SecretaryApi\\V1\\Rest\\Group\\Controller' => array(
@@ -141,7 +153,7 @@ return array(
                 0 => 'query',
                 1 => 'orderBy',
             ),
-            'page_size' => 25,
+            'page_size' => '25',
             'page_size_param' => 'limit',
             'entity_class' => 'Secretary\\Entity\\Note',
             'collection_class' => 'SecretaryApi\\V1\\Rest\\Note\\NoteCollection',
@@ -305,12 +317,7 @@ return array(
                 'route_identifier_name' => 'user_id',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'secretaryapi.rest.doctrine.user',
-                'hydrator' => 'SecretaryApi\\V1\\Rest\\User\\UserHydrator',
-            ),
-            'SecretaryApi\\V1\\Rest\\User\\UserCollection' => array(
-                'entity_identifier_name' => 'id',
-                'route_name' => 'secretaryapi.rest.doctrine.user',
-                'is_collection' => true,
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
             ),
             'Secretary\\Entity\\Note' => array(
                 'route_identifier_name' => 'note_id',
@@ -345,6 +352,12 @@ return array(
                 'route_name' => 'secretaryapi.rest.doctrine.key',
                 'is_collection' => true,
             ),
+            'SecretaryApi\\V1\\Rest\\User\\UserCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'secretaryapi.rest.doctrine.user',
+                'route_identifier_name' => 'user_id',
+                'is_collection' => true,
+            ),
         ),
     ),
     'zf-apigility' => array(
@@ -352,18 +365,40 @@ return array(
             'SecretaryApi\\V1\\Rest\\Group\\GroupResource' => array(
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'SecretaryApi\\V1\\Rest\\Group\\GroupHydrator',
+                'listeners' => array(
+                    0 => 'group-event-listener',
+                ),
             ),
             'SecretaryApi\\V1\\Rest\\User\\UserResource' => array(
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'SecretaryApi\\V1\\Rest\\User\\UserHydrator',
+                'query_providers' => array(
+                    'default' => 'default_orm',
+                    'fetch_all' => 'user_fetch_all',
+                ),
             ),
             'SecretaryApi\\V1\\Rest\\Note\\NoteResource' => array(
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'SecretaryApi\\V1\\Rest\\Note\\NoteHydrator',
+                'listeners' => array(
+                    0 => 'note-event-listener',
+                ),
+                'query_providers' => array(
+                    'default' => 'default_orm',
+                    'fetch' => 'note_fetch',
+                    'fetch_all' => 'note_fetch_all',
+                ),
             ),
             'SecretaryApi\\V1\\Rest\\User2Note\\User2NoteResource' => array(
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'SecretaryApi\\V1\\Rest\\User2Note\\User2NoteHydrator',
+                'listeners' => array(
+                    0 => 'user2note-event-listener',
+                ),
+                'query_providers' => array(
+                    'default' => 'default_orm',
+                    'fetch_all' => 'user2note_fetch_all',
+                ),
             ),
             'SecretaryApi\\V1\\Rest\\Key\\KeyResource' => array(
                 'object_manager' => 'doctrine.entitymanager.orm_default',
@@ -378,7 +413,7 @@ return array(
             'by_value' => false,
             'strategies' => array(
                 'users' => 'DoctrineHydrationModule\\Strategy\\ODM\\MongoDB\\ReferencedCollection',
-                'notes' => 'ZF\\Apigility\\Doctrine\\Server\\Hydrator\\Strategy\\CollectionLink',
+                'notes' => 'DoctrineHydrationModule\\Strategy\\ODM\\MongoDB\\ReferencedCollection',
             ),
             'use_generated_hydrator' => true,
         ),
@@ -386,12 +421,7 @@ return array(
             'entity_class' => 'Secretary\\Entity\\User',
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => null,
-            'strategies' => array(
-                'groups' => 'DoctrineHydrationModule\\Strategy\\ODM\\MongoDB\\ReferencedCollection',
-                'roles' => 'DoctrineHydrationModule\\Strategy\\ODM\\MongoDB\\ReferencedCollection',
-                'user2note' => 'ZF\\Apigility\\Doctrine\\Server\\Hydrator\\Strategy\\CollectionLink',
-                'key' => 'ZF\\Apigility\\Doctrine\\Server\\Hydrator\\Strategy\\CollectionLink',
-            ),
+            'strategies' => array(),
             'use_generated_hydrator' => null,
         ),
         'SecretaryApi\\V1\\Rest\\Note\\NoteHydrator' => array(
