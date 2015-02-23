@@ -1,3 +1,4 @@
 /vendor/
 /.idea/
 /data/log/app.log
+config/development.config.php
