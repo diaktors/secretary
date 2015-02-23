@@ -463,4 +463,15 @@ class User extends \Secretary\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         return parent::toArray();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getArrayCopy()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getArrayCopy', array());
+
+        return parent::getArrayCopy();
+    }
+
 }
