@@ -57,7 +57,7 @@ abstract class AbstractQueryProvider extends ApigilityAbstractQueryProvider
                     $query['field'],
                     $i
                 );
-                if ($query['where'] == 'and') {
+                if (!isset($query['where']) || $query['where'] == 'and') {
                     $queryBuilder->andWhere($whereString);
                 }
                 else if ($query['where'] == 'or') {
