@@ -427,9 +427,16 @@ class User implements UserInterface, ProviderInterface
     public function toArray()
     {
         $array                = get_object_vars($this);
-        $array['dateCreated'] = $this->getDateCreated()->format('Y-m-d H:i:s');
-        $array['dateUpdated'] = $this->getDateUpdated()->format('Y-m-d H:i:s');
-        $array['role']        = $this->getRoles()->first()->getRoleId();
+        if ($this->getDateCreated()) {
+            $array['dateCreated'] = $this->getDateCreated()->format('Y-m-d H:i:s');
+        }
+        if ($this->getDateUpdated()) {
+            $array['dateUpdated'] = $this->getDateUpdated()->format('Y-m-d H:i:s');
+        }
+        $roles = $this->getRoles();
+        if ($roles->count() > 0) {
+            $array['role'] = $roles->first()->getRoleId();
+        }
         unset($array['key']);
         unset($array['user2note']);
         unset($array['groups']);
