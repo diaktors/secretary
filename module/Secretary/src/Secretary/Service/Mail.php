@@ -31,20 +31,13 @@
 
 namespace Secretary\Service;
 
+use Secretary\Entity;
 use SxMail\SxMail;
-use Zend\I18n\Translator\Translator;
-use Zend\Mail\Message;
+use Zend\Mvc\I18n\Translator;
 use Zend\View\Model\ViewModel;
 
 /**
- * Logger Service
- *
- * @category Service
- * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
- * @license  http://www.opensource.org/licenses/mit-license.html MIT License
- * @version  GIT: <git_id>
- * @link     https://github.com/wesrc/secretary
+ * Mail Service
  */
 class Mail
 {
@@ -69,16 +62,16 @@ class Mail
     protected $host;
 
     /**
-     * @var \Zend\I18n\Translator\Translator
+     * @var Translator
      */
     protected $translator;
 
     /**
-     * @param \SxMail\SxMail                   $SxMail
-     * @param \Zend\I18n\Translator\Translator $translator
-     * @param string                           $host
-     * @param string                           $defaultFrom
-     * @param string                           $defaultEmail
+     * @param \SxMail\SxMail $SxMail
+     * @param Translator $translator
+     * @param string $host
+     * @param string $defaultFrom
+     * @param string $defaultEmail
      */
     public function __construct(SxMail $SxMail, Translator $translator, $host, $defaultFrom, $defaultEmail)
     {
@@ -150,7 +143,7 @@ class Mail
 
     /**
      * @param  array $mailOptions
-     * @return \Zend\Mail\Message
+     * @return void
      */
     protected function sendMail(array $mailOptions)
     {
@@ -264,20 +257,21 @@ class Mail
     }
 
     /**
-     * @param  \Secretary\Entity\Note $note
-     * @param  array                  $users
-     * @param  \Secretary\Entity\User $owner
+     * @param  Entity\Note $note
+     * @param  array $users
+     * @param  Entity\User $owner
      * @param  string $subject
      * @param  string $title
      * @return void
      */
-    protected function sendNoteGroupMail(\Secretary\Entity\Note $note, array $users,
-                                         $owner, $subject, $title)
-    {
-        /**
-         * @var \Secretary\Entity\User $user
-         * @var \Secretary\Entity\User $owner
-         */
+    protected function sendNoteGroupMail(
+        Entity\Note $note,
+        array $users,
+        Entity\User $owner,
+        $subject,
+        $title
+    ) {
+        /** @var Entity\User $user */
         foreach ($users as $user) {
             if ($user->getId() != $owner->getId() && true === $user->getNotifications()) {
                 $this->translator->setLocale($user->getLanguage());
