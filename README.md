@@ -2,7 +2,7 @@ Secretary [![Build Status](https://travis-ci.org/wesrc/secretary.png)](https://t
 =========
 A secure place for shared infos.
 
-![mockup](http://wesrc.com/img/secretary/secretary_dashboard.png)
+![mockup](https://www.wesrc.com/img/secretary/secretary_dashboard.png)
 
 Idea behind
 -----------
