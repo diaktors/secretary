@@ -23,7 +23,7 @@
  *
  * @category Service
  * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
+ * @author   Sergio Hermes <hermes.sergio@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
@@ -39,7 +39,7 @@ use Secretary\Entity;
  *
  * @category Service
  * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
+ * @author   Sergio Hermes <hermes.sergio@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary

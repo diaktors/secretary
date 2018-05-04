@@ -23,7 +23,7 @@
  *
  * @category EventListenerFactory
  * @package  SecretaryApi\V1\Rest\User2Note
- * @author   Michael Scholl <michael@wesrc.com>
+ * @author   Sergio Hermes <hermes.sergio@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @link     https://github.com/wesrc/secretary
  */

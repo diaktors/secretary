@@ -3,244 +3,244 @@ msgstr ""
 "Project-Id-Version: Secretary\n"
 "Report-Msgid-Bugs-To: Sergio Hermes <hermes.sergio@gmail.com>\n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-09-02 21:24+0100\n"
+"PO-Revision-Date: 2018-04-17 16:16-0300\n"
 "Last-Translator: Sergio Hermes <hermes.sergio@gmail.com>\n"
 "Language-Team: Sergio Hermes <hermes.sergio@gmail.com>\n"
-"Language: en_US\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: general stuff
 msgid "yes"
-msgstr ""
+msgstr "sim"
 
 msgid "no"
-msgstr ""
+msgstr "não"
 
 msgid "create"
-msgstr "Create"
+msgstr "criar"
 
 msgid "edit"
-msgstr "Edit"
+msgstr "editar"
 
 msgid "delete"
-msgstr "Delete"
+msgstr "deletar"
 
 msgid "view"
-msgstr "View"
+msgstr "visualizar"
 
 msgid "add"
-msgstr "Add"
+msgstr "adicionar"
 
 msgid "save"
-msgstr "Save"
+msgstr "salvar"
 
 msgid "leave"
-msgstr "Leave"
+msgstr "sair"
 
 msgid "select"
-msgstr "Select"
+msgstr "selecionar"
 
 msgid "title"
-msgstr "Title"
+msgstr "título"
 
 msgid "date"
-msgstr "Date"
+msgstr "data"
 
 msgid "german"
-msgstr "German"
+msgstr "alemão"
 
 msgid "english"
-msgstr "English"
+msgstr "inglês"
 
 msgid "Back to overview"
-msgstr ""
+msgstr "Voltar ao menu principal"
 
 #: ../view/layout/layout.phtml:6 ../view/layout/layout.phtml:33
 msgid "Secretary"
-msgstr ""
+msgstr "Secretary"
 
 #: ../view/layout/layout.phtml:31
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 #: ../view/layout/layout.phtml:31
 msgid "Dashboard"
-msgstr ""
+msgstr "Painel de Controle"
 
 #: ../view/layout/layout.phtml:31
 msgid "Manage Key"
-msgstr "Key"
+msgstr "Gerenciar chave"
 
 #: ../view/layout/layout.phtml:31
 msgid "Manage Notes"
-msgstr "Notes"
+msgstr "Gerenciar anotações"
 
 #: ../view/layout/layout.phtml:31
 msgid "Manage Groups"
-msgstr "Groups"
+msgstr "Gerenciar Grupos"
 
 #: ../view/layout/layout.phtml:36
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: ../view/layout/layout.phtml:43
 msgid "User (%s)"
-msgstr ""
+msgstr "Usuário (%s)"
 
 #: ../view/layout/layout.phtml:51
 msgid "View Details"
-msgstr ""
+msgstr "Ver detalhes"
 
 #: ../view/layout/layout.phtml:56
 msgid "Change Settings"
-msgstr ""
+msgstr "Mudar configurações"
 
 #: ../view/layout/layout.phtml:61
 msgid "Change Email"
-msgstr ""
+msgstr "Mude o e-mail"
 
 #: ../view/layout/layout.phtml:66
 msgid "Change Password"
-msgstr ""
+msgstr "Mudar senha"
 
 #: ../view/layout/layout.phtml:71
 msgid "Logout"
-msgstr ""
+msgstr "Sair"
 
 #: ../view/layout/layout.phtml:85
 msgid "All rights reserved."
-msgstr ""
+msgstr "Todos os direitos reservados."
 
 #: ../view/secretary/index/index.phtml:2
 #, php-format
 msgid "Welcome to %sSecretary%s"
-msgstr ""
+msgstr "Bem vindo ao %sSecretary%s"
 
 #: ../view/secretary/index/index.phtml:3
 msgid "A secure place for shared infos"
-msgstr ""
+msgstr "Um lugar seguro para informações compartilhadas"
 
 #: ../view/secretary/index/index.phtml:15
 msgid "Please create your private key to be able to add notes"
-msgstr "Please create/import your private key to be able to add notes"
+msgstr "Por favor, crie sua chave privada para poder adicionar notas"
 
 #: ../view/login/login.phtml:11
 msgid "Sign In"
-msgstr ""
+msgstr "Assinar em"
 
 #: ../view/login/login.phtml:20 ../view/login/register.phtml:25
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: ../view/login/login.phtml:21 ../view/login/register.phtml:25
 msgid "Password"
-msgstr ""
+msgstr "Senha"
 
 #: ../view/login/login.phtml:34
 msgid "Not registered?"
-msgstr ""
+msgstr "Não Registrado?"
 
 #: ../view/login/login.phtml:41
 msgid "Sign up!"
-msgstr ""
+msgstr "Inscrever-se!"
 
 #: ../view/login/login.phtml:15
 msgid "Authentication failed. Please try again."
-msgstr ""
+msgstr "Autenticação falhou. Por favor, tente novamente."
 
 #: ../view/login/register.phtml:15
 msgid "Register"
-msgstr "Registrierung"
+msgstr "Registo"
 
 #: ../view/login/register.phtml:25
 msgid "Display Name"
-msgstr "Name"
+msgstr "Nome"
 
 #: ../view/login/register.phtml:25
 msgid "Password Verify"
-msgstr "Passwort Verifzierung"
+msgstr "Verificação de senha"
 
 #: ../src/Secretary/Form/KeyRequest.php:58
 msgid "Your private key"
-msgstr ""
+msgstr "Sua chave privada"
 
 #: ../src/Secretary/Form/KeyRequest.php:68
 msgid "Your key passphrase"
-msgstr ""
+msgstr "Sua frase secreta chave"
 
 #: ../src/Secretary/Form/KeyRequest.php:75
 msgid "Send key"
-msgstr ""
+msgstr "Enviar chave"
 
 #: ../view/error/index.phtml:1
 msgid "An error occurred"
-msgstr ""
+msgstr "Um erro ocorreu"
 
 #: ../view/error/index.phtml:8
 msgid "Additional information"
-msgstr ""
+msgstr "Informação adicional"
 
 #: ../view/error/index.phtml:11 ../view/error/index.phtml:35
 msgid "File"
-msgstr ""
+msgstr "Arquivo"
 
 #: ../view/error/index.phtml:15 ../view/error/index.phtml:39
 msgid "Message"
-msgstr ""
+msgstr "Mensagem"
 
 #: ../view/error/index.phtml:19 ../view/error/index.phtml:43
 #: ../view/error/404.phtml:55
 msgid "Stack trace"
-msgstr ""
+msgstr "Rastreamento de pilha"
 
 #: ../view/error/index.phtml:29
 msgid "Previous exceptions"
-msgstr ""
+msgstr "Exceções anteriores"
 
 #: ../view/error/index.phtml:58
 msgid "No Exception available"
-msgstr ""
+msgstr "Nenhuma exceção disponível"
 
 #: ../view/error/404.phtml:1
 msgid "A 404 error occurred"
-msgstr ""
+msgstr "Ocorreu um erro 404"
 
 #: ../view/error/404.phtml:10
 msgid "The requested controller was unable to dispatch the request."
-msgstr ""
+msgstr "O controlador solicitado não conseguiu despachar a solicitação."
 
 #: ../view/error/404.phtml:13
-msgid ""
-"The requested controller could not be mapped to an existing controller class."
-msgstr ""
+msgid "The requested controller could not be mapped to an existing controller class."
+msgstr "O controlador solicitado não pôde ser mapeado para uma classe de controlador existente."
 
 #: ../view/error/404.phtml:16
 msgid "The requested controller was not dispatchable."
-msgstr ""
+msgstr "O controlador solicitado não foi despachado."
 
 #: ../view/error/404.phtml:19
 msgid "The requested URL could not be matched by routing."
-msgstr ""
+msgstr "O URL solicitado não pôde ser correspondido pelo roteamento."
 
 #: ../view/error/404.phtml:22
 msgid "We cannot determine at this time why a 404 was generated."
-msgstr ""
+msgstr "Não podemos determinar neste momento porque um 404 foi gerado."
 
 #: ../view/error/404.phtml:34
 msgid "Controller"
-msgstr ""
+msgstr "Controlador"
 
 #: ../view/error/404.phtml:41
 #, php-format
 msgid "resolves to %s"
-msgstr ""
+msgstr "resolve para %s"
 
 #: ../view/error/404.phtml:51
 msgid "Exception"
-msgstr ""
+msgstr "Exceção"

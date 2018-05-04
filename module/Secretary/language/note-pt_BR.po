@@ -3,150 +3,151 @@ msgstr ""
 "Project-Id-Version: Secretary\n"
 "Report-Msgid-Bugs-To: Sergio Hermes <hermes.sergio@gmail.com>\n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-03-04 00:44+0100\n"
+"PO-Revision-Date: 2018-04-17 16:29-0300\n"
 "Last-Translator: Sergio Hermes <hermes.sergio@gmail.com>\n"
 "Language-Team: Sergio Hermes <hermes.sergio@gmail.com>\n"
-"Language: de_DE\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../view/secretary/note/s.phtml:10
+#: ../view/secretary/note/index.phtml:10
 msgid "Add Note"
-msgstr "Notiz hinzufügen"
+msgstr "Adicionar Anotação"
 
 #: ../view/secretary/note/adds.phtml:5
 msgid "Edit Note"
-msgstr "Notiz bearbeiten"
+msgstr "Edtar Anotação"
 
 #: ../view/secretary/note/index.phtml:17 ../src/Secretary/Form/Note.php:51
 msgid "Note title"
-msgstr "Titel"
+msgstr "Título da anotação"
 
 #: ../src/Secretary/Form/Note.php:60
 msgid "Note text"
-msgstr "Text"
+msgstr "Conteúdo da anotação"
 
 #: ../src/Secretary/Form/Note.php:64
 msgid "Note private"
-msgstr "Privat"
+msgstr "Anotação privada"
 
 #: ../src/Secretary/Controller/NoteController.php:125
 msgid "Note was created successfully"
-msgstr "Die Notiz wurde erfolgreich erstellt"
+msgstr "Anotação foi criada com sucesso"
 
 #: ../src/Secretary/Controller/NoteController.php:180
 msgid "Your key is not readable"
-msgstr "Dein Schlüssel ist nicht lesbar"
+msgstr "Sua chave não é legível"
 
 #: ../src/Secretary/Controller/NoteController.php:195
 msgid "Note could not be decrypted"
-msgstr "Notiz konnte nicht entschlüsselt werden"
+msgstr "Anotação não pode ser descriptografada"
 
 #: ../src/Secretary/Controller/NoteController.php:252
 msgid "Note was updated successfully"
-msgstr "Die Notiz wurde erfolgreich aktualisiert"
+msgstr "A anotação foi atualizada com sucesso"
 
 #: ../src/Secretary/Controller/NoteController.php:356
 msgid "Note was removed successfully"
-msgstr "Die Notiz wurde erfolgreich gelöscht"
+msgstr "A anotação foi removida com sucesso"
 
 #: ../view/secretary/note/index.phtml:13
 msgid "Private Notes"
-msgstr "Private Notizen"
+msgstr "Anotações Privadas"
 
 #: ../view/secretary/note/index.phtml:18
 msgid "Note date"
-msgstr "Datum"
+msgstr "Data da anotação"
 
 #: ../view/secretary/note/index.phtml:19
 msgid "Note owner"
-msgstr "Eigentümer"
+msgstr "Proprietário da anotação"
 
 #: ../view/secretary/note/index.phtml:20
 msgid "Note permissions"
-msgstr "Rechte"
+msgstr "Permissões da anotação"
 
 #: ../view/secretary/note/index.phtml:61
 msgid "No notes found"
-msgstr "Keine Notizen vorhanden"
+msgstr "Nenhuma anotação encontrada"
 
 #: ../view/secretary/note/index.phtml:72
 msgid "Group Notes"
-msgstr "Gruppen Notizen"
+msgstr "Anotações do grupo"
 
 #: ../view/secretary/note/index.phtml:75
 msgid "Filter group"
-msgstr "Nach Gruppe filtern"
+msgstr "Grupo de filtros"
 
 #: ../view/secretary/note/index.phtml:88
 msgid "Note group"
-msgstr "Gruppe"
+msgstr "Grupo de anotação "
 
 #: ../view/secretary/note/add.phtml:14
 msgid "Add Note Members"
-msgstr "Notiz Mitglieder hinzufügen"
+msgstr "Adicionar Membros de Anotações"
 
 #: ../view/secretary/note/add.phtml:16
 msgid "Select Group"
-msgstr "Gruppe auswählen"
-
-#: ../view/secretary/note/add.phtml:18
-msgid "Modify Note"
-msgstr "Notiz ändern"
-
-#: ../view/secretary/note/add.phtml:20
-msgid "Create Note"
-msgstr "Notiz erstellen"
+msgstr "Selecione o grupo"
 
 #: ../view/secretary/note/add.phtml:24
 msgid "Group Members"
-msgstr "Gruppen Mitglieder"
+msgstr "Membros do grupo"
 
 #: ../view/secretary/note/add.phtml:27
 msgid "Selected Group Members"
-msgstr "Ausgewählte Gruppen Mitglieder"
+msgstr "Membros do grupo selecionados"
+
+#: ../view/secretary/note/add.phtml:18
+msgid "Modify Note"
+msgstr "Modificar Anotação"
+
+#: ../view/secretary/note/add.phtml:20
+msgid "Create Note"
+msgstr "Criar Anotação"
 
 #: ../view/secretary/note/view.phtml:3
 msgid "View Note"
-msgstr "Notiz einsehen"
+msgstr "Visualizar Anotação"
 
 #: ../src/Secretary/Entity/Note:102
 msgid "Save Note"
-msgstr "Notiz speichern"
+msgstr "Salvar Anotação"
 
 #: ../view/secretary/note/view.phtml:15
 msgid "Decryption Request"
-msgstr "Entschlüsseln"
+msgstr "Pedido de descriptografia"
 
 #: ../view/secretary/note/delete.phtml:3
 msgid "Delete Note"
-msgstr "Notiz löschen"
+msgstr "Excluir anotação"
 
 #: ../view/secretary/note/delete.phtml:11
 msgid "Do you really want to delete this note?"
-msgstr "Wollen Sie diese Notiz wirklich löschen?"
+msgstr "Você realmente deseja excluir esta anotação?"
 
 #: ../view/secretary/note/delete.phtml:16
 msgid "Please confirm with key to delete note"
-msgstr "Bestätige den Löschvorgang mit deinem Schlüssel"
+msgstr "Por favor confirme com uma chave para apagar uma anotação"
 
 #: ../view/secretary/note/edit.phtml:20
 msgid "Manage Note Members"
-msgstr "Notiz Mitglieder verwalten"
+msgstr "Gerenciar os membros da anotação"
 
 #: ../view/secretary/note/edit.phtml:22
 msgid "Selected Group"
-msgstr "Ausgewählte Gruppe"
+msgstr "Grupo Selecionado"
 
 #: ../view/secretary/index/index.phtml:39
 msgid "Last Private Notes"
-msgstr "Zuletzt bearbeitete private Notizen"
+msgstr "Últimas anotações privadas"
 
 #: ../view/secretary/index/index.phtml:61
 msgid "Last Group Notes"
-msgstr "Zuletzt bearbeitete Gruppen Notizen"
+msgstr "Últimas anotações do grupo"

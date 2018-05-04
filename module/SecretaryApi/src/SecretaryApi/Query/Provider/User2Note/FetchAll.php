@@ -23,7 +23,7 @@
  *
  * @category Query\Provider
  * @package  SecretaryApi\Query\Provider\User2Note
- * @author   Michael Scholl <michael@wesrc.com>
+ * @author   Sergio Hermes <hermes.sergio@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @link     https://github.com/wesrc/secretary
  */

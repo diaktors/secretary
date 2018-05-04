@@ -3,98 +3,98 @@ msgstr ""
 "Project-Id-Version: Secretary\n"
 "Report-Msgid-Bugs-To: Sergio Hermes <hermes.sergio@gmail.com>\n"
 "POT-Creation-Date: 2012-07-05 23:45-0700\n"
-"PO-Revision-Date: 2013-03-04 00:44+0100\n"
+"PO-Revision-Date: 2018-04-17 15:58-0300\n"
 "Last-Translator: Sergio Hermes <hermes.sergio@gmail.com>\n"
 "Language-Team: Sergio Hermes <hermes.sergio@gmail.com>\n"
-"Language: en_US\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../view/secretary/group/index.phtml:54
 msgid "Group"
-msgstr ""
+msgstr "Grupo"
 
 #: ../view/secretary/group/index.phtml:31
 msgid "view group members"
-msgstr "View Group Members"
+msgstr "visualizar membros do grupo"
 
 #: ../view/secretary/group/index.phtml:57
 msgid "Group Members"
-msgstr ""
+msgstr "Membros do Grupo"
 
 #: ../view/secretary/group/index.phtml:67
 msgid "Add new Group Member"
-msgstr ""
+msgstr "Adicionar um novo membro no grupo"
 
 #: ../view/secretary/group/index.phtml:10
 msgid "Group Memberships"
-msgstr ""
+msgstr "Membros do grupo"
 
 #: ../view/secretary/group/index.phtml:47
 msgid "You are not member of any group right now"
-msgstr ""
+msgstr "Você não é membro de nenhum grupo até o momento"
 
 #: ../view/secretary/group/index.phtml:72
 msgid "remove member"
-msgstr "Remove Member"
+msgstr "remover membro"
 
 #: ../view/secretary/group/index.phtml:111
 msgid "Do you really want to remove this user?"
-msgstr ""
+msgstr "Você realmente quer remover este usuário?"
 
 #: ../view/secretary/group/leave.phtml:3
 msgid "Leave Group"
-msgstr ""
+msgstr "Deixar o grupo"
 
 #: ../view/secretary/group/leave.phtml:7
 msgid "You are Group Owner - you cannot leave the group"
-msgstr "Du bist Gruppen Besitzer, du kannst die Gruppe nicht verlassen"
+msgstr "Você é proprietário do grupo - logo você não pode sair deste grupo"
 
 #: ../view/secretary/group/leave.phtml:23
 msgid "Do you really want to leave this group?"
-msgstr ""
+msgstr "Você realmente quer sair desse grupo?"
 
 #: ../view/secretary/group/leave.phtml:13
 msgid "Groupname"
-msgstr ""
+msgstr "Nome do grupo"
 
 #: ../view/secretary/group/add.phtml:5
 msgid "Edit Group"
-msgstr ""
+msgstr "Editar grupo"
 
 #: ../view/secretary/group/add.phtml:7
 msgid "Add Group"
-msgstr ""
+msgstr "Adicionar grupo"
 
 #: ../view/secretary/group/add.phtml:7
 msgid "Create Group"
-msgstr ""
+msgstr "Criar grupo"
 
 #: ../view/secretary/group/add.phtml:7
 msgid "Save Group"
-msgstr ""
+msgstr "Salvar grupo"
 
 #: ../src/Secretary/Controller/GroupController.phtml:222
 msgid "Group \"%s\" was created successfully"
-msgstr ""
+msgstr "Grupo \"%s\" foi criado com sucesso"
 
 #: ../src/Secretary/Controller/GroupController.phtml:271
 msgid "Group \"%s\" was saved successfully"
-msgstr ""
+msgstr "O grupo \"%s\" foi salvo com sucesso"
 
 #: ../src/Secretary/Controller/GroupController.phtml:316
 msgid "User \"%s\" was added to group \"%s\""
-msgstr ""
+msgstr "O usuário \"%s\" foi adicionado ao grupo \"%s\""
 
 #: ../src/Secretary/Controller/GroupController.phtml:353
 msgid "Group \"%s\" was leaved successfully"
-msgstr ""
+msgstr "O grupo \"%s\" foi deixado com sucesso"
 
 #: ../src/Secretary/Controller/GroupController.phtml:474
 msgid "User \"%s\" was successfully removed from group \"%s\""
-msgstr ""
+msgstr "O usuário \"%s\" foi removido com sucesso do grupo \"%s\""

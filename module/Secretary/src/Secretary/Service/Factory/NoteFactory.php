@@ -23,7 +23,7 @@
  *
  * @category Factory
  * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
+ * @author   Sergio Hermes <hermes.sergio@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
@@ -41,7 +41,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @category Factory
  * @package  Secretary
- * @author   Michael Scholl <michael@wesrc.com>
+ * @author   Sergio Hermes <hermes.sergio@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @version  GIT: <git_id>
  * @link     https://github.com/wesrc/secretary
